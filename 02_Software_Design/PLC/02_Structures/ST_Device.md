@@ -4,9 +4,9 @@
 
 # Purpose
 
-Represents a physical or logical device used in the AquaFeed Platform.
+Represents a physical device within the AquaFeed Platform.
 
-Every controllable equipment shall be represented using this structure.
+Every controllable equipment in the system shall be represented by one instance of this structure.
 
 ---
 
@@ -22,13 +22,9 @@ STRUCT
 
     LineId              : USINT;
 
-    Name                : STRING[30];
-
     Enabled             : BOOL;
 
     Available           : BOOL;
-
-    Healthy             : BOOL;
 
     Running             : BOOL;
 
@@ -46,19 +42,17 @@ END_TYPE
 
 # Updated By
 
-FB_DeviceManager
+- FB_DeviceManager
 
 ---
 
 # Read By
 
-FB_SystemManager
-
-HMI
-
-Desktop Application
-
-Diagnostics
+- FB_SystemManager
+- FB_LineManager
+- HMI
+- Desktop Application
+- Diagnostics
 
 ---
 
@@ -66,15 +60,17 @@ Diagnostics
 
 ## DeviceId
 
-Unique device identifier.
+Unique identifier of the device.
+
+Each physical device shall have a unique DeviceId.
 
 ---
 
 ## DeviceType
 
-Device classification.
+Defines the equipment type.
 
-Examples
+Examples:
 
 - Blower
 - Dosing
@@ -86,78 +82,78 @@ Examples
 
 ## LineId
 
-Associated feeding line.
-
----
-
-## Name
-
-Device display name.
+Identifies the feeding line to which the device belongs.
 
 ---
 
 ## Enabled
 
-Device is enabled by configuration.
+Indicates whether the device is enabled by configuration.
+
+A disabled device cannot participate in automatic operation.
 
 ---
 
 ## Available
 
-Device is available for operation.
+Indicates whether the device is currently available for operation.
 
----
-
-## Healthy
-
-Device reports healthy status.
+A device may be enabled but unavailable due to maintenance, interlocks, communication loss, or other operational restrictions.
 
 ---
 
 ## Running
 
-Device is currently operating.
+Indicates that the device is currently operating.
 
 ---
 
 ## Fault
 
-Device has an active fault.
+Indicates that the device has an active fault condition.
 
 ---
 
 ## AutoMode
 
-Device is operating automatically.
+Indicates that the device is operating in Automatic Mode.
 
 ---
 
 ## ManualMode
 
-Device is operating manually.
+Indicates that the device is operating in Manual Mode.
 
 ---
 
 # Rules
 
-A device cannot be Running if Enabled is FALSE.
+A device cannot be Running when Enabled is FALSE.
 
-A Faulted device shall never report Healthy.
+AutoMode and ManualMode shall never both be TRUE.
 
-AutoMode and ManualMode cannot both be TRUE.
+A faulted device shall not start until the fault has been cleared.
+
+Only FB_DeviceManager is allowed to modify this structure.
+
+Other modules shall access this structure as read-only whenever possible.
 
 ---
 
 # Lifetime
 
-Device information remains in PLC memory.
+Device information remains allocated during PLC runtime.
 
-Configuration values are synchronized with the Desktop Application.
+Configuration parameters may be synchronized with the Desktop Application.
 
 ---
 
 # Example
 
 ```iecst
-Devices[50]
+g_Devices[1]    // Blower
+
+g_Devices[2]    // Selector
+
+g_Devices[3]    // Dosing Motor
 ```
