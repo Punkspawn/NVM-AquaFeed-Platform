@@ -134,7 +134,7 @@ Authoritative classification manifest
 | `ST_Alarm.md` | KEEP; authoritative bounded active alarm record |
 | `ST_Diagnostics.md` | KEEP / NORMALIZE |
 | `ST_Line.md` | KEEP; authoritative bounded realtime line snapshot |
-| `ST_ModbusMap.md` | KEEP / NORMALIZE |
+| `ST_ModbusMap.md` | KEEP; authoritative flat 4000-WORD publication buffer |
 | `ST_Runtime.md` | KEEP bounded counters only |
 | `ST_SystemStatus.md` | KEEP / NORMALIZE |
 | `ST_JobExecution.md` | KEEP; authoritative bounded PLC job snapshot |
@@ -175,7 +175,7 @@ Every retained function must be reviewed for deterministic, stateless execution.
 | Selector and diagnostics interfaces | KEEP / NORMALIZE |
 | `IF_System.md` | KEEP; authoritative consolidated command/status contract |
 | `Archive/Legacy/PLC/Interfaces/IF_SystemStatus.md` | ARCHIVED; superseded duplicate |
-| Communication | KEEP / NORMALIZE |
+| `IF_Communication.md` | KEEP; authoritative bounded channel-health contract |
 | `IF_ExecutionTransfer.md` | KEEP; authoritative atomic Desktop-to-PLC transfer contract |
 | Legacy JobOrder and Recipe interfaces | ARCHIVED; CRUD and queue actions belong to Desktop |
 | Service | KEEP realtime machine-service subset only |
@@ -222,3 +222,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | `ST_Line.md` and `IF_Line.md` | Normalized as the authoritative bounded line contract; `E_LineState.md` added. |
 | 2026-07-25 | Job/Recipe structures and interfaces | Split into Desktop domain masters, bounded PLC execution snapshots, and atomic transfer contract; four mixed legacy documents archived. |
 | 2026-07-25 | Alarm architecture | Consolidated manager, lifecycle enums, active structure, interface, catalog, and tests; three legacy sources archived. |
+| 2026-07-25 | Modbus TCP map and communication topology | Defined fixed 4000-WORD map, corrected TCP/RTU roles, added interoperability tests, and archived two conflicting system-engineering drafts. |

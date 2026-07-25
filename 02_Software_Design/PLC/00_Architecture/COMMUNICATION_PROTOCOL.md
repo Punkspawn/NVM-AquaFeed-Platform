@@ -1,398 +1,83 @@
-# NVM AquaFeed Platform
-# COMMUNICATION PROTOCOL
+# AquaFeed Communication Protocol
 
----
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Version | 2.0 |
 
-# Purpose
+## Topology
 
-This document defines the communication architecture between the PLC, HMI and AquaFeed Manager.
-
-The protocol shall remain stable throughout the project.
-
-All communication must comply with this specification.
-
----
-
-# Communication Topology
-
-Desktop Application
-        │
-        │ Modbus TCP
-        │
-Ethernet Switch
-        │
-        │
+```text
+AquaFeed Manager / HMI
+        │ Modbus TCP client/master
+        ▼
 Delta PLC
-        │
-        ├── HMI
-        ├── VFD Drives
-        ├── Remote IO
-        └── Sensors
+        │ Modbus RTU master
+        ▼
+VFDs and approved field devices
+```
 
----
+Desktop–PLC and PLC–field-device communication are separate channels with different roles and maps.
 
-# Communication Principles
+## Desktop–PLC Modbus TCP
 
-PLC is the master controller of the machine.
+- Desktop/HMI: client/master
+- PLC: server/slave
+- TCP port: 502
+- application data: versioned Holding Register map
+- commands: sequence + payload + acknowledgement
+- machine authority: PLC
+- Desktop loss: no automatic stop of a healthy active feeding sequence
+- new execution transfer: prohibited while Desktop communication is unavailable
 
-Desktop software never controls machine logic directly.
+## PLC–VFD Modbus RTU
 
-Desktop only
+- PLC: sole master
+- each VFD/device: unique slave address
+- physical layer: RS-485
+- timeout and retry: bounded and configurable
+- drive register definitions: separate device profiles
+- VFD map shall never be confused with the Desktop–PLC application map
 
-- Reads
-- Writes commands
-- Receives status
+## Heartbeat
 
-PLC always makes the final decision.
+- PLC increments PLC heartbeat once per second.
+- Desktop increments Desktop heartbeat once per second.
+- PLC echoes the last accepted Desktop heartbeat.
+- A changed counter proves freshness; a static nonzero value does not.
+- Timeout raises a communication alarm and prevents new remote transactions.
+- Active healthy PLC-controlled production continues.
 
----
+## Time
 
-# Communication Cycle
+Desktop is the wall-clock authority for persistent history. PLC may receive validated time synchronization for display/diagnostics, but safety and sequence timers use monotonic PLC timers and never depend on wall-clock time.
 
-Desktop
+## Control Boundary
 
-↓
+Desktop may request commands and transfer validated snapshots. PLC validates every request and decides whether it is accepted.
 
-Write Commands
+Desktop never writes:
 
-↓
+- physical outputs
+- safety state
+- SystemState or LineState
+- active alarm lifecycle state
+- delivered quantity
+- internal timers or state-machine steps
 
-PLC Executes
+## Reconnection
 
-↓
+1. establish TCP connection
+2. read magic and map version
+3. enter read-only mode if major version is unsupported
+4. synchronize heartbeat and last processed sequences
+5. reconcile execution-transfer and alarm-event sequences idempotently
+6. resume new writes only after validation
 
-PLC Updates Status
+No PLC restart is required.
 
-↓
+## Related Documents
 
-Desktop Reads Status
-
----
-
-# Communication Areas
-
-Communication memory is divided into independent areas.
-
-1000 - System
-
-2000 - Commands
-
-3000 - Status
-
-4000 - Recipes
-
-5000 - Runtime
-
-6000 - Alarms
-
-7000 - Diagnostics
-
-8000 - Maintenance
-
-9000 - Reserved
-
-The address ranges should never overlap.
-
----
-
-# System Area
-
-Contains
-
-System Ready
-
-System Mode
-
-Current User
-
-Current Line
-
-Heartbeat
-
-Software Version
-
-PLC Version
-
----
-
-# Command Area
-
-Desktop writes commands.
-
-Examples
-
-Start
-
-Stop
-
-Pause
-
-Reset
-
-Emergency Reset
-
-Recipe Load
-
-Recipe Save
-
-Maintenance Reset
-
-Service Command
-
-After execution, PLC clears one-shot commands.
-
----
-
-# Status Area
-
-PLC writes machine status.
-
-Examples
-
-Running
-
-Idle
-
-Stopped
-
-Alarm
-
-Manual Mode
-
-Automatic Mode
-
-Feeding
-
-Selector Moving
-
-Blower Running
-
----
-
-# Recipe Area
-
-Contains
-
-Recipe ID
-
-Feed Amount
-
-Feeding Time
-
-Delay
-
-Line Number
-
-Batch Number
-
-Validation Result
-
----
-
-# Runtime Area
-
-Contains
-
-Current Runtime
-
-Total Runtime
-
-Cycle Counter
-
-Daily Counter
-
-Feed Counter
-
-Production Counter
-
----
-
-# Alarm Area
-
-Each alarm contains
-
-Alarm ID
-
-Severity
-
-Timestamp
-
-Source
-
-State
-
-Acknowledged
-
-Cleared
-
-Desktop stores alarm history permanently.
-
-PLC stores only active alarms.
-
----
-
-# Diagnostic Area
-
-Contains
-
-Communication Status
-
-PLC Scan Time
-
-CPU Load
-
-Memory Usage
-
-Module Status
-
-IO Errors
-
-Drive Status
-
-Sensor Status
-
----
-
-# Maintenance Area
-
-Contains
-
-Operating Hours
-
-Motor Hours
-
-Blower Hours
-
-Maintenance Counter
-
-Next Service
-
-Reset Counter
-
----
-
-# Heartbeat
-
-Desktop increments heartbeat every second.
-
-PLC monitors heartbeat.
-
-If heartbeat timeout exceeds configured limit
-
-Communication Lost Alarm
-
-is generated.
-
----
-
-# Communication Timeout
-
-Loss of communication
-
-shall never stop the machine automatically.
-
-Only remote supervision is affected.
-
-Machine safety always remains under PLC control.
-
----
-
-# Read / Write Policy
-
-Desktop may write
-
-Commands
-
-Configuration
-
-Recipes
-
-Acknowledgements
-
-Desktop may never write
-
-Machine State
-
-Alarm State
-
-Safety Status
-
-Internal PLC Variables
-
----
-
-# Validation
-
-PLC validates every received value.
-
-Reject
-
-Invalid Recipe
-
-Invalid Line
-
-Invalid Speed
-
-Invalid Parameter
-
-Generate an alarm when necessary.
-
----
-
-# Time Synchronization
-
-Desktop is the master clock.
-
-PLC synchronizes its internal clock from Desktop.
-
-Synchronization occurs
-
-- Startup
-- Manual Sync
-- Daily Scheduled Sync
-
----
-
-# Error Recovery
-
-If communication returns
-
-Reconnect
-
-Validate
-
-Synchronize
-
-Continue
-
-No restart should be required.
-
----
-
-# Future Expansion
-
-Communication protocol must allow future support for
-
-OPC UA
-
-MQTT
-
-REST API
-
-Cloud Gateway
-
-without breaking existing Modbus architecture.
-
----
-
-# Final Rule
-
-Machine control always belongs to the PLC.
-
-The Desktop supervises.
-
-The HMI operates.
-
-Communication only exchanges information.
-
-Control authority never leaves the PLC.
+- [Modbus Register Map](../06_Documentation/Modbus_Register_Map.md)
+- [ST_ModbusMap](../02_Structures/ST_ModbusMap.md)
+- [IF_ExecutionTransfer](../04_Interfaces/IF_ExecutionTransfer.md)

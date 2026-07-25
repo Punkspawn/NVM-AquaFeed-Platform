@@ -1,218 +1,260 @@
-# Modbus Register Map
-
----
-
-# Purpose
-
-This document defines the Modbus communication architecture used by the AquaFeed PLC software.
-
-It standardizes the register allocation, data formats, access permissions and communication rules between the PLC, HMI and external systems.
-
----
-
-# Communication Protocol
-
-| Property | Value |
-|----------|-------|
-| Protocol | Modbus TCP / RTU |
-| Master | PLC |
-| Slaves | VFDs, Remote I/O, HMI, External Devices |
-| Byte Order | Big Endian |
-| Word Size | 16 Bit |
-| Data Encoding | Signed / Unsigned Integer, IEEE754 Float |
-
----
-
-# Register Areas
-
-| Address Range | Purpose |
-|---------------|---------|
-| 00001–09999 | Coils (Digital Outputs) |
-| 10001–19999 | Discrete Inputs |
-| 30001–39999 | Input Registers |
-| 40001–49999 | Holding Registers |
-
-Only Holding Registers shall be used for writable parameters.
-
----
-
-# Data Types
-
-| Type | Registers | Description |
-|------|-----------|-------------|
-| BOOL | 1 Bit | Boolean value |
-| UINT16 | 1 Register | Unsigned Integer |
-| INT16 | 1 Register | Signed Integer |
-| UINT32 | 2 Registers | Unsigned Long Integer |
-| INT32 | 2 Registers | Signed Long Integer |
-| REAL | 2 Registers | IEEE754 Floating Point |
-
----
-
-# Register Allocation
-
-## System Information
-
-| Register | Access | Description |
-|----------|--------|-------------|
-| 40001 | R | Software Version |
-| 40002 | R | PLC Status |
-| 40003 | R | Active Alarm Count |
-| 40004 | R | System State |
-| 40005 | R | Current Job ID |
-| 40006 | R | Active Recipe |
-
----
-
-## Line Status
-
-Each production line occupies a fixed register block.
-
-Example:
-
-| Register | Description |
-|----------|-------------|
-| 40100 | Line State |
-| 40101 | Job State |
-| 40102 | Selector Position |
-| 40103 | Blower Status |
-| 40104 | Dosing Status |
-| 40105 | Runtime (Hours) |
-| 40106 | Alarm Status |
-| 40107 | Current Recipe |
-
-Additional lines shall continue using identical offsets.
-
----
-
-## Commands
-
-Commands shall be written by the HMI or supervisory system.
-
-| Register | Access | Description |
-|----------|--------|-------------|
-| 41000 | W | Start Command |
-| 41001 | W | Stop Command |
-| 41002 | W | Reset Fault |
-| 41003 | W | Pause |
-| 41004 | W | Resume |
-| 41005 | W | Maintenance Mode |
-
-Commands shall be pulse-based where applicable.
-
----
-
-## Recipe Management
-
-| Register | Description |
-|----------|-------------|
-| 42000 | Recipe Number |
-| 42001 | Feed Amount |
-| 42002 | Feeding Duration |
-| 42003 | Blower Speed |
-| 42004 | Dosing Speed |
-| 42005 | Recipe Validation Result |
-
----
-
-## Runtime Statistics
-
-| Register | Description |
-|----------|-------------|
-| 43000 | Total Runtime |
-| 43002 | Feed Cycles |
-| 43004 | Total Feed Quantity |
-| 43006 | Today's Runtime |
-| 43008 | Maintenance Counter |
-
-32-bit values occupy two consecutive registers.
-
----
-
-## Alarm Information
-
-| Register | Description |
-|----------|-------------|
-| 44000 | Active Alarm ID |
-| 44001 | Alarm Severity |
-| 44002 | Alarm Module |
-| 44003 | Alarm Timestamp (Low Word) |
-| 44004 | Alarm Timestamp (High Word) |
-
----
-
-# Access Permissions
-
-| Access | Description |
-|---------|-------------|
-| R | Read Only |
-| W | Write Only |
-| RW | Read / Write |
-
-Critical system parameters shall never be writable without authorization.
-
----
-
-# Communication Rules
-
-- Every write request shall be validated.
-- Invalid register addresses shall be rejected.
-- Out-of-range values shall not be accepted.
-- Communication errors shall generate alarms.
-- All writes shall be confirmed before execution.
-
----
-
-# Timeout Handling
-
-Default communication timeout:
-
-- 1000 ms
-
-After timeout:
-
-- Retry communication
-- Increment retry counter
-- Generate communication alarm after retry limit
-- Maintain last valid process state if safe
-
----
-
-# Exception Handling
-
-Supported Modbus exceptions include:
-
-- Illegal Function
-- Illegal Data Address
-- Illegal Data Value
-- Slave Device Failure
-
-Each exception shall be logged for diagnostics.
-
----
-
-# Register Expansion
-
-Future register additions shall:
-
-- Preserve existing addresses
-- Avoid overlapping allocations
-- Follow the established block structure
-- Be documented before implementation
-
-Unused register ranges should remain reserved for future expansion.
-
----
-
-# Related Documents
-
-- IF_Modbus.md
-- PLC_Programming_Guideline.md
-- Alarm_Catalog.md
-- TEST_ModbusMaster.md
-
----
-
-# Revision
-
-Version 1.0
+# AquaFeed Modbus TCP Register Map
+
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Interface | AquaFeed Manager / HMI ↔ PLC |
+| Protocol | Modbus TCP |
+| PLC role | Server / Slave |
+| Desktop and HMI role | Client / Master |
+| Transport | TCP port 502 |
+| Map version | 1.0 |
+| Address notation | Zero-based PDU offset is authoritative |
+
+## Address Notation
+
+Every table uses zero-based Holding Register offsets.
+
+Human-facing 4xxxx notation is:
+
+```text
+Display address = 40001 + zero-based offset
+```
+
+Example: offset 100 is display address 40101.
+
+Client libraries that already expect zero-based offsets shall use the offset directly. Mixing the two conventions is prohibited.
+
+## Supported Operations
+
+- Function 03: Read Holding Registers
+- Function 06: Write Single Register where explicitly allowed
+- Function 16: Write Multiple Registers for atomic command/snapshot blocks
+
+All undefined or read-only writes are rejected.
+
+## Encoding Profile
+
+| Type | Encoding |
+|---|---|
+| BOOL | one WORD: 0 or 1 |
+| UINT / WORD / enum | one 16-bit register |
+| UDINT | two registers, low word at lower offset |
+| REAL | IEEE-754 32-bit, low word at lower offset |
+| BYTE / USINT | one WORD; upper bits zero |
+| Strings | prohibited in PLC realtime map |
+
+Each register uses standard Modbus big-endian byte transmission. AquaFeed v1 uses **low 16-bit word first** for 32-bit PLC values. This Delta PLC word profile must be verified by an automated interoperability test before release.
+
+## Stable Allocation
+
+| Offset range | Size | Access | Purpose |
+|---:|---:|---|---|
+| 0–31 | 32 | R | Protocol header and PLC heartbeat |
+| 32–47 | 16 | W | Desktop heartbeat and system command request |
+| 48–63 | 16 | R | System command acknowledgement |
+| 64–99 | 36 | — | Reserved |
+| 100–159 | 60 | R | System status |
+| 160–199 | 40 | — | Reserved |
+| 200–219 | 20 | RW split | Execution transfer control/ack |
+| 220–251 | 32 | W | ST_JobExecution candidate |
+| 252–283 | 32 | W | ST_RecipeExecution candidate |
+| 284–399 | 116 | — | Reserved |
+| 400–431 | 32 | R | Alarm summary |
+| 432–463 | 32 | W | Alarm acknowledge/reset command |
+| 464–499 | 36 | R | Alarm command/event acknowledgement |
+| 500–883 | 384 | R | 32 active alarm records × 12 words |
+| 884–999 | 116 | — | Reserved |
+| 1000–2023 | 1024 | R | 16 line blocks × 64 words |
+| 2024–2199 | 176 | — | Reserved |
+| 2200–2399 | 200 | R | Communication and PLC diagnostics |
+| 2400–2599 | 200 | R | Bounded runtime/maintenance counters |
+| 2600–3999 | 1400 | — | Reserved for append-only expansion |
+
+The current project uses lines 1–6. Blocks 7–16 remain reserved with identical layout.
+
+## Protocol Header — Offset 0
+
+| Offset | Type | Description |
+|---:|---|---|
+| 0 | WORD | Magic: 0x4E56 ("NV") |
+| 1 | UINT | Map major version |
+| 2 | UINT | Map minor version |
+| 3 | UINT | Published map word count |
+| 4–5 | UDINT | PLC heartbeat counter |
+| 6–7 | UDINT | Last accepted Desktop heartbeat |
+| 8 | WORD | Protocol status flags |
+| 9 | UINT | Last protocol result/exception code |
+| 10–15 | WORD[] | PLC software/build numeric identifiers |
+| 16–31 | — | Reserved |
+
+## Desktop Heartbeat and System Command — Offset 32
+
+| Offset | Type | Description |
+|---:|---|---|
+| 32–33 | UDINT | Desktop heartbeat counter |
+| 34–35 | UDINT | System command sequence |
+| 36 | WORD | Command bit mask |
+| 37 | USINT | Target line; zero means global |
+| 38 | UINT | Command argument |
+| 39 | UINT | Command payload CRC16 |
+| 40–47 | — | Reserved |
+
+Command-mask bits:
+
+| Bit | Command |
+|---:|---|
+| 0 | Enable |
+| 1 | Start |
+| 2 | Stop |
+| 3 | Pause |
+| 4 | Reset |
+| 5 | Automatic mode request |
+| 6 | Manual mode request |
+| 7 | Service mode request |
+| 8 | Simulation mode request |
+| 9 | Cancel active line job |
+
+PLC never clears Desktop-owned request registers. Desktop changes the sequence for each new command; PLC echoes the accepted/rejected sequence in offsets 48–50.
+
+## System Command Acknowledgement — Offset 48
+
+| Offset | Type | Description |
+|---:|---|---|
+| 48–49 | UDINT | Last processed system command sequence |
+| 50 | UINT | Result code |
+| 51 | WORD | Accepted command mask |
+| 52 | WORD | Rejected command mask |
+| 53–63 | — | Reserved |
+
+## System Status — Offset 100
+
+| Offset | Type | ST_SystemStatus field |
+|---:|---|---|
+| 100 | E_SystemState | SystemState |
+| 101 | WORD | Ready/Running/Paused/Stopped flags |
+| 102 | WORD | Auto/Manual/Service/Simulation/ModeConflict flags |
+| 103 | WORD | SafetyOK/Emergency/BlockingFault/AlarmActive flags |
+| 104 | WORD | DesktopCommunicationOK/LinesReady/AnyLineRunning/Feeding flags |
+| 105 | USINT | CurrentLine |
+| 106 | UINT | ActiveRecipeId |
+| 107–108 | UDINT | CurrentJobId |
+| 109 | UINT | Active alarm count |
+| 110 | E_AlarmSeverity | Highest active alarm severity |
+| 111–159 | — | Reserved |
+
+## Execution Transfer — Offset 200
+
+Control and acknowledgement:
+
+| Offset | Access | Type | Description |
+|---:|---|---|---|
+| 200–201 | W | UDINT | TransferSequence |
+| 202 | W | BOOL | TransferRequest |
+| 203 | W | UINT | Combined payload CRC16 |
+| 204–205 | R | UDINT | Last processed sequence |
+| 206 | R | UINT | Transfer result code |
+| 207 | R | BOOL | Accepted event |
+| 208 | R | BOOL | Rejected event |
+| 209 | R | BOOL | PLC ready for new transfer |
+| 210–219 | — | — | Reserved |
+
+`ST_JobExecution` occupies offsets 220–251.  
+`ST_RecipeExecution` occupies offsets 252–283.
+
+The exact field offsets follow their document order. Unused words in each 32-word block are reserved and written as zero. Job and Recipe are accepted atomically through `IF_ExecutionTransfer`.
+
+## Alarm Area
+
+### Summary — Offset 400
+
+| Offset | Type | Description |
+|---:|---|---|
+| 400 | UINT | Active alarm count |
+| 401 | E_AlarmSeverity | Highest severity |
+| 402 | WORD | AnyActive/AnyBlocking/AnyCritical/AnyEmergency flags |
+| 403 | BOOL | Active table overflow |
+| 404 | BOOL | Event buffer overflow |
+| 405–406 | UDINT | Latest alarm event sequence |
+| 407–431 | — | Reserved |
+
+### Lifecycle command — Offset 432
+
+| Offset | Type | Description |
+|---:|---|---|
+| 432–433 | UDINT | Command sequence |
+| 434 | WORD | Command: 1=Acknowledge, 2=Reset |
+| 435 | UINT | AlarmCode |
+| 436 | E_AlarmSource | Source |
+| 437 | USINT | LineId |
+| 438 | UINT | DeviceId |
+| 439 | UINT | Payload CRC16 |
+| 440–463 | — | Reserved |
+
+### Active alarm table — Offset 500
+
+- 32 fixed records
+- 12 words per record
+- record base = 500 + (index × 12), index 0–31
+- field order follows `ST_Alarm`
+- empty record has AlarmCode = 0
+- table is read-only to Desktop
+
+Permanent history is not mapped; Desktop persists lifecycle events.
+
+## Line Blocks — Offset 1000
+
+- 16 fixed blocks
+- 64 words per line
+- line base = 1000 + ((LineId - 1) × 64)
+
+| Relative offset | Type | ST_Line field |
+|---:|---|---|
+| 0 | USINT | LineId |
+| 1 | E_LineState | LineState |
+| 2 | WORD | Enabled/Ready/Busy/Running/Paused/Completed/Fault/Emergency |
+| 3 | WORD | Auto/Manual/Service/Simulation |
+| 4 | BOOL | ActiveJobValid |
+| 5–6 | UDINT | ActiveJobId |
+| 7 | UINT | ActiveRecipeId |
+| 8 | USINT | TargetSelectorPosition |
+| 9 | USINT | CurrentSelectorPosition |
+| 10 | BOOL | SelectorAtTarget |
+| 11–12 | REAL | TargetFeedKg |
+| 13–14 | REAL | DeliveredFeedKg |
+| 15–16 | REAL | RemainingFeedKg |
+| 17–18 | REAL | ProgressPercent |
+| 19–20 | UDINT | ElapsedTimeSec |
+| 21–22 | UDINT | RemainingTimeSec |
+| 23 | WORD | Blower/Dosing1/Dosing2 running flags |
+| 24 | UINT | ActiveAlarmId |
+| 25–63 | — | Reserved |
+
+## Diagnostics and Runtime
+
+Offsets 2200–2599 are PLC-owned, read-only, bounded counters and diagnostics. Their detailed allocation remains reserved until `ST_Diagnostics`, `ST_Runtime`, and `ST_Maintenance` are normalized. Publishing unapproved implicit structure layouts is prohibited.
+
+## Write Validation
+
+Every Desktop write is validated for:
+
+- supported map and snapshot version
+- allowed address and access direction
+- monotonic sequence
+- valid CRC
+- complete multi-register payload
+- numeric bounds and enum membership
+- target scope compatibility
+- current machine state and permission
+- idempotent replay behavior
+
+Invalid writes change no active PLC state and return a bounded result code.
+
+## Compatibility Rules
+
+- never change meaning or encoding of an allocated offset within a major version
+- append using Reserved words
+- never reuse removed offsets
+- increment major version for incompatible change
+- Desktop checks magic and version before enabling writes
+- unsupported major version is read-only diagnostic mode

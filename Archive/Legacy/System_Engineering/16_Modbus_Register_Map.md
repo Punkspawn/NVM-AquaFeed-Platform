@@ -1,3 +1,11 @@
+# Legacy Modbus Register Specification
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Used conflicting address allocation and did not separate TCP client/server roles or stable field offsets.  
+> **Replacement:** `02_Software_Design/PLC/06_Documentation/Modbus_Register_Map.md`
+
+---
+
 # 16_Modbus_Register_Map.md
 
 # NVM AquaFeed Platform

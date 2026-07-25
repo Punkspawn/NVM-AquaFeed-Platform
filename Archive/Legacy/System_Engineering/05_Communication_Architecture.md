@@ -1,3 +1,11 @@
+# Legacy Communication Architecture Specification
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Described PLC as master for every channel, conflicting with PLC server role on Desktop Modbus TCP.  
+> **Replacement:** `02_Software_Design/PLC/00_Architecture/COMMUNICATION_PROTOCOL.md`
+
+---
+
 # 05_Communication_Architecture.md
 
 # NVM AquaFeed Platform
