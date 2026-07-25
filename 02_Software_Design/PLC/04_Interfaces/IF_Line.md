@@ -31,11 +31,11 @@ Defines the command, condition, equipment-feedback, and published-status contrac
 | Name | Type | Description |
 |---|---|---|
 | `xJobAvailable` | BOOL | A complete candidate snapshot is available. |
-| `stActiveJob` | ST_JobOrder | Temporary source until the dedicated PLC execution structure is split from Desktop master data. |
-| `stActiveRecipe` | ST_Recipe | Temporary source until the dedicated active recipe structure is split from Desktop master data. |
+| `stActiveJob` | ST_JobExecution | Bounded candidate job snapshot. |
+| `stActiveRecipe` | ST_RecipeExecution | Bounded candidate recipe snapshot. |
 | `xAcceptJob` | BOOL | One-scan acceptance request; LineManager copies and locks required fields. |
 
-After acceptance, Desktop changes to the source structures do not modify the active execution.
+Candidates are accepted through `IF_ExecutionTransfer`. After acceptance, LineManager copies them to private immutable storage; later Desktop changes do not modify active execution.
 
 ## Equipment Feedback Inputs
 
@@ -98,6 +98,9 @@ After acceptance, Desktop changes to the source structures do not modify the act
 - [ST_Line](../02_Structures/ST_Line.md)
 - [E_LineState](../02_Structures/E_LineState.md)
 - [FB_SystemManager](../01_Function_Blocks/FB_SystemManager.md)
+- [IF_ExecutionTransfer](IF_ExecutionTransfer.md)
+- [ST_JobExecution](../02_Structures/ST_JobExecution.md)
+- [ST_RecipeExecution](../02_Structures/ST_RecipeExecution.md)
 
 ## Revision History
 

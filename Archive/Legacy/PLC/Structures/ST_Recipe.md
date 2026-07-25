@@ -1,3 +1,11 @@
+# Legacy Mixed Recipe Structure
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Mixed Desktop recipe master and PLC execution parameters.  
+> **Replacements:** `03_Desktop/Domain/Recipe.md` and `ST_RecipeExecution.md`
+
+---
+
 # ST_Recipe
 
 ---

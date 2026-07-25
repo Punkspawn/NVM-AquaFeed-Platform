@@ -68,8 +68,8 @@ These concepts belong to Integration / Edge:
 - `ST_SystemStatus`
 - `ST_Diagnostics`
 - `ST_ModbusMap`
-- realtime subset of `ST_JobOrder`
-- realtime subset of `ST_Recipe`
+- `ST_JobExecution`
+- `ST_RecipeExecution`
 
 ### Move to Desktop or split
 
@@ -129,4 +129,13 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - State enum: `02_Software_Design/PLC/02_Structures/E_LineState.md`
 - Realtime snapshot: `02_Software_Design/PLC/02_Structures/ST_Line.md`
 - Command, feedback, equipment-request, and status interface: `02_Software_Design/PLC/04_Interfaces/IF_Line.md`
-- Pending boundary split: replace temporary `ST_JobOrder` and `ST_Recipe` inputs with bounded PLC execution structures.
+- Execution transfer: `ST_JobExecution.md`, `ST_RecipeExecution.md`, and `IF_ExecutionTransfer.md` are authoritative.
+
+
+## Authoritative Execution Transfer Boundary
+
+- Desktop Job Order master: `03_Desktop/Domain/JobOrder.md`
+- Desktop Recipe master: `03_Desktop/Domain/Recipe.md`
+- PLC job snapshot: `02_Software_Design/PLC/02_Structures/ST_JobExecution.md`
+- PLC recipe snapshot: `02_Software_Design/PLC/02_Structures/ST_RecipeExecution.md`
+- Atomic transfer handshake: `02_Software_Design/PLC/04_Interfaces/IF_ExecutionTransfer.md`

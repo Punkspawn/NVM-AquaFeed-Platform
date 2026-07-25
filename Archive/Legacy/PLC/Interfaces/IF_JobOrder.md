@@ -1,3 +1,11 @@
+# Legacy PLC Job Management Interface
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Job creation and queue management belong to Desktop.  
+> **Replacement:** `IF_ExecutionTransfer.md`
+
+---
+
 # IF_JobOrder
 
 ---

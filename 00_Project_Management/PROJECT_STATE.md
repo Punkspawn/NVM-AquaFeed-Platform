@@ -38,8 +38,8 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Split Desktop job/recipe masters from bounded PLC execution snapshots.
-2. Normalize alarm architecture.
+1. Normalize alarm architecture.
+2. Normalize Modbus map for new system, line, and execution structures.
 3. Split runtime state from historical data.
 4. Move or archive classified documents.
 5. Resume structures and core PLC design.

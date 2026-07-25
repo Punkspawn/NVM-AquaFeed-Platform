@@ -136,8 +136,10 @@ Authoritative classification manifest
 | `ST_ModbusMap.md` | KEEP / NORMALIZE |
 | `ST_Runtime.md` | KEEP bounded counters only |
 | `ST_SystemStatus.md` | KEEP / NORMALIZE |
-| `ST_JobOrder.md` | SPLIT Desktop master / PLC execution snapshot |
-| `ST_Recipe.md` | SPLIT Desktop master / PLC active snapshot |
+| `ST_JobExecution.md` | KEEP; authoritative bounded PLC job snapshot |
+| `ST_RecipeExecution.md` | KEEP; authoritative bounded PLC recipe snapshot |
+| `Archive/Legacy/PLC/Structures/ST_JobOrder.md` | ARCHIVED; split into Desktop master and PLC execution snapshot |
+| `Archive/Legacy/PLC/Structures/ST_Recipe.md` | ARCHIVED; split into Desktop master and PLC execution snapshot |
 | `ST_OperationData.md` | SPLIT PLC current snapshot / Desktop history |
 | `ST_Maintenance.md` | SPLIT PLC counters / Desktop history and plans |
 | `ST_User.md` | MOVE to Desktop |
@@ -173,7 +175,8 @@ Every retained function must be reviewed for deterministic, stateless execution.
 | `IF_System.md` | KEEP; authoritative consolidated command/status contract |
 | `Archive/Legacy/PLC/Interfaces/IF_SystemStatus.md` | ARCHIVED; superseded duplicate |
 | Communication | KEEP / NORMALIZE |
-| Job order and recipe | SPLIT Desktop master / PLC snapshot |
+| `IF_ExecutionTransfer.md` | KEEP; authoritative atomic Desktop-to-PLC transfer contract |
+| Legacy JobOrder and Recipe interfaces | ARCHIVED; CRUD and queue actions belong to Desktop |
 | Service | KEEP realtime machine-service subset only |
 
 ## PLC/05_Test
@@ -216,3 +219,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | `ST_SystemStatus.md` | Normalized as bounded realtime PLC snapshot; `E_SystemState.md` added. |
 | 2026-07-25 | Three LineManager source documents | Consolidated into authoritative `PLC/01_Function_Blocks/FB_LineManager.md`; sources archived without content loss. |
 | 2026-07-25 | `ST_Line.md` and `IF_Line.md` | Normalized as the authoritative bounded line contract; `E_LineState.md` added. |
+| 2026-07-25 | Job/Recipe structures and interfaces | Split into Desktop domain masters, bounded PLC execution snapshots, and atomic transfer contract; four mixed legacy documents archived. |

@@ -1,3 +1,11 @@
+# Legacy PLC Recipe Management Interface
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Recipe save/delete and master management belong to Desktop.  
+> **Replacement:** `IF_ExecutionTransfer.md`
+
+---
+
 # IF_Recipe
 
 ---

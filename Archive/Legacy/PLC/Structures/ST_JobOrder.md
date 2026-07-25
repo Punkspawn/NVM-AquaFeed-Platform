@@ -1,3 +1,11 @@
+# Legacy Mixed Job Order Structure
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Mixed Desktop master, history, user, schedule, and PLC execution fields.  
+> **Replacements:** `03_Desktop/Domain/JobOrder.md` and `ST_JobExecution.md`
+
+---
+
 # ST_JobOrder
 
 ---

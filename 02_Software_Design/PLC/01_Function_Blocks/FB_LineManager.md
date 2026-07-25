@@ -367,8 +367,9 @@ One line instance -> one active job maximum
 ## Dependencies
 
 - `ST_Line`
-- active PLC job snapshot derived from `ST_JobOrder`
-- active PLC recipe snapshot derived from `ST_Recipe`
+- `ST_JobExecution`
+- `ST_RecipeExecution`
+- `IF_ExecutionTransfer`
 - `FB_Selector`
 - `FB_Blower`
 - `FB_Dosing`
@@ -397,6 +398,9 @@ The following sources were consolidated into this specification:
 - [FB_DeviceManager](FB_DeviceManager.md)
 - [ST_Line](../02_Structures/ST_Line.md)
 - [IF_Line](../04_Interfaces/IF_Line.md)
+- [IF_ExecutionTransfer](../04_Interfaces/IF_ExecutionTransfer.md)
+- [ST_JobExecution](../02_Structures/ST_JobExecution.md)
+- [ST_RecipeExecution](../02_Structures/ST_RecipeExecution.md)
 
 ---
 
