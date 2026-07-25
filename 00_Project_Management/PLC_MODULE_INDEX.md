@@ -64,7 +64,8 @@ These concepts belong to Integration / Edge:
 - `ST_Device`
 - `ST_Alarm` — active bounded alarm state only
 - `ST_Line`
-- `ST_Runtime` — bounded counters only
+- `ST_Runtime` — authoritative retentive lifetime counters
+- `ST_MaintenanceCounter` — per-device runtime service threshold
 - `ST_SystemStatus`
 - `ST_Diagnostics`
 - `ST_ModbusMap`
@@ -75,7 +76,7 @@ These concepts belong to Integration / Edge:
 
 - `ST_User` — Desktop
 - `ST_OperationData` — split current PLC snapshot from Desktop history
-- `ST_Maintenance` — split PLC counters/status from Desktop history and plans
+- Desktop Maintenance domain — plans, work orders, users, dates, history, cost, and analytics
 
 ## Function Admission Rule
 
@@ -158,3 +159,12 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - Register allocation: `02_Software_Design/PLC/06_Documentation/Modbus_Register_Map.md`
 - Channel health interface: `02_Software_Design/PLC/04_Interfaces/IF_Communication.md`
 - Interoperability test: `02_Software_Design/PLC/05_Test/TEST_ModbusTCPMap.md`
+
+
+## Authoritative Runtime and Maintenance Boundary
+
+- Decisions: `AD-002_Time_Responsibility.md`, `AD-003_Runtime_Responsibility.md`
+- Lifetime runtime: `ST_Runtime.md`, `IF_Runtime.md`, `FB_RuntimeCounter.md`
+- Device service threshold: `ST_MaintenanceCounter.md`, `IF_MaintenanceCounter.md`, `FB_MaintenanceCounter.md`
+- Desktop maintenance domain: `03_Desktop/Domain/Maintenance.md`
+- Legacy platform manager: `Archive/Legacy/PLC/Function_Blocks/84_FB_MaintenanceManager.md`
