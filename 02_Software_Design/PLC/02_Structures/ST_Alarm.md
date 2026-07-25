@@ -52,6 +52,8 @@ END_TYPE
 
 ## Related Documents
 
+- [ST_AlarmCondition](ST_AlarmCondition.md)
+- [ST_AlarmEvent](ST_AlarmEvent.md)
 - [FB_AlarmManager](../01_Function_Blocks/FB_AlarmManager.md)
 - [IF_Alarm](../04_Interfaces/IF_Alarm.md)
 - [Alarm Catalog](../06_Documentation/Alarm_Catalog.md)
