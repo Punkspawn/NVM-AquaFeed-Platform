@@ -33,6 +33,7 @@ Implement the approved PLC core from normalized authoritative contracts.
 - Optional physical module scope classified under `AD-004`: Motion excluded as duplicate; CIP, Water, Aeration, and Oxygen retained as future options outside the current release.
 - Remaining mixed managers removed from active PLC scope; service mode reduced to a fail-closed permission contract without duplicate control or platform services.
 - PLC implementation baseline created with importable core types, bounded global constants, and a deterministic main-program entry point.
+- `FB_TimeService` implemented with wrap-safe monotonic timing, bounded second sequencing, and idempotent observational UTC synchronization.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -42,6 +43,6 @@ New PLC code is admitted only when an authoritative contract and test specificat
 
 ## Next Tasks
 
-1. Implement and test the monotonic PLC TimeService.
-2. Implement deterministic IO acquisition and safe output arbitration.
-3. Implement Selector, Blower, and Dosing in dependency order.
+1. Implement deterministic IO acquisition and safe output arbitration.
+2. Implement Selector, Blower, and Dosing in dependency order.
+3. Integrate implemented blocks into the cyclic main program after vendor compilation checks.
