@@ -1,159 +1,38 @@
 # ST_Device
 
----
-
-# Purpose
-
-Represents a physical device within the AquaFeed Platform.
-
-Every controllable equipment in the system shall be represented by one instance of this structure.
-
----
-
-# Structure
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | FB_DeviceManager |
+| Persistence | Current non-retentive snapshot |
+| Version | 2.0 |
 
 ```iecst
 TYPE ST_Device :
 STRUCT
-
-    DeviceId            : UINT;
-
-    DeviceType          : E_DeviceType;
-
-    LineId              : USINT;
-
-    Enabled             : BOOL;
-
-    Available           : BOOL;
-
-    Running             : BOOL;
-
-    Fault               : BOOL;
-
-    AutoMode            : BOOL;
-
-    ManualMode          : BOOL;
-
-END_STRUCT
+    uiDeviceId : UINT;
+    uiDeviceType : UINT;
+    usiLineId : USINT;
+    xConfigurationValid : BOOL;
+    xEnabled : BOOL;
+    xAvailable : BOOL;
+    xRunning : BOOL;
+    xFault : BOOL;
+    xAutoMode : BOOL;
+    xManualMode : BOOL;
+    xInterlockOK : BOOL;
+    xCommunicationOK : BOOL;
+    xUnexpectedRunFeedback : BOOL;
+    uiDiagnosticCode : UINT;
+END_STRUCT;
 END_TYPE
 ```
 
----
+DeviceType is a non-zero static profile identifier owned by approved configuration. The PLC does not dynamically discover device types or maintain an asset registry.
 
-# Updated By
+## Revision History
 
-- FB_DeviceManager
-
----
-
-# Read By
-
-- FB_SystemManager
-- FB_LineManager
-- HMI
-- Desktop Application
-- Diagnostics
-
----
-
-# Description
-
-## DeviceId
-
-Unique identifier of the device.
-
-Each physical device shall have a unique DeviceId.
-
----
-
-## DeviceType
-
-Defines the equipment type.
-
-Examples:
-
-- Blower
-- Dosing
-- Selector
-- Air Lock
-- Conveyor
-
----
-
-## LineId
-
-Identifies the feeding line to which the device belongs.
-
----
-
-## Enabled
-
-Indicates whether the device is enabled by configuration.
-
-A disabled device cannot participate in automatic operation.
-
----
-
-## Available
-
-Indicates whether the device is currently available for operation.
-
-A device may be enabled but unavailable due to maintenance, interlocks, communication loss, or other operational restrictions.
-
----
-
-## Running
-
-Indicates that the device is currently operating.
-
----
-
-## Fault
-
-Indicates that the device has an active fault condition.
-
----
-
-## AutoMode
-
-Indicates that the device is operating in Automatic Mode.
-
----
-
-## ManualMode
-
-Indicates that the device is operating in Manual Mode.
-
----
-
-# Rules
-
-A device cannot be Running when Enabled is FALSE.
-
-AutoMode and ManualMode shall never both be TRUE.
-
-A faulted device shall not start until the fault has been cleared.
-
-Only FB_DeviceManager is allowed to modify this structure.
-
-Other modules shall access this structure as read-only whenever possible.
-
----
-
-# Lifetime
-
-Device information remains allocated during PLC runtime.
-
-Configuration parameters may be synchronized with the Desktop Application.
-
----
-
-# Example
-
-```iecst
-g_Devices[1]    // Blower
-
-g_Devices[2]    // Selector
-
-g_Devices[3]    // Dosing Motor
-```
+| Version | Date | Description |
+|---|---|---|
+| 1.0 | 2026-07-24 | Initial common device snapshot. |
+| 2.0 | 2026-07-26 | Added explicit configuration, interlock, communication, unexpected-run, and diagnostic fields; normalized field naming. |

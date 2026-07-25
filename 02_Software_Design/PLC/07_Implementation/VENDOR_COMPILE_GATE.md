@@ -26,15 +26,16 @@ Passing this document permits one-line bench composition. It does not authorize 
 | 6 | `Function_Blocks/FB_IOManager.st` | `ST_IO` |
 | 7 | `Function_Blocks/FB_SafetyCoordinator.st` | safety coordination state and status types |
 | 8 | `Function_Blocks/FB_AlarmManager.st` | Alarm types and fixed alarm capacities |
-| 9 | `Function_Blocks/FB_CommunicationManager.st` | communication channel type and `F_ElapsedMs` |
-| 10 | `Function_Blocks/FB_HealthMonitor.st` | `ST_HealthStatus` |
-| 11 | `Function_Blocks/FB_Selector.st` | Selector types, `F_ElapsedMs`, `F_CyclicDistance` |
-| 12 | `Function_Blocks/FB_Blower.st` | Blower types, `F_ElapsedMs` |
-| 13 | `Function_Blocks/FB_Dosing.st` | Dosing types, `F_ElapsedMs` |
-| 14 | `Function_Blocks/FB_LineManager.st` | Line/job/recipe types, `F_ElapsedMs` |
-| 15 | `Function_Blocks/FB_RecoveryManager.st` | recovery checkpoint/status, job, recipe, and recovery state types |
-| 16 | `Function_Blocks/FB_SystemManager.st` | `E_SystemState`, `ST_SystemStatus` |
-| 17 | `Programs/PRG_AquaFeedMain.st` | imported globals |
+| 9 | `Function_Blocks/FB_DeviceManager.st` | `ST_Device` |
+| 10 | `Function_Blocks/FB_CommunicationManager.st` | communication channel type and `F_ElapsedMs` |
+| 11 | `Function_Blocks/FB_HealthMonitor.st` | `ST_HealthStatus` |
+| 12 | `Function_Blocks/FB_Selector.st` | Selector types, `F_ElapsedMs`, `F_CyclicDistance` |
+| 13 | `Function_Blocks/FB_Blower.st` | Blower types, `F_ElapsedMs` |
+| 14 | `Function_Blocks/FB_Dosing.st` | Dosing types, `F_ElapsedMs` |
+| 15 | `Function_Blocks/FB_LineManager.st` | Line/job/recipe types, `F_ElapsedMs` |
+| 16 | `Function_Blocks/FB_RecoveryManager.st` | recovery checkpoint/status, job, recipe, and recovery state types |
+| 17 | `Function_Blocks/FB_SystemManager.st` | `E_SystemState`, `ST_SystemStatus` |
+| 18 | `Programs/PRG_AquaFeedMain.st` | imported globals |
 
 Do not import archived or documentation-only PLC drafts into the vendor project.
 
@@ -42,7 +43,7 @@ Do not import archived or documentation-only PLC drafts into the vendor project.
 
 Pass only when:
 
-- all seventeen sources import in the listed order
+- all eighteen sources import in the listed order
 - no duplicate type, Function, Function Block, Program, or global symbol exists
 - the vendor project retains the intended unsigned widths (`USINT`, `UINT`, `UDINT`)
 - no automatic conversion introduces `REAL`
@@ -59,15 +60,16 @@ Compile in this order:
 3. `FB_IOManager`
 4. `FB_SafetyCoordinator`
 5. `FB_AlarmManager`
-6. `FB_CommunicationManager`
-7. `FB_HealthMonitor`
-8. `FB_Selector`
-9. `FB_Blower`
-10. `FB_Dosing`
-11. `FB_LineManager`
-12. `FB_RecoveryManager`
-13. `FB_SystemManager`
-14. `PRG_AquaFeedMain`
+6. `FB_DeviceManager`
+7. `FB_CommunicationManager`
+8. `FB_HealthMonitor`
+9. `FB_Selector`
+10. `FB_Blower`
+11. `FB_Dosing`
+12. `FB_LineManager`
+13. `FB_RecoveryManager`
+14. `FB_SystemManager`
+15. `PRG_AquaFeedMain`
 
 Acceptance:
 
