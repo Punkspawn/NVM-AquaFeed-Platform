@@ -13,7 +13,7 @@ Authoritative scope index
 | `FB_Selector` | KEEP / NORMALIZE | Selector positioning and local diagnostics |
 | `FB_Blower` | KEEP / NORMALIZE | Blower/VFD sequence and local diagnostics |
 | `FB_Dosing` | KEEP / NORMALIZE | Dosing sequence, calibration, feed delivery |
-| `FB_DeviceManager` | KEEP NEW VERSION | One physical device runtime state; owns one `ST_Device` |
+| `FB_DeviceManager` | AUTHORITATIVE | One physical device runtime state; owns one `ST_Device` |
 | `FB_AlarmManager` | MERGE REQUIRED | Active alarms, priorities, acknowledgement/reset rules |
 | `FB_RecoveryManager` | KEEP / NORMALIZE | Deterministic recovery sequences |
 | `FB_CommunicationManager` | DESIGN REQUIRED | Modbus exchange and communication supervision |
@@ -87,3 +87,13 @@ A PLC Function is retained only when it is:
 - directly required for realtime control, validation, scaling, state transitions, Modbus, or equipment calculations
 
 OEE, commercial cost, business analytics, report metrics, historical failure analysis, and similar calculations move to Desktop.
+
+
+## Resolved Conflicts
+
+### FB_DeviceManager
+
+- Authoritative PLC document: `02_Software_Design/PLC/01_Function_Blocks/FB_DeviceManager.md`
+- Authoritative structure: `02_Software_Design/PLC/02_Structures/ST_Device.md`
+- Archived legacy concept: `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md`
+- Resolution: PLC owns deterministic runtime state for one physical device. Desktop/Edge owns platform asset registry, provisioning, firmware inventory, and long-term lifecycle records.
