@@ -88,3 +88,5 @@ RemainingFeedCentiKg >= 0
 - [E_LineState](E_LineState.md)
 - [FB_LineManager](../01_Function_Blocks/FB_LineManager.md)
 - [IF_Line](../04_Interfaces/IF_Line.md)
+- [ST_RecoveryCheckpoint](ST_RecoveryCheckpoint.md)
+- [IF_Recovery](../04_Interfaces/IF_Recovery.md)
