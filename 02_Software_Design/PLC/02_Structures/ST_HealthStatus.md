@@ -9,25 +9,23 @@
 ```iecst
 TYPE ST_HealthStatus :
 STRUCT
-    xReadyForNewJob           : BOOL;
-    xCurrentJobMayContinue    : BOOL;
-    xDegraded                 : BOOL;
-    xBlockingFault            : BOOL;
-
-    xSafetyHealthy            : BOOL;
-    xIOHealthy                : BOOL;
+    xReadyForNewJob : BOOL;
+    xCurrentJobMayContinue : BOOL;
+    xDegraded : BOOL;
+    xBlockingFault : BOOL;
+    xSafetyHealthy : BOOL;
+    xIOHealthy : BOOL;
     xRequiredCommunicationHealthy : BOOL;
-    xSelectorHealthy          : BOOL;
-    xBlowerHealthy            : BOOL;
-    xDosingHealthy            : BOOL;
-    xConfigurationValid       : BOOL;
-
-    uiHighestSeverity         : UINT;
-    uiBlockingReasonCode      : UINT;
-    uiDegradedReasonCode      : UINT;
-    udiStatusSequence         : UDINT;
-END_STRUCT
+    xSelectorHealthy : BOOL;
+    xBlowerHealthy : BOOL;
+    xDosingHealthy : BOOL;
+    xConfigurationValid : BOOL;
+    uiHighestSeverity : UINT;
+    uiBlockingReasonCode : UINT;
+    uiDegradedReasonCode : UINT;
+    udiStatusSequence : UDINT;
+END_STRUCT;
 END_TYPE
 ```
 
-No score, percentage, trend, prediction, text, or history is stored.
+No score, percentage, trend, prediction, text, timestamp, or history is stored. StatusSequence saturates and changes only after a material published transition.

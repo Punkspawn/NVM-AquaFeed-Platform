@@ -475,3 +475,24 @@ STRUCT
     uiDiagnosticCode : UINT;
 END_STRUCT;
 END_TYPE
+
+
+TYPE ST_HealthStatus :
+STRUCT
+    xReadyForNewJob : BOOL;
+    xCurrentJobMayContinue : BOOL;
+    xDegraded : BOOL;
+    xBlockingFault : BOOL;
+    xSafetyHealthy : BOOL;
+    xIOHealthy : BOOL;
+    xRequiredCommunicationHealthy : BOOL;
+    xSelectorHealthy : BOOL;
+    xBlowerHealthy : BOOL;
+    xDosingHealthy : BOOL;
+    xConfigurationValid : BOOL;
+    uiHighestSeverity : UINT;
+    uiBlockingReasonCode : UINT;
+    uiDegradedReasonCode : UINT;
+    udiStatusSequence : UDINT;
+END_STRUCT;
+END_TYPE
