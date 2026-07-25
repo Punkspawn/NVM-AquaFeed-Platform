@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Producer | `FB_SystemManager` |
-| Version | 2.0 |
+| Version | 2.1 |
 
 ## Purpose
 
@@ -38,6 +38,11 @@ This document replaces the overlapping former `IF_System` and `IF_SystemStatus` 
 | `xAnyLineRunning` | BOOL | At least one line is executing. |
 | `xAllLinesStopped` | BOOL | Controlled stop sequence is complete. |
 | `xDesktopCommunicationOK` | BOOL | Desktop link status; diagnostic only, not a safety interlock. |
+| `xAlarmActive` | BOOL | Bounded current global alarm summary. |
+| `xFeedingActive` | BOOL | Aggregated active-feeding summary from Line Managers. |
+| `usiCurrentLine` | USINT | Bounded active line reference; zero when none. |
+| `uiActiveRecipeId` | UINT | Active recipe reference; zero when none. |
+| `udiCurrentJobId` | UDINT | Active job reference; zero when none. |
 
 ## Outputs
 
@@ -71,3 +76,4 @@ This document replaces the overlapping former `IF_System` and `IF_SystemStatus` 
 |---|---|---|
 | 1.0 | Legacy | Initial command-only interface. |
 | 2.0 | 2026-07-25 | Consolidated command and status contract. |
+| 2.1 | 2026-07-26 | Added the bounded alarm and active-execution summary inputs required to publish `ST_SystemStatus`. |
