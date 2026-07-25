@@ -100,9 +100,11 @@ VAR
     udiExecutionStartTickMs : UDINT;
     udiStateStartTickMs : UDINT;
     udiLastResetSequence : UDINT;
+    udiLastProcessedTransferSequence : UDINT;
     udiInternalCommandSequence : UDINT;
     xHasAcceptedCommand : BOOL;
     xHasAcceptedReset : BOOL;
+    xHasProcessedTransfer : BOOL;
     xShutdownForPause : BOOL;
     xShutdownForCancel : BOOL;
     xShutdownForStop : BOOL;
@@ -111,6 +113,7 @@ VAR
 END_VAR
 VAR CONSTANT
     c_udiMaximumProgressTarget : UDINT := 4000000;
+    c_udiMaximumExecutionTimeSec : UDINT := 4294967;
     c_uiResultNone : UINT := 0;
     c_uiResultAccepted : UINT := 1;
     c_uiResultCompleted : UINT := 2;
@@ -175,7 +178,9 @@ xConfigValid := (stConfig.usiLineId > 0) AND
                 (stConfig.udiMaximumBlowerPreRunTimeMs > 0) AND
                 (stConfig.udiMaximumBlowerPostRunTimeMs > 0) AND
                 (stConfig.udiMaximumDosingTimeSec > 0) AND
-                (stConfig.udiMaximumExecutionTimeSec > 0);
+                (stConfig.udiMaximumExecutionTimeSec > 0) AND
+                (stConfig.udiMaximumExecutionTimeSec <=
+                 c_udiMaximumExecutionTimeSec);
 
 xCandidateValid := xJobAvailable AND
                    xCandidateIntegrityValid AND
@@ -321,7 +326,14 @@ ELSE
         LINE_READY:
             xReady := TRUE;
 
-            IF xAcceptJob THEN
+            IF xAcceptJob AND
+               (NOT xHasProcessedTransfer OR
+                (stJobCandidate.udiTransferSequence <>
+                 udiLastProcessedTransferSequence)) THEN
+                udiLastProcessedTransferSequence :=
+                    stJobCandidate.udiTransferSequence;
+                xHasProcessedTransfer := TRUE;
+
                 IF NOT xDesktopCommunicationOK THEN
                     xJobRejected := TRUE;
                     uiResultCode := c_uiResultDesktopOffline;
@@ -529,9 +541,13 @@ ELSE
                 eState := LINE_FAULT;
                 uiResultCode := c_uiResultEquipmentFault;
             ELSE
-                IF udiSelectedDosingIncrement >
-                   (stAcceptedJob.udiTargetFeedCentiKg -
-                    stLine.udiDeliveredFeedCentiKg) THEN
+                IF stLine.udiDeliveredFeedCentiKg >=
+                   stAcceptedJob.udiTargetFeedCentiKg THEN
+                    stLine.udiDeliveredFeedCentiKg :=
+                        stAcceptedJob.udiTargetFeedCentiKg;
+                ELSIF udiSelectedDosingIncrement >=
+                      (stAcceptedJob.udiTargetFeedCentiKg -
+                       stLine.udiDeliveredFeedCentiKg) THEN
                     stLine.udiDeliveredFeedCentiKg :=
                         stAcceptedJob.udiTargetFeedCentiKg;
                 ELSE
@@ -610,7 +626,13 @@ ELSE
                 xShutdownForCancel := FALSE;
                 xShutdownForStop := FALSE;
                 eState := LINE_VALIDATE;
-            ELSIF xCancel OR xStop THEN
+            ELSIF (xCancel OR xStop) AND
+                  (NOT xHasAcceptedCommand OR
+                   (udiCommandSequence <>
+                    udiLastAcceptedCommandSequence)) THEN
+                udiLastAcceptedCommandSequence :=
+                    udiCommandSequence;
+                xHasAcceptedCommand := TRUE;
                 xActiveJobValid := FALSE;
                 IF xCancel THEN
                     uiResultCode := c_uiResultCancelled;
@@ -723,22 +745,33 @@ stLine.xManualMode := FALSE;
 stLine.xServiceMode := FALSE;
 stLine.xSimulationMode := FALSE;
 stLine.xActiveJobValid := xActiveJobValid;
-stLine.udiActiveJobId := stAcceptedJob.udiJobId;
-stLine.uiActiveRecipeId := stAcceptedJob.uiRecipeId;
-stLine.uiTargetSelectorOutlet :=
-    stAcceptedJob.uiTargetSelectorOutlet;
 stLine.uiCurrentSelectorOutlet := uiSelectorOutlet;
-stLine.xSelectorAtTarget :=
-    xSelectorInPosition AND
-    (uiSelectorOutlet =
-     stAcceptedJob.uiTargetSelectorOutlet);
-stLine.udiTargetFeedCentiKg :=
-    stAcceptedJob.udiTargetFeedCentiKg;
-stLine.udiElapsedTimeSec :=
-    F_ElapsedMs(udiCurrentTickMs := udiMonotonicTickMs,
-                udiStartTickMs := udiExecutionStartTickMs) /
-    1000;
 stLine.udiRemainingTimeSec := 0;
+
+IF xActiveJobValid THEN
+    stLine.udiActiveJobId := stAcceptedJob.udiJobId;
+    stLine.uiActiveRecipeId := stAcceptedJob.uiRecipeId;
+    stLine.uiTargetSelectorOutlet :=
+        stAcceptedJob.uiTargetSelectorOutlet;
+    stLine.xSelectorAtTarget :=
+        xSelectorInPosition AND
+        (uiSelectorOutlet =
+         stAcceptedJob.uiTargetSelectorOutlet);
+    stLine.udiTargetFeedCentiKg :=
+        stAcceptedJob.udiTargetFeedCentiKg;
+    stLine.udiElapsedTimeSec :=
+        F_ElapsedMs(udiCurrentTickMs := udiMonotonicTickMs,
+                    udiStartTickMs := udiExecutionStartTickMs) /
+        1000;
+ELSE
+    stLine.udiActiveJobId := 0;
+    stLine.uiActiveRecipeId := 0;
+    stLine.uiTargetSelectorOutlet := 0;
+    stLine.xSelectorAtTarget := FALSE;
+    stLine.udiTargetFeedCentiKg := 0;
+    stLine.udiDeliveredFeedCentiKg := 0;
+    stLine.udiElapsedTimeSec := 0;
+END_IF;
 stLine.xBlowerRunning := xBlowerRunning;
 stLine.xDosing1Running := xDosing1Running;
 stLine.xDosing2Running := xDosing2Running;
