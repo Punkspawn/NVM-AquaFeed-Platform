@@ -65,8 +65,8 @@ Authoritative classification manifest
 - `60_FB_Dosing.md` — AUTHORITATIVE
 - `FB_AlarmManager.md` — KEEP; authoritative bounded PLC alarm lifecycle
 - `Archive/Legacy/PLC/Function_Blocks/61_FB_AlarmManager.md` — ARCHIVED
-- `62_FB_RecoveryManager.md`
-- `63_FB_HealthMonitor.md`
+- `FB_RecoveryManager.md` — AUTHORITATIVE; former numbered draft archived
+- `FB_HealthMonitor.md` — AUTHORITATIVE bounded readiness; predictive scope excluded
 - `88_FB_DiagnosticsManager.md` — AUTHORITATIVE; bounded current PLC diagnostics only
 - `FB_SystemManager.md` — KEEP; authoritative consolidated PLC specification
 - `Archive/Legacy/PLC/Function_Blocks/90_FB_SystemManager_PlatformOrchestrator.md` — ARCHIVED
@@ -74,7 +74,7 @@ Authoritative classification manifest
 - `FB_TimeService.md` — AUTHORITATIVE monotonic control time; former `101_FB_TimeManager.md` archived
 - `102_FB_IOManager.md` — AUTHORITATIVE; deterministic process-image and output arbitration
 - `103_FB_MotionManager.md` — only if required by physical motion
-- `105_FB_SafetyManager.md`
+- `FB_SafetyCoordinator.md` — AUTHORITATIVE standard-PLC coordination; former SafetyManager archived
 - `106_FB_CIPManager.md` — only if CIP equipment is in scope
 - `107_FB_WaterManager.md` — only if physical equipment is in scope
 - `108_FB_AerationManager.md` — only if physical equipment is in scope
@@ -216,3 +216,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Diagnostics and IO | Normalized bounded structures, managers, interfaces, tests, safe output arbitration, and explicit Modbus diagnostic offsets; archived seven expanded drafts. |
 | 2026-07-25 | Selector, Blower, and Dosing | Normalized three core equipment state machines, integer-unit interfaces, safety/interlock behavior, and tests; archived 16 superseded sources. |
 | 2026-07-25 | Communication, Network, and Time | Replaced platform network/time managers with bounded channel supervision and monotonic PLC time; added interfaces, structures, tests, and 16 Modbus channel summaries. |
+| 2026-07-25 | Recovery, Health, and Safety | Defined restart-safe recovery, bounded readiness aggregation, and standard-PLC safety coordination; archived five expanded manager/test sources. |
