@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Responsibility | Deliver one bounded target quantity from the accepted recipe snapshot |
-| Version | 3.0 |
+| Version | 3.1 |
 
 ## State Machine
 
@@ -30,6 +30,12 @@
 - emit Complete as a one-scan event only after output is stopped and final delivered quantity is frozen
 - normal stop or fault never reports successful completion
 - publish validated delivered increments to the runtime counter; Desktop owns history and analytics
+
+## Implementation Inputs
+
+The importable implementation uses `ST_DosingConfig` and the monotonic millisecond tick for bounded quantity, calibration, speed, tolerance, rate, and timeout checks. Fault reset uses an idempotent reset sequence and cannot start a transaction.
+
+Pulse conversion avoids a wide multiplication by accumulating the integer quotient and remainder of centi-kilograms per 1000 pulses. Overflow is checked before addition; delivered quantity never wraps.
 
 ## Contracts
 
