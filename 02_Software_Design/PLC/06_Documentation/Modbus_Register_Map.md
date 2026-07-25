@@ -257,9 +257,27 @@ Permanent history is not mapped; Desktop persists lifecycle events.
 - unused record has DeviceId = 0
 - records are read-only; reset/configuration uses IF_MaintenanceCounter command/ack mapping added in reserved command space during implementation review
 
-## Diagnostics
+## Diagnostics — Offset 2200
 
-Offsets 2200–2399 remain reserved until ST_Diagnostics is normalized. Publishing an implicit compiler structure layout is prohibited.
+| Offset | Type | Field |
+|---:|---|---|
+| 2200 | WORD bitfield | Ready, Degraded, Fault, WatchdogHealthy, ConfigurationValid |
+| 2201 | UINT | HighestSeverity |
+| 2202 | UINT | ActiveDiagnosticCount |
+| 2203 | UINT | ActiveAlarmCount |
+| 2204 | UINT | InvalidDigitalCount |
+| 2205 | UINT | InvalidAnalogCount |
+| 2206 | UINT | OutputMismatchCount |
+| 2207 | UINT | OfflineChannelCount |
+| 2208 | UINT | LastDiagnosticCode |
+| 2209 | — | Reserved |
+| 2210–2211 | UDINT | ScanTimeUs |
+| 2212–2213 | UDINT | MaxScanTimeUs |
+| 2214–2215 | UDINT | ScanOverrunCount |
+| 2216–2217 | UDINT | DiagnosticOccurrenceCount |
+| 2218–2399 | — | Reserved |
+
+This is an explicit wire layout; it is not an implicit compiler serialization of `ST_Diagnostics`.
 
 ## Write Validation
 
