@@ -450,3 +450,28 @@ STRUCT
     uiResultCode : UINT;
 END_STRUCT;
 END_TYPE
+
+
+TYPE ST_CommunicationChannel :
+STRUCT
+    uiChannelId : UINT;
+    uiProfileId : UINT;
+    uiChannelType : UINT;
+    uiState : UINT;
+    xEnabled : BOOL;
+    xRequiredForControl : BOOL;
+    xReady : BOOL;
+    xFresh : BOOL;
+    xFault : BOOL;
+    udiLastRxTickMs : UDINT;
+    udiLastTxTickMs : UDINT;
+    udiLastAcceptedSequence : UDINT;
+    udiTxCount : UDINT;
+    udiRxCount : UDINT;
+    udiErrorCount : UDINT;
+    udiTimeoutCount : UDINT;
+    udiRetryCount : UDINT;
+    uiConsecutiveFailureCount : UINT;
+    uiDiagnosticCode : UINT;
+END_STRUCT;
+END_TYPE
