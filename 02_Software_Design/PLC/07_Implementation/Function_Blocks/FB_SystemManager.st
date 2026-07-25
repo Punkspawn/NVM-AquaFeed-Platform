@@ -155,7 +155,10 @@ stSystemStatus.SystemReady := xSystemReady;
 stSystemStatus.SystemRunning := eState = SYSTEM_RUNNING;
 stSystemStatus.SystemPaused := eState = SYSTEM_PAUSED;
 stSystemStatus.SystemStopped := xAllLinesStopped AND
-                                NOT xAnyLineRunning;
+                                NOT xAnyLineRunning AND
+                                (eState <> SYSTEM_RUNNING) AND
+                                (eState <> SYSTEM_PAUSED) AND
+                                (eState <> SYSTEM_STOPPING);
 stSystemStatus.AutoMode := xAutoModeValid;
 stSystemStatus.ManualMode := xManualRequest AND
                              (uiRequestedModeCount = 1);
