@@ -409,3 +409,44 @@ STRUCT
     uiActiveAlarmId : UINT;
 END_STRUCT;
 END_TYPE
+
+
+TYPE ST_RecoveryCheckpoint :
+STRUCT
+    uiCheckpointVersion : UINT;
+    stJob : ST_JobExecution;
+    stRecipe : ST_RecipeExecution;
+    udiDeliveredFeedCentiKg : UDINT;
+    udiLastAcceptedCommandSequence : UDINT;
+    uiInterruptionReason : UINT;
+    usiRetryCount : USINT;
+    xQuantityTrustworthy : BOOL;
+    xExecutionCompleted : BOOL;
+    xExecutionCancelled : BOOL;
+    uiPayloadCRC16 : UINT;
+END_STRUCT;
+END_TYPE
+
+TYPE ST_RecoveryStatus :
+STRUCT
+    eState : E_RecoveryState;
+    xSnapshotPresent : BOOL;
+    xSnapshotValid : BOOL;
+    xRecoveryAvailable : BOOL;
+    xApprovalRequired : BOOL;
+    xReadyToResume : BOOL;
+    xApprovedCheckpointValid : BOOL;
+    udiJobId : UDINT;
+    udiRecipeRevision : UDINT;
+    usiLineId : USINT;
+    uiOutletId : UINT;
+    udiTargetFeedCentiKg : UDINT;
+    udiDeliveredCentiKg : UDINT;
+    udiRemainingFeedCentiKg : UDINT;
+    usiRetryCount : USINT;
+    udiLastAcceptedCommandSequence : UDINT;
+    udiLastProcessedRecoverySequence : UDINT;
+    uiInterruptionReason : UINT;
+    uiResultCode : UINT;
+END_STRUCT;
+END_TYPE
