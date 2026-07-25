@@ -179,6 +179,7 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - Interface: `02_Software_Design/PLC/04_Interfaces/IF_Alarm.md`
 - Catalog: `02_Software_Design/PLC/06_Documentation/Alarm_Catalog.md`
 - Desktop owns persistent history, users, timestamps, localized text, recommended actions, analytics, and notifications.
+- Current execution boundary: 32 condition updates per scan, 64 active records, and 128 oldest-first pending events with exact sequence acknowledgement.
 
 
 ## Authoritative Communication Map
