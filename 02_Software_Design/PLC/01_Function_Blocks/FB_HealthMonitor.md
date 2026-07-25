@@ -5,26 +5,35 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Responsibility | Bounded current readiness/degradation aggregation |
-| Version | 3.0 |
+| Version | 3.1 |
 
 ## Purpose
 
-Aggregates explicit current status from System, IO, diagnostics, communication, safety coordination, lines, and core equipment.
+Aggregates explicit current status from System, Safety, IO, Diagnostics, required field communication, Desktop communication, configuration, Selector, Blower, and Dosing.
 
-It does not calculate a health score, trend, prediction, maintenance plan, report, fleet comparison, root cause, or historical KPI.
+It does not calculate a score, trend, prediction, maintenance plan, root cause, or history.
 
-## Rules
+## Decision Policy
 
-- fixed inputs and bounded loops only
-- readiness is derived from documented Boolean/severity rules
-- a blocking condition makes `xReadyForNewJob` false
-- a degraded non-blocking condition may permit the current accepted job to continue
-- Desktop communication loss blocks new transfers but does not by itself stop a healthy active job
-- safety loss always removes standard-control permits
-- missing required VFD/IO feedback is blocking for its owning equipment
-- HealthMonitor never commands outputs or clears alarms/faults
-- current status clears with its source condition; occurrence/history remains owned elsewhere
+Blocking priority is deterministic: Safety, Configuration, IO, System, required field communication, Selector, Blower, Dosing, then Diagnostics.
+
+- any blocking condition removes both new-job readiness and current-job continuation
+- Desktop communication loss blocks only new-job readiness
+- a non-blocking diagnostic condition marks Degraded but permits operation
+- equipment health inputs apply to the currently assigned execution path
+- Safety failure publishes severity 40; other blocking failures publish severity 30
+- Desktop loss or non-blocking diagnostics publish severity 20
+- transition sequence saturates and advances only when a material published field changes
+- the initial snapshot does not emit a transition event
+- HealthMonitor never commands outputs or clears source conditions
 
 ## Output
 
-One `ST_HealthStatus` snapshot and a one-scan health-transition event for diagnostics/history transfer.
+One `ST_HealthStatus` snapshot and a one-scan material-transition event.
+
+## Revision History
+
+| Version | Date | Description |
+|---|---|---|
+| 3.0 | 2026-07-25 | Normalized bounded health ownership. |
+| 3.1 | 2026-07-26 | Closed explicit inputs, blocking priority, severity, and transition semantics. |
