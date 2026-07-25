@@ -5,7 +5,13 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Responsibility | Control one blower through a validated VFD channel |
-| Version | 3.0 |
+| Version | 3.1 |
+
+## Hardware Baseline
+
+The current release is commissioned for a panel-mounted 22 kW, 380–480 V Delta C2000 Plus driving a TMM blower. The final order code and operating limits are selected from the motor/blower nameplates.
+
+This Function Block remains vendor-independent. A separate approved communication profile converts C2000 Plus registers and control words to the normalized `IF_Blower` signals.
 
 ## State Machine
 
