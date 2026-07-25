@@ -132,8 +132,17 @@ ELSE
                 FOR iOutlet := 1 TO 64 DO
                     IF (iOutlet <= UINT_TO_INT(stConfig.uiOutletCount)) AND
                        stConfig.axOutletCalibrated[iOutlet] AND
-                       (ABS(diPosition - stConfig.adiOutletPosition[iOutlet]) <=
-                        stConfig.diPositionTolerance) THEN
+                       (((stConfig.eTravelMode = SelectorLinearLimited) AND
+                         (ABS(diPosition -
+                              stConfig.adiOutletPosition[iOutlet]) <=
+                          stConfig.diPositionTolerance)) OR
+                        ((stConfig.eTravelMode = SelectorCyclic360) AND
+                         (F_CyclicDistance(
+                              diCurrentPosition := diPosition,
+                              diTargetPosition :=
+                                  stConfig.adiOutletPosition[iOutlet],
+                              diCycleLength := stConfig.diCycleLength) <=
+                          stConfig.diPositionTolerance))) THEN
                         uiCurrentOutlet := INT_TO_UINT(iOutlet);
                         uiPositionMatchCount := uiPositionMatchCount + 1;
                     END_IF;
@@ -202,7 +211,12 @@ ELSE
 
                 IF xTargetValid THEN
                     iTargetOutlet := UINT_TO_INT(uiTargetOutlet);
-                    xTargetValid := stConfig.axOutletCalibrated[iTargetOutlet];
+                    xTargetValid :=
+                        stConfig.axOutletCalibrated[iTargetOutlet] AND
+                        (stConfig.adiOutletPosition[iTargetOutlet] >=
+                         stConfig.diAnalogMinimum) AND
+                        (stConfig.adiOutletPosition[iTargetOutlet] <=
+                         stConfig.diAnalogMaximum);
                 END_IF;
 
                 IF NOT xTargetValid THEN
