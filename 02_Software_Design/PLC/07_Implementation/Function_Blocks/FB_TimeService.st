@@ -15,6 +15,7 @@ END_VAR
 VAR
     xInitialized : BOOL;
     xPreviousSyncRequest : BOOL;
+    xHasAcceptedSync : BOOL;
     udiPreviousRuntimeTickMs : UDINT;
     udiAccumulatedMs : UDINT;
     udiDeltaMs : UDINT;
@@ -37,6 +38,11 @@ IF NOT xInitialized THEN
     udiPreviousRuntimeTickMs := udiRuntimeTickMs;
     stTime.udiMonotonicTickMs := udiRuntimeTickMs;
     stTime.xMonotonicHealthy := xRuntimeTickHealthy;
+
+    IF NOT xRuntimeTickHealthy THEN
+        stTime.uiTimeDiagnosticCode := c_uiDiagnosticMonotonicUnhealthy;
+    END_IF;
+
     xInitialized := TRUE;
 ELSE
     IF udiRuntimeTickMs >= udiPreviousRuntimeTickMs THEN
@@ -50,7 +56,12 @@ ELSE
     stTime.xMonotonicHealthy := xRuntimeTickHealthy;
 
     IF xRuntimeTickHealthy THEN
-        udiAccumulatedMs := udiAccumulatedMs + udiDeltaMs;
+        IF udiDeltaMs > (c_udiCounterMaximum - udiAccumulatedMs) THEN
+            udiAccumulatedMs := c_udiCounterMaximum;
+        ELSE
+            udiAccumulatedMs := udiAccumulatedMs + udiDeltaMs;
+        END_IF;
+
         udiElapsedSeconds := udiAccumulatedMs / 1000;
 
         IF udiElapsedSeconds > 0 THEN
@@ -75,7 +86,7 @@ ELSE
 END_IF;
 
 IF xSyncRequest AND NOT xPreviousSyncRequest THEN
-    IF udiSyncSequence = stTime.udiLastAcceptedSyncSequence THEN
+    IF xHasAcceptedSync AND (udiSyncSequence = stTime.udiLastAcceptedSyncSequence) THEN
         xSyncRejected := TRUE;
         uiResultCode := c_uiResultSyncReplay;
     ELSIF (dtObservedUtc < DT#2020-01-01-00:00:00) OR
@@ -86,6 +97,7 @@ IF xSyncRequest AND NOT xPreviousSyncRequest THEN
         stTime.dtObservedUtc := dtObservedUtc;
         stTime.udiLastAcceptedSyncSequence := udiSyncSequence;
         stTime.xWallClockValid := TRUE;
+        xHasAcceptedSync := TRUE;
         xSyncAccepted := TRUE;
     END_IF;
 END_IF;
