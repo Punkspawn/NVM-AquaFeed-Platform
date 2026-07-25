@@ -29,6 +29,7 @@ VAR CONSTANT
     c_uiDiagnosticSafetyInhibit : UINT := 13;
     c_uiDiagnosticPermissionInhibit : UINT := 14;
     c_uiDiagnosticForceRejected : UINT := 15;
+    c_uiDiagnosticForceConfigurationMissing : UINT := 16;
 END_VAR
 
 (* Inputs are copied once to create the immutable application snapshot. *)
@@ -79,7 +80,11 @@ ELSIF NOT xSafetyOK THEN
 ELSIF NOT xOutputsPermitted THEN
     uiDiagnosticCode := c_uiDiagnosticPermissionInhibit;
 ELSIF stRequestedOutputs.xForceActive THEN
-    uiDiagnosticCode := c_uiDiagnosticForceRejected;
+    IF xCommissioningMode THEN
+        uiDiagnosticCode := c_uiDiagnosticForceConfigurationMissing;
+    ELSE
+        uiDiagnosticCode := c_uiDiagnosticForceRejected;
+    END_IF;
 END_IF;
 
 (* FALSE and zero are the current approved baseline safe image.
