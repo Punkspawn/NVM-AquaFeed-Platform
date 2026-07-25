@@ -9,12 +9,9 @@ This directory contains importable IEC 61131-3 Structured Text sources.
 - six feeding lines
 - one Selector, one Blower, and two Dosing units per line
 
-## Import Order
+## Import and Compile Gate
 
-1. `Types/AquaFeed_CoreTypes.st`
-2. `Globals/GVL_AquaFeed.st`
-3. Function Blocks as they are implemented
-4. `Programs/PRG_AquaFeedMain.st`
+Use [VENDOR_COMPILE_GATE.md](VENDOR_COMPILE_GATE.md) for the exact twelve-source import order, isolated compile sequence, ISPSoft syntax checks, one-line bench prerequisites, six-line composition gate, and commissioning stop conditions.
 
 ## Implemented Function Blocks
 
