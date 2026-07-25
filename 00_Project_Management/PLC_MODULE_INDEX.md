@@ -86,6 +86,7 @@ These concepts belong to Integration / Edge:
 - `ST_Device`
 - `ST_Alarm` — active bounded alarm state only
 - `ST_Line`
+- `ST_LineConfig` — static approved line/equipment bounds
 - `ST_Runtime` — authoritative retentive lifetime counters
 - `ST_MaintenanceCounter` — per-device runtime service threshold
 - `ST_SystemStatus`
@@ -154,6 +155,7 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 
 - State enum: `02_Software_Design/PLC/02_Structures/E_LineState.md`
 - Realtime snapshot: `02_Software_Design/PLC/02_Structures/ST_Line.md`
+- Static bounds: `02_Software_Design/PLC/02_Structures/ST_LineConfig.md`
 - Command, feedback, equipment-request, and status interface: `02_Software_Design/PLC/04_Interfaces/IF_Line.md`
 - Execution transfer: `ST_JobExecution.md`, `ST_RecipeExecution.md`, and `IF_ExecutionTransfer.md` are authoritative.
 - Realtime units are centi-kilograms, permille, and centi-Hz; current jobs select one Dosing unit (`16#01` or `16#02`).
