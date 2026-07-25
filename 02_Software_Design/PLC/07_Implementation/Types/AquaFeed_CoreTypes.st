@@ -37,6 +37,94 @@ STRUCT
 END_STRUCT;
 END_TYPE
 
+TYPE E_AlarmSeverity :
+(
+    ALARM_INFORMATION := 0,
+    ALARM_WARNING := 10,
+    ALARM_FAULT := 20,
+    ALARM_CRITICAL := 30,
+    ALARM_EMERGENCY := 40
+);
+END_TYPE
+
+TYPE E_AlarmSource :
+(
+    ALARM_SOURCE_SYSTEM := 0,
+    ALARM_SOURCE_SAFETY := 10,
+    ALARM_SOURCE_IO := 20,
+    ALARM_SOURCE_COMMUNICATION := 30,
+    ALARM_SOURCE_LINE := 40,
+    ALARM_SOURCE_SELECTOR := 50,
+    ALARM_SOURCE_BLOWER := 60,
+    ALARM_SOURCE_DOSING := 70,
+    ALARM_SOURCE_POWER := 80,
+    ALARM_SOURCE_AUXILIARY := 90
+);
+END_TYPE
+
+TYPE E_AlarmState :
+(
+    ALARM_INACTIVE := 0,
+    ALARM_ACTIVE_UNACKNOWLEDGED := 10,
+    ALARM_ACTIVE_ACKNOWLEDGED := 20,
+    ALARM_CLEARED_WAIT_RESET := 30
+);
+END_TYPE
+
+TYPE E_AlarmEventType :
+(
+    ALARM_EVENT_ACTIVATED := 10,
+    ALARM_EVENT_ACKNOWLEDGED := 20,
+    ALARM_EVENT_CLEARED := 30,
+    ALARM_EVENT_RESET := 40
+);
+END_TYPE
+
+TYPE ST_AlarmCondition :
+STRUCT
+    Valid : BOOL;
+    ConditionActive : BOOL;
+    AlarmCode : UINT;
+    Source : E_AlarmSource;
+    Severity : E_AlarmSeverity;
+    LineId : USINT;
+    DeviceId : UINT;
+    ResetRequired : BOOL;
+    Blocking : BOOL;
+END_STRUCT;
+END_TYPE
+
+TYPE ST_Alarm :
+STRUCT
+    AlarmCode : UINT;
+    Source : E_AlarmSource;
+    Severity : E_AlarmSeverity;
+    State : E_AlarmState;
+    LineId : USINT;
+    DeviceId : UINT;
+    ConditionActive : BOOL;
+    Acknowledged : BOOL;
+    ResetRequired : BOOL;
+    Blocking : BOOL;
+    ActivationSequence : UDINT;
+    EventSequence : UDINT;
+    OccurrenceCount : UINT;
+END_STRUCT;
+END_TYPE
+
+TYPE ST_AlarmEvent :
+STRUCT
+    EventSequence : UDINT;
+    EventType : E_AlarmEventType;
+    AlarmCode : UINT;
+    Source : E_AlarmSource;
+    Severity : E_AlarmSeverity;
+    State : E_AlarmState;
+    LineId : USINT;
+    DeviceId : UINT;
+END_STRUCT;
+END_TYPE
+
 TYPE E_LineState :
 (
     LINE_OFF := 0,
