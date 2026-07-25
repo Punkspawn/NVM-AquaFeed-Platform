@@ -77,7 +77,7 @@ Authoritative classification manifest
 - `108_FB_AerationManager.md` — only if physical equipment is in scope
 - `109_FB_OxygenManager.md` — only if physical equipment is in scope
 - `110_FB_FeedingControlManager.md` — merge into Line Manager unless separate responsibility is proven
-- `FB_DeviceManager.md` — authoritative new runtime design
+- `FB_DeviceManager.md` — KEEP; authoritative PLC runtime design
 
 ### Merge then archive source
 
@@ -91,7 +91,7 @@ Authoritative classification manifest
 - `89_FB_UpdateManager.md` — move delivery to Edge; retain safe activation rules if needed
 - `95_FB_IntegrationManager.md`
 - `97_FB_EdgeManager.md`
-- `98_FB_DeviceManager.md` — legacy asset registry; conflicts with authoritative Device Manager
+- `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md` — ARCHIVED; non-authoritative Desktop/Edge concept source
 - `99_FB_FirmwareManager.md`
 
 ### Move to Desktop
@@ -199,3 +199,10 @@ The eight `FN_*.md` files are software functions, not hardware artifacts.
 ## Execution Rule
 
 A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration is completed and linked from the relevant index.
+
+
+## Completed Migrations
+
+| Date | Source | Result |
+|---|---|---|
+| 2026-07-25 | `PLC/01_Function_Blocks/98_FB_DeviceManager.md` | Archived as `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md`; authoritative PLC document remains `FB_DeviceManager.md`. |
