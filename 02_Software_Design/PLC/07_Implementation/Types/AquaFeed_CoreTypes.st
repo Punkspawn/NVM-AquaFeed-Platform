@@ -133,16 +133,27 @@ STRUCT
 END_STRUCT;
 END_TYPE
 
+TYPE E_SelectorTravelMode :
+(
+    SelectorLinearLimited := 0,
+    SelectorCyclic360 := 1
+);
+END_TYPE
+
 TYPE ST_SelectorConfig :
 STRUCT
+    eTravelMode : E_SelectorTravelMode;
     uiOutletCount : UINT;
-    adiOutletPosition : ARRAY[1..12] OF DINT;
-    axOutletCalibrated : ARRAY[1..12] OF BOOL;
+    adiOutletPosition : ARRAY[1..64] OF DINT;
+    axOutletCalibrated : ARRAY[1..64] OF BOOL;
     diPositionTolerance : DINT;
     diAnalogMinimum : DINT;
     diAnalogMaximum : DINT;
+    diCycleLength : DINT;
     udiSettleTimeMs : UDINT;
     udiMoveTimeoutMs : UDINT;
+    xLimitsEnabled : BOOL;
+    xAbsolutePositionFeedback : BOOL;
     xReverseDirection : BOOL;
 END_STRUCT;
 END_TYPE
