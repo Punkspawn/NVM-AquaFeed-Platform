@@ -1,3 +1,12 @@
+# Legacy PLC LineManager Specification
+
+> **Status:** Legacy / Superseded  
+> **Former path:** `02_Software_Design/PLC/01_Function_Blocks/57_FB_LineManager.md`  
+> **Reason archived:** Realtime sequencing was mixed with queue, history, statistics, maintenance, and Smart Farm responsibilities.  
+> **Replacement:** `02_Software_Design/PLC/01_Function_Blocks/FB_LineManager.md`
+
+---
+
 # FB_LineManager
 
 Document ID : AQ-FB-057

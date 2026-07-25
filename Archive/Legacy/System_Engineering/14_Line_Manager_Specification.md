@@ -1,3 +1,12 @@
+# Legacy Line Manager System Specification
+
+> **Status:** Legacy / Superseded  
+> **Former path:** `01_System_Engineering/14_Line_Manager_Specification.md`  
+> **Reason archived:** Useful machine sequence consolidated into the authoritative PLC LineManager; history and Smart Farm responsibilities moved to Desktop.  
+> **Replacement:** `02_Software_Design/PLC/01_Function_Blocks/FB_LineManager.md`
+
+---
+
 # 14_Line_Manager_Specification.md
 
 # NVM AquaFeed Platform

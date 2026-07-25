@@ -9,7 +9,7 @@ Authoritative scope index
 | Module | Status | Primary responsibility |
 |---|---|---|
 | `FB_SystemManager` | AUTHORITATIVE | Global PLC lifecycle, operating mode, readiness, and realtime system state |
-| `FB_LineManager` | MERGE REQUIRED | One feeding line and active mission sequence |
+| `FB_LineManager` | AUTHORITATIVE | Deterministic execution of one active feeding job on one physical line |
 | `FB_Selector` | KEEP / NORMALIZE | Selector positioning and local diagnostics |
 | `FB_Blower` | KEEP / NORMALIZE | Blower/VFD sequence and local diagnostics |
 | `FB_Dosing` | KEEP / NORMALIZE | Dosing sequence, calibration, feed delivery |
@@ -114,3 +114,11 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - Realtime snapshot: `02_Software_Design/PLC/02_Structures/ST_SystemStatus.md`
 - Command and status interface: `02_Software_Design/PLC/04_Interfaces/IF_System.md`
 - Archived duplicate: `Archive/Legacy/PLC/Interfaces/IF_SystemStatus.md`
+
+
+### FB_LineManager
+
+- Authoritative PLC document: `02_Software_Design/PLC/01_Function_Blocks/FB_LineManager.md`
+- Archived sources: `Archive/Legacy/PLC/Function_Blocks/57_FB_LineManager.md`, `Archive/Legacy/System_Engineering/14_Line_Manager_Specification.md`, and `Archive/Legacy/System_Engineering/74_FB_LineManager_State_Machine.md`
+- Resolution: PLC owns one immutable active-job execution snapshot and equipment coordination. Desktop owns job queues, scheduling, history, statistics, and Smart Farm updates.
+- Follow-up: define `E_LineState`, normalize `ST_Line`, and consolidate `IF_Line` with the authoritative state sequence.

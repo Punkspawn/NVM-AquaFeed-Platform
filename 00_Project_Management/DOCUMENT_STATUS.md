@@ -58,7 +58,8 @@ Authoritative classification manifest
 
 ### Keep and normalize
 
-- `57_FB_LineManager.md`
+- `FB_LineManager.md` — KEEP; authoritative consolidated PLC specification
+- `Archive/Legacy/PLC/Function_Blocks/57_FB_LineManager.md` — ARCHIVED
 - `58_FB_Selector.md`
 - `59_FB_Blower.md`
 - `60_FB_Dosing.md`
@@ -212,3 +213,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | `PLC/01_Function_Blocks/90_FB_SystemManager.md` and `01_System_Engineering/56_FB_System_Manager.md` | Consolidated into authoritative `PLC/01_Function_Blocks/FB_SystemManager.md`; both sources archived. |
 | 2026-07-25 | `PLC/04_Interfaces/IF_SystemStatus.md` | Consolidated into authoritative `IF_System.md`; former interface archived. |
 | 2026-07-25 | `ST_SystemStatus.md` | Normalized as bounded realtime PLC snapshot; `E_SystemState.md` added. |
+| 2026-07-25 | Three LineManager source documents | Consolidated into authoritative `PLC/01_Function_Blocks/FB_LineManager.md`; sources archived without content loss. |

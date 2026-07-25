@@ -1,3 +1,12 @@
+# Legacy LineManager State Machine Summary
+
+> **Status:** Legacy / Superseded  
+> **Former path:** `01_System_Engineering/74_FB_LineManager_State_Machine.md`  
+> **Reason archived:** State summary consolidated into the authoritative PLC LineManager specification.  
+> **Replacement:** `02_Software_Design/PLC/01_Function_Blocks/FB_LineManager.md`
+
+---
+
 # 74_FB_LineManager_State_Machine.md
 
 # NVM AquaFeed Platform
