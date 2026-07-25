@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | Desktop–PLC integration boundary |
 | Direction | Desktop to PLC request; PLC to Desktop acknowledgement |
-| Version | 1.1 |
+| Version | 1.2 |
 
 ## Purpose
 
@@ -45,6 +45,12 @@ PLC accepts only when:
 - all quantities, integer-unit setpoints, timings, positions, masks, and policies are within engineering limits
 - current-release Dosing mask selects exactly one unit: `16#01` or `16#02`
 - target line and required equipment configuration are compatible
+
+## Integrity Handoff
+
+The transfer owner validates both candidate CRC values and presents the combined result to LineManager as `xCandidateIntegrityValid`. LineManager does not recalculate CRCs; it accepts or rejects the already bounded atomic pair and copies accepted values into private storage.
+
+Every processed `udiTransferSequence`, accepted or rejected, is idempotent. Changed payload requires a new sequence.
 
 ## Handshake
 
@@ -90,3 +96,10 @@ PLC clears one-scan event
 - [ST_RecipeExecution](../02_Structures/ST_RecipeExecution.md)
 - [IF_Line](IF_Line.md)
 - [FB_LineManager](../01_Function_Blocks/FB_LineManager.md)
+
+## Revision History
+
+| Version | Date | Description |
+|---|---|---|
+| 1.1 | 2026-07-26 | Normalized the atomic execution transfer contract. |
+| 1.2 | 2026-07-26 | Assigned CRC validation to the transfer owner and defined the LineManager integrity input. |
