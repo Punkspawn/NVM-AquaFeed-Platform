@@ -38,6 +38,9 @@ VAR
     xHasAcceptedCommand : BOOL;
     xHasAcceptedReset : BOOL;
     diPositionError : DINT;
+    diForwardDistance : DINT;
+    diReverseDistance : DINT;
+    diDistanceToTarget : DINT;
     iOutlet : INT;
     iTargetOutlet : INT;
     uiPositionMatchCount : UINT;
@@ -66,12 +69,24 @@ xMoving := FALSE;
 xInPosition := FALSE;
 
 xConfigValid := (stConfig.uiOutletCount >= 1) AND
-                (stConfig.uiOutletCount <= 12) AND
+                (stConfig.uiOutletCount <= 64) AND
                 (stConfig.diPositionTolerance > 0) AND
                 (stConfig.diAnalogMinimum < stConfig.diAnalogMaximum) AND
                 (stConfig.udiSettleTimeMs > 0) AND
                 (stConfig.udiMoveTimeoutMs > 0) AND
                 stConfig.axOutletCalibrated[1];
+
+IF stConfig.eTravelMode = SelectorLinearLimited THEN
+    xConfigValid := xConfigValid AND stConfig.xLimitsEnabled;
+ELSIF stConfig.eTravelMode = SelectorCyclic360 THEN
+    xConfigValid := xConfigValid AND
+                    stConfig.xAbsolutePositionFeedback AND
+                    (stConfig.diCycleLength > (2 * stConfig.diPositionTolerance)) AND
+                    (stConfig.diAnalogMinimum = 0) AND
+                    (stConfig.diAnalogMaximum = (stConfig.diCycleLength - 1));
+ELSE
+    xConfigValid := FALSE;
+END_IF;
 
 IF NOT xEnable THEN
     eState := SelectorDisabled;
@@ -81,7 +96,8 @@ ELSIF NOT xSafetyOK THEN
     eState := SelectorFault;
     uiCurrentOutlet := 0;
     uiDiagnosticCode := c_uiDiagnosticSafety;
-ELSIF xLeftLimit AND xRightLimit THEN
+ELSIF (stConfig.eTravelMode = SelectorLinearLimited) AND
+      stConfig.xLimitsEnabled AND xLeftLimit AND xRightLimit THEN
     eState := SelectorFault;
     uiCurrentOutlet := 0;
     uiDiagnosticCode := c_uiDiagnosticFeedback;
@@ -113,7 +129,7 @@ ELSE
             ELSE
                 uiPositionMatchCount := 0;
 
-                FOR iOutlet := 1 TO 12 DO
+                FOR iOutlet := 1 TO 64 DO
                     IF (iOutlet <= UINT_TO_INT(stConfig.uiOutletCount)) AND
                        stConfig.axOutletCalibrated[iOutlet] AND
                        (ABS(diPosition - stConfig.adiOutletPosition[iOutlet]) <=
@@ -147,6 +163,11 @@ ELSE
             IF NOT xPositionValid THEN
                 eState := SelectorFault;
                 uiDiagnosticCode := c_uiDiagnosticPosition;
+            ELSIF stConfig.eTravelMode = SelectorCyclic360 THEN
+                diLatchedTargetPosition := stConfig.adiOutletPosition[1];
+                uiLatchedTargetOutlet := 1;
+                udiMoveStartTickMs := udiMonotonicTickMs;
+                eState := SelectorMoving;
             ELSIF xLeftLimit THEN
                 diLatchedTargetPosition := stConfig.adiOutletPosition[1];
                 uiLatchedTargetOutlet := 1;
@@ -206,9 +227,32 @@ ELSE
                 eState := SelectorFault;
                 uiDiagnosticCode := c_uiDiagnosticPosition;
             ELSE
-                diPositionError := diLatchedTargetPosition - diPosition;
+                IF stConfig.eTravelMode = SelectorCyclic360 THEN
+                    diDistanceToTarget := F_CyclicDistance(
+                        diCurrentPosition := diPosition,
+                        diTargetPosition := diLatchedTargetPosition,
+                        diCycleLength := stConfig.diCycleLength);
 
-                IF ABS(diPositionError) <= stConfig.diPositionTolerance THEN
+                    diForwardDistance := diLatchedTargetPosition - diPosition;
+                    IF diForwardDistance < 0 THEN
+                        diForwardDistance := diForwardDistance +
+                                             stConfig.diCycleLength;
+                    END_IF;
+
+                    diReverseDistance := diPosition - diLatchedTargetPosition;
+                    IF diReverseDistance < 0 THEN
+                        diReverseDistance := diReverseDistance +
+                                             stConfig.diCycleLength;
+                    END_IF;
+
+                    xLogicalLeft := diReverseDistance < diForwardDistance;
+                ELSE
+                    diPositionError := diLatchedTargetPosition - diPosition;
+                    diDistanceToTarget := ABS(diPositionError);
+                    xLogicalLeft := diPositionError < 0;
+                END_IF;
+
+                IF diDistanceToTarget <= stConfig.diPositionTolerance THEN
                     udiSettleStartTickMs := udiMonotonicTickMs;
                     eState := SelectorSettling;
                 ELSIF F_ElapsedMs(udiCurrentTickMs := udiMonotonicTickMs,
@@ -217,12 +261,14 @@ ELSE
                     eState := SelectorFault;
                     uiDiagnosticCode := c_uiDiagnosticTimeout;
                 ELSE
-                    xLogicalLeft := diPositionError < 0;
-
-                    IF xLogicalLeft AND xLeftLimit THEN
+                    IF (stConfig.eTravelMode = SelectorLinearLimited) AND
+                       stConfig.xLimitsEnabled AND
+                       xLogicalLeft AND xLeftLimit THEN
                         eState := SelectorFault;
                         uiDiagnosticCode := c_uiDiagnosticLeftLimit;
-                    ELSIF NOT xLogicalLeft AND xRightLimit THEN
+                    ELSIF (stConfig.eTravelMode = SelectorLinearLimited) AND
+                          stConfig.xLimitsEnabled AND
+                          NOT xLogicalLeft AND xRightLimit THEN
                         eState := SelectorFault;
                         uiDiagnosticCode := c_uiDiagnosticRightLimit;
                     ELSIF xLogicalLeft THEN
@@ -242,8 +288,15 @@ ELSE
             ELSIF NOT xPositionValid THEN
                 eState := SelectorFault;
                 uiDiagnosticCode := c_uiDiagnosticPosition;
-            ELSIF ABS(diPosition - diLatchedTargetPosition) >
-                  stConfig.diPositionTolerance THEN
+            ELSIF ((stConfig.eTravelMode = SelectorLinearLimited) AND
+                   (ABS(diPosition - diLatchedTargetPosition) >
+                    stConfig.diPositionTolerance)) OR
+                  ((stConfig.eTravelMode = SelectorCyclic360) AND
+                   (F_CyclicDistance(
+                        diCurrentPosition := diPosition,
+                        diTargetPosition := diLatchedTargetPosition,
+                        diCycleLength := stConfig.diCycleLength) >
+                    stConfig.diPositionTolerance)) THEN
                 udiMoveStartTickMs := udiMonotonicTickMs;
                 eState := SelectorMoving;
             ELSIF F_ElapsedMs(udiCurrentTickMs := udiMonotonicTickMs,
