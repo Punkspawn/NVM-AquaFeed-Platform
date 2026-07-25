@@ -4,6 +4,7 @@ VAR_INPUT
     xRunRequest : BOOL;
     xNormalStopRequest : BOOL;
     uiTargetFreqCentiHz : UINT;
+    udiRequestedPostRunTimeMs : UDINT;
     udiCommandSequence : UDINT;
     udiResetSequence : UDINT;
     xSafetyOK : BOOL;
@@ -29,6 +30,7 @@ VAR_OUTPUT
 END_VAR
 VAR
     uiLatchedFreqCentiHz : UINT;
+    udiLatchedPostRunTimeMs : UDINT;
     udiStateStartTickMs : UDINT;
     udiStableStartTickMs : UDINT;
     udiFeedbackLossStartTickMs : UDINT;
@@ -120,12 +122,21 @@ ELSE
                 IF (uiTargetFreqCentiHz <
                     stConfig.uiMinimumFreqCentiHz) OR
                    (uiTargetFreqCentiHz >
-                    stConfig.uiMaximumFreqCentiHz) THEN
+                    stConfig.uiMaximumFreqCentiHz) OR
+                   (udiRequestedPostRunTimeMs >
+                    stConfig.udiMaximumPostRunTimeMs) THEN
                     uiDiagnosticCode := c_uiDiagnosticFrequencyRange;
                 ELSIF NOT xDriveReady THEN
                     uiDiagnosticCode := c_uiDiagnosticDriveNotReady;
                 ELSE
                     uiLatchedFreqCentiHz := uiTargetFreqCentiHz;
+                    IF udiRequestedPostRunTimeMs > 0 THEN
+                        udiLatchedPostRunTimeMs :=
+                            udiRequestedPostRunTimeMs;
+                    ELSE
+                        udiLatchedPostRunTimeMs :=
+                            stConfig.udiPostRunTimeMs;
+                    END_IF;
                     udiStateStartTickMs := udiMonotonicTickMs;
                     xStableTimerActive := FALSE;
                     xFeedbackLossTimerActive := FALSE;
@@ -215,12 +226,7 @@ ELSE
 
             IF F_ElapsedMs(udiCurrentTickMs := udiMonotonicTickMs,
                            udiStartTickMs := udiStateStartTickMs) >=
-               stConfig.udiMaximumPostRunTimeMs THEN
-                eState := BlowerFault;
-                uiDiagnosticCode := c_uiDiagnosticPostRunTimeout;
-            ELSIF F_ElapsedMs(udiCurrentTickMs := udiMonotonicTickMs,
-                             udiStartTickMs := udiStateStartTickMs) >=
-                  stConfig.udiPostRunTimeMs THEN
+               udiLatchedPostRunTimeMs THEN
                 udiStateStartTickMs := udiMonotonicTickMs;
                 eState := BlowerStopping;
             END_IF;
