@@ -31,6 +31,7 @@ Classify and consolidate accumulated engineering documents before implementation
 - Communication, channel supervision, and monotonic PLC time normalized; platform network/NTP responsibilities removed from PLC.
 - Recovery, bounded health aggregation, and standard-PLC safety coordination normalized with fail-closed restart prevention.
 - Optional physical module scope classified under `AD-004`: Motion excluded as duplicate; CIP, Water, Aeration, and Oxygen retained as future options outside the current release.
+- Remaining mixed managers removed from active PLC scope; service mode reduced to a fail-closed permission contract without duplicate control or platform services.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -45,5 +46,4 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Normalize remaining mixed managers and service interfaces.
-2. Resume PLC implementation contracts.
+1. Resume PLC implementation contracts.
