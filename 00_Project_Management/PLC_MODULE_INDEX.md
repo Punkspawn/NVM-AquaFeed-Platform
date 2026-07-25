@@ -14,7 +14,7 @@ Authoritative scope index
 | `FB_Blower` | KEEP / NORMALIZE | Blower/VFD sequence and local diagnostics |
 | `FB_Dosing` | KEEP / NORMALIZE | Dosing sequence, calibration, feed delivery |
 | `FB_DeviceManager` | AUTHORITATIVE | One physical device runtime state; owns one `ST_Device` |
-| `FB_AlarmManager` | MERGE REQUIRED | Active alarms, priorities, acknowledgement/reset rules |
+| `FB_AlarmManager` | AUTHORITATIVE | Bounded active lifecycle, priority summaries, acknowledgement/reset, and Desktop event handshake |
 | `FB_RecoveryManager` | KEEP / NORMALIZE | Deterministic recovery sequences |
 | `FB_CommunicationManager` | DESIGN REQUIRED | Modbus exchange and communication supervision |
 | `FB_IOManager` | KEEP / NORMALIZE | IO acquisition, validation, and output application |
@@ -139,3 +139,13 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - PLC job snapshot: `02_Software_Design/PLC/02_Structures/ST_JobExecution.md`
 - PLC recipe snapshot: `02_Software_Design/PLC/02_Structures/ST_RecipeExecution.md`
 - Atomic transfer handshake: `02_Software_Design/PLC/04_Interfaces/IF_ExecutionTransfer.md`
+
+
+### FB_AlarmManager
+
+- Authoritative manager: `02_Software_Design/PLC/01_Function_Blocks/FB_AlarmManager.md`
+- Active record: `02_Software_Design/PLC/02_Structures/ST_Alarm.md`
+- Enums: `E_AlarmSeverity.md`, `E_AlarmSource.md`, `E_AlarmState.md`
+- Interface: `02_Software_Design/PLC/04_Interfaces/IF_Alarm.md`
+- Catalog: `02_Software_Design/PLC/06_Documentation/Alarm_Catalog.md`
+- Desktop owns persistent history, users, timestamps, localized text, recommended actions, analytics, and notifications.
