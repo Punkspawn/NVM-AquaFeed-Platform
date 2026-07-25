@@ -4,24 +4,19 @@
 |---|---|
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
-| Version | 2.0 |
+| Version | 2.1 |
 
 ## Purpose
 
 Defines the standard condition-reporting and lifecycle-command boundary between alarm source modules, AlarmManager, and Desktop/HMI.
 
-## Source Module to AlarmManager
+## Source Modules to AlarmManager
 
 | Name | Type | Description |
 |---|---|---|
-| `xConditionActive` | BOOL | Physical or logical alarm condition owned by the source module. |
-| `uiAlarmCode` | UINT | Catalog code. |
-| `eSource` | E_AlarmSource | Realtime PLC source. |
-| `eSeverity` | E_AlarmSeverity | Catalog severity; runtime override prohibited. |
-| `usiLineId` | USINT | Zero for global/system alarms. |
-| `uiDeviceId` | UINT | Zero when not device-specific. |
-| `xResetRequired` | BOOL | Catalog manual-reset policy. |
-| `xBlocking` | BOOL | Catalog operational blocking policy. |
+| `astConditions` | ARRAY[0..31] OF ST_AlarmCondition | Fixed current-condition input image; unused entries have Valid false. |
+
+The aggregation caller presents at most 32 valid condition updates per scan. A previously reported condition is removed only by a matching valid entry with ConditionActive false; an omitted/invalid entry does not clear it.
 
 ## Desktop/HMI to AlarmManager
 
@@ -34,11 +29,16 @@ Defines the standard condition-reporting and lifecycle-command boundary between 
 | `eTargetSource` | E_AlarmSource | Target source. |
 | `usiTargetLineId` | USINT | Target line. |
 | `uiTargetDeviceId` | UINT | Target device. |
+| `udiAcceptedEventSequence` | UDINT | Exact oldest event sequence persisted by Desktop; zero means no acknowledgement. |
 
 ## AlarmManager Outputs
 
 | Name | Type | Description |
 |---|---|---|
+| `astActiveAlarms` | ARRAY[0..63] OF ST_Alarm | Fixed active-lifecycle table; inactive entries are unused. |
+| `stPendingEvent` | ST_AlarmEvent | Oldest unsynchronized event. |
+| `xPendingEventValid` | BOOL | Pending event output is valid. |
+| `uiPendingEventCount` | UINT | Number of retained unsynchronized events, maximum 128. |
 | `xAnyAlarmActive` | BOOL | At least one active lifecycle record exists. |
 | `xAnyBlockingAlarm` | BOOL | At least one blocking alarm exists. |
 | `xAnyCriticalAlarm` | BOOL | Critical or Emergency alarm exists. |
@@ -60,3 +60,10 @@ Defines the standard condition-reporting and lifecycle-command boundary between 
 - Information severity cannot be Blocking.
 - AlarmManager outputs summaries only; machine modules decide operational transitions.
 - Command sequences are idempotent.
+
+## Revision History
+
+| Version | Date | Description |
+|---|---|---|
+| 2.0 | 2026-07-25 | Consolidated the numeric alarm lifecycle boundary. |
+| 2.1 | 2026-07-26 | Replaced the ambiguous singular source input with a 32-entry update image and defined the oldest-event persistence handshake for a 128-event ring buffer. |
