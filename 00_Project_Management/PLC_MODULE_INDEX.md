@@ -168,3 +168,15 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - Device service threshold: `ST_MaintenanceCounter.md`, `IF_MaintenanceCounter.md`, `FB_MaintenanceCounter.md`
 - Desktop maintenance domain: `03_Desktop/Domain/Maintenance.md`
 - Legacy platform manager: `Archive/Legacy/PLC/Function_Blocks/84_FB_MaintenanceManager.md`
+
+
+## Completed Desktop Manager Migration
+
+The following former PLC Function Block specifications were removed from the PLC tree and preserved as non-authoritative Desktop design inputs under `03_Desktop/Legacy_Design`:
+
+- persistence, reporting, backup, users, and licensing
+- biomass, cage, growth, FCR, mortality, and harvest
+- inventory, purchasing, warehouse, suppliers, and cost
+- quality and analytics
+
+Authoritative Desktop scope is indexed by `03_Desktop/Domain/DOMAIN_INDEX.md`. The historical `FB_` prefix in legacy files does not grant PLC ownership.

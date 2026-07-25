@@ -98,26 +98,17 @@ Authoritative classification manifest
 - `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md` — ARCHIVED; non-authoritative Desktop/Edge concept source
 - `99_FB_FirmwareManager.md`
 
-### Move to Desktop
+### Moved to Desktop
 
-- `65_FB_DatabaseSync.md`
-- `66_FB_ReportManager.md`
-- `67_FB_BackupManager.md`
-- `68_FB_UserManager.md`
-- `72_FB_BiomassManager.md`
-- `73_FB_CageManager.md`
-- `74_FB_GrowthManager.md`
-- `75_FB_FCRManager.md`
-- `76_FB_MortalityManager.md`
-- `77_FB_HarvestManager.md`
-- `78_FB_InventoryManager.md`
-- `79_FB_PurchaseManager.md`
-- `80_FB_WarehouseManager.md`
-- `81_FB_SupplierManager.md`
-- `82_FB_CostManager.md`
-- `83_FB_QualityManager.md`
-- `87_FB_LicenseManager.md`
-- `94_FB_AnalyticsManager.md`
+The following former PLC documents now reside in `03_Desktop/Legacy_Design` as non-authoritative design inputs:
+
+- DatabaseSync, ReportManager, BackupManager, UserManager
+- BiomassManager, CageManager, GrowthManager, FCRManager
+- MortalityManager, HarvestManager
+- InventoryManager, PurchaseManager, WarehouseManager, SupplierManager, CostManager
+- QualityManager, LicenseManager, AnalyticsManager
+
+Authoritative ownership is defined by `03_Desktop/Domain/DOMAIN_INDEX.md`.
 
 ### Move to Integration / Edge
 
@@ -226,3 +217,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Alarm architecture | Consolidated manager, lifecycle enums, active structure, interface, catalog, and tests; three legacy sources archived. |
 | 2026-07-25 | Modbus TCP map and communication topology | Defined fixed 4000-WORD map, corrected TCP/RTU roles, added interoperability tests, and archived two conflicting system-engineering drafts. |
 | 2026-07-25 | Runtime and maintenance | Kept retentive lifetime/service counters in PLC; moved plans, users, dates, work orders, history, and analytics to Desktop. |
+| 2026-07-25 | Desktop-domain managers | Removed 18 business/service manager specifications from the PLC tree; preserved them as non-authoritative Desktop design inputs and added an authoritative Desktop domain index. |
