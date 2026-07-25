@@ -3,37 +3,31 @@
 | Field | Value |
 |---|---|
 | Status | Authoritative |
-| Owner | PLC Runtime / Desktop observation boundary |
-| Version | 2.0 |
+| Version | 2.1 |
 
-## PLC Internal Inputs
+## Inputs
 
 | Name | Type | Description |
 |---|---|---|
-| `xEnable` | BOOL | Enables diagnostic aggregation. |
-| `udiScanTimeUs` | UDINT | Current measured scan duration. |
-| `xScanOverrunEvent` | BOOL | One-scan overrun occurrence. |
+| `xEnable` | BOOL | Enables aggregation. |
+| `udiScanTimeUs` / `udiMaximumScanTimeUs` | UDINT | Current duration and approved non-zero budget. |
+| `xScanOverrunEvent` / `udiScanOverrunSequence` | BOOL / UDINT | Replay-safe measured overrun occurrence. |
 | `xWatchdogHealthy` | BOOL | PLC watchdog status. |
-| `xConfigurationValid` | BOOL | Approved configuration status. |
-| `stIO` | ST_IO | IO health snapshot. |
-| `uiOfflineChannelCount` | UINT | Bounded communication summary. |
-| `uiActiveAlarmCount` | UINT | AlarmManager active count. |
+| `xConfigurationValid` | BOOL | Approved runtime configuration status. |
+| `stIO` | ST_IO | Current IO health summary. |
+| `xRequiredCommunicationHealthy` | BOOL | Required field feedback is current. |
+| `uiOfflineChannelCount` | UINT | All currently offline channels. |
+| `uiActiveAlarmCount` | UINT | AlarmManager active count for publication only. |
+| `xEquipmentBlockingDiagnostic` / `xEquipmentDegradedDiagnostic` | BOOL | Current equipment diagnostic class. |
+| `uiEquipmentDiagnosticCode` / `uiEquipmentSeverity` | UINT | Stable source code and bounded 0..40 severity. |
+| `xCounterSaturation` | BOOL | A monitored subsystem counter has saturated. |
 
-## Output
+## Outputs
 
 | Name | Type | Description |
 |---|---|---|
-| `stDiagnostics` | ST_Diagnostics | Current bounded diagnostic snapshot. |
-| `xDiagnosticOccurrence` | BOOL | One-scan new-condition event. |
-| `uiOccurrenceCode` | UINT | Stable diagnostic catalog code. |
+| `stDiagnostics` | ST_Diagnostics | Current bounded snapshot. |
+| `xDiagnosticOccurrence` | BOOL | One-scan highest-priority new occurrence. |
+| `uiOccurrenceCode` | UINT | Stable occurrence code; zero means none. |
 
-## Commands
-
-No generic StartTest, StopTest, or Reset command exists during normal operation. Intrusive tests are separate commissioning procedures and require stopped equipment plus local Service permission.
-
-## Rules
-
-- Desktop reads status but cannot clear physical diagnostic conditions
-- acknowledgement is handled by AlarmManager and does not alter diagnostic truth
-- history and reporting are persisted outside the PLC
-- diagnostic codes are stable catalog identifiers; zero means no new occurrence
+No StartTest, StopTest, Reset, acknowledgement, wall-clock, or physical command exists.
