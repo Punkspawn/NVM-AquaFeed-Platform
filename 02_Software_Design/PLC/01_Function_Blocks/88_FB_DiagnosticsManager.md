@@ -4,38 +4,44 @@
 |---|---|
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
-| Responsibility | Bounded aggregation of current PLC diagnostic state |
-| Version | 3.0 |
+| Responsibility | Bounded aggregation of current PLC diagnostic truth |
+| Version | 3.1 |
 
 ## Purpose
 
-Builds one deterministic current diagnostic snapshot from validated subsystem status. It does not perform historical analysis, reporting, predictive maintenance, database inspection, root-cause analytics, or cloud diagnostics.
+Builds one deterministic snapshot from validated runtime, IO, communication, equipment, and alarm summaries. It does not perform history, reports, prediction, root-cause analytics, text, or cloud diagnostics.
 
-## Inputs
+## Current Diagnostic Priority
 
-- scan duration and overrun event
-- watchdog and PLC runtime status
-- `ST_IO` health summary
-- `IF_Communication` channel status
-- active alarm summary
-- equipment-local diagnostic codes
-- counter-saturation and configuration-validity flags
+1. invalid configuration
+2. unhealthy watchdog
+3. required IO module offline
+4. invalid required input
+5. invalid requested output
+6. output mismatch
+7. required communication unavailable
+8. equipment blocking diagnostic
+9. scan-time budget exceeded
+10. non-required communication offline
+11. equipment degraded diagnostic
+12. counter saturation
 
-## Output
+Priorities 1–8 are blocking. Priorities 9–12 are degraded.
 
-One authoritative `ST_Diagnostics` snapshot and bounded diagnostic alarm conditions for `FB_AlarmManager`.
+## Execution
 
-## Execution Rules
+- fixed inputs and no dynamic work
+- maximum scan duration and occurrence counters saturate
+- scan-overrun event is accepted once per sequence
+- other occurrences use rising-edge detection of current conditions
+- one scan publishes at most one occurrence, using fixed priority
+- active alarm count is observed but does not duplicate AlarmManager fault truth
+- acknowledgement/reset cannot alter a physical diagnostic condition
+- no physical output command exists
 
-- execute once per normal PLC scan after input acquisition and subsystem updates
-- use fixed arrays and bounded loops only
-- do not allocate dynamic memory
-- do not store histories, wall-clock timestamps, text, reports, users, or recommended actions
-- latch occurrence counters with saturation; current condition flags clear only when their physical cause clears
-- diagnostic acknowledgement never clears a physical fault
-- health summary is derived from explicit severity and readiness rules, never a statistical score
-- diagnostics must not directly command physical outputs
+## Revision History
 
-## Ownership Boundary
-
-Equipment blocks own equipment-specific plausibility and fault conditions. IO owns channel validity. Communication owns channel timeout and sequence health. AlarmManager owns active alarm lifecycle. Desktop owns history, correlation, reports, analytics, localization, and troubleshooting guidance.
+| Version | Date | Description |
+|---|---|
+| 3.0 | 2026-07-25 | Normalized bounded diagnostic ownership. |
+| 3.1 | 2026-07-26 | Closed IO mapping, blocking/degraded inputs, priority, and replay-safe overrun semantics. |
