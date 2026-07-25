@@ -53,12 +53,13 @@ Compile in this order:
 1. Types, globals, and both Functions
 2. `FB_TimeService`
 3. `FB_IOManager`
-4. `FB_Selector`
-5. `FB_Blower`
-6. `FB_Dosing`
-7. `FB_LineManager`
-8. `FB_SystemManager`
-9. `PRG_AquaFeedMain`
+4. `FB_AlarmManager`
+5. `FB_Selector`
+6. `FB_Blower`
+7. `FB_Dosing`
+8. `FB_LineManager`
+9. `FB_SystemManager`
+10. `PRG_AquaFeedMain`
 
 Acceptance:
 
