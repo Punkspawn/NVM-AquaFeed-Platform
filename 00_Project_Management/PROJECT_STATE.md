@@ -26,6 +26,7 @@ Classify and consolidate accumulated engineering documents before implementation
 - Repository-wide architecture audit completed.
 - Desktop-domain manager documents removed from the PLC tree and classified under the Desktop boundary.
 - Integration/Edge platform managers removed from the PLC tree; a safe update-activation contract remains at the PLC boundary.
+- Diagnostics and IO contracts normalized with bounded process images, deterministic scan order, safe output arbitration, and explicit Modbus diagnostics.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -40,6 +41,5 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Normalize diagnostics and IO contracts.
-2. Normalize Selector, Blower, and Dosing core equipment blocks.
-3. Resume remaining PLC implementation contracts.
+1. Normalize Selector, Blower, and Dosing core equipment blocks.
+2. Resume remaining PLC implementation contracts.

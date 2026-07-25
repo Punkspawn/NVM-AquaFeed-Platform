@@ -67,12 +67,12 @@ Authoritative classification manifest
 - `Archive/Legacy/PLC/Function_Blocks/61_FB_AlarmManager.md` — ARCHIVED
 - `62_FB_RecoveryManager.md`
 - `63_FB_HealthMonitor.md`
-- `88_FB_DiagnosticsManager.md`
+- `88_FB_DiagnosticsManager.md` — AUTHORITATIVE; bounded current PLC diagnostics only
 - `FB_SystemManager.md` — KEEP; authoritative consolidated PLC specification
 - `Archive/Legacy/PLC/Function_Blocks/90_FB_SystemManager_PlatformOrchestrator.md` — ARCHIVED
 - `100_FB_NetworkManager.md` — communication scope only
 - `101_FB_TimeManager.md` — bounded PLC time service only
-- `102_FB_IOManager.md`
+- `102_FB_IOManager.md` — AUTHORITATIVE; deterministic process-image and output arbitration
 - `103_FB_MotionManager.md` — only if required by physical motion
 - `105_FB_SafetyManager.md`
 - `106_FB_CIPManager.md` — only if CIP equipment is in scope
@@ -118,7 +118,7 @@ Authoritative ownership is defined by `04_Integration/INTEGRATION_INDEX.md`; the
 |---|---|
 | `ST_Device.md` | KEEP — authoritative current structure |
 | `ST_Alarm.md` | KEEP; authoritative bounded active alarm record |
-| `ST_Diagnostics.md` | KEEP / NORMALIZE |
+| `ST_Diagnostics.md` | KEEP; authoritative bounded current diagnostic snapshot |
 | `ST_Line.md` | KEEP; authoritative bounded realtime line snapshot |
 | `ST_ModbusMap.md` | KEEP; authoritative flat 4000-WORD publication buffer |
 | `ST_Runtime.md` | KEEP; authoritative retentive lifetime counters |
@@ -213,3 +213,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Runtime and maintenance | Kept retentive lifetime/service counters in PLC; moved plans, users, dates, work orders, history, and analytics to Desktop. |
 | 2026-07-25 | Desktop-domain managers | Removed 18 business/service manager specifications from the PLC tree; preserved them as non-authoritative Desktop design inputs and added an authoritative Desktop domain index. |
 | 2026-07-25 | Integration/Edge managers | Removed eight platform-service specifications from the PLC tree; defined the Integration/Edge boundary and retained only a bounded PLC update-activation handshake. |
+| 2026-07-25 | Diagnostics and IO | Normalized bounded structures, managers, interfaces, tests, safe output arbitration, and explicit Modbus diagnostic offsets; archived seven expanded drafts. |

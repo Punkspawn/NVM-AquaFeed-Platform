@@ -1,130 +1,43 @@
 # IF_IO
 
----
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | PLC Runtime / physical IO boundary |
+| Version | 2.0 |
 
-# Purpose
-
-Defines the standard software interface for all physical digital and analog inputs/outputs.
-
-This interface provides a unified abstraction layer between the PLC application and the machine hardware, allowing higher-level Function Blocks to interact with I/O independently of the PLC hardware configuration.
-
----
-
-# Inputs
+## Hardware to IO Manager
 
 | Name | Type | Description |
-|------|------|-------------|
-| Enable | BOOL | Enables I/O processing. |
-| Refresh | BOOL | Updates all I/O values. |
-| Reset | BOOL | Clears I/O communication faults. |
+|---|---|---|
+| `stRawInputs` | ST_IO | Raw physical input image and module validity. |
+| `xHardwareConfigValid` | BOOL | Static mapping/configuration accepted. |
+| `xWatchdogHealthy` | BOOL | Watchdog permits normal output application. |
 
----
-
-# Outputs
+## Application to IO Manager
 
 | Name | Type | Description |
-|------|------|-------------|
-| Ready | BOOL | I/O system is operational. |
-| DI_Updated | BOOL | Digital inputs have been refreshed. |
-| AI_Updated | BOOL | Analog inputs have been refreshed. |
-| DO_Updated | BOOL | Digital outputs have been written. |
-| AO_Updated | BOOL | Analog outputs have been written. |
-| Fault | BOOL | I/O system fault detected. |
-| AlarmCode | UINT | Active I/O alarm code. |
+|---|---|---|
+| `stRequestedOutputs` | ST_IO | Requested logical outputs. |
+| `xOutputsPermitted` | BOOL | System-level output permission. |
+| `xSafetyOK` | BOOL | Safety status used for standard-control inhibition. |
+| `xCommissioningMode` | BOOL | Approved commissioning state. |
+| `udiCommandSequence` | UDINT | Output-request sequence for diagnostics. |
 
----
+## IO Manager to Application
 
-# Managed Signals
+| Name | Type | Description |
+|---|---|---|
+| `stValidatedInputs` | ST_IO | Stable validated input image for the scan. |
+| `stAppliedOutputs` | ST_IO | Final output image after arbitration. |
+| `xReady` | BOOL | IO mapping and required modules healthy. |
+| `xFault` | BOOL | Blocking IO fault. |
+| `uiDiagnosticCode` | UINT | Stable bounded reason code. |
 
-## Digital Inputs
+## Rules
 
-- Emergency Stop
-- Start Button
-- Stop Button
-- Reset Button
-- Selector Home Sensor
-- Selector Position Sensors
-- Motor Protection Contacts
-- Safety Inputs
-
----
-
-## Digital Outputs
-
-- Blower Run
-- Dosing Run
-- Selector Left
-- Selector Right
-- Alarm Buzzer
-- Warning Lamp
-- Status Lamp
-
----
-
-## Analog Inputs
-
-- Drive Feedback
-- Current Measurement
-- Pressure Sensor
-- Temperature Sensor
-
----
-
-## Analog Outputs
-
-- Blower Speed Reference
-- Dosing Speed Reference
-
----
-
-# State Flow
-
-```text
-Power On
-    │
-Enable
-    │
-Initialize I/O
-    │
-Ready
-    │
-Refresh Cycle
-```
-
-Fault sequence
-
-```text
-Ready
-   │
-I/O Fault
-   │
-Fault
-   │
-Reset
-   │
-Ready
-```
-
----
-
-# Rules
-
-- Physical I/O mapping shall only be performed in the I/O Manager.
-- Application Function Blocks shall never access physical addresses directly.
-- All outputs shall assume a safe state during a fault condition.
-- I/O refresh shall execute once every PLC scan.
-- `AlarmCode` shall be zero when no I/O fault is active.
-
----
-
-# Used By
-
-- FB_IOManager
-- FB_SystemManager
-- FB_LineManager
-- FB_Selector
-- FB_Blower
-- FB_Dosing
-- FB_FeedingControlManager
-- HMI
-- AquaFeed Manager
+- one producer owns `stValidatedInputs` and `stAppliedOutputs`
+- application blocks consume validated logical names, never hardware addresses
+- output requests are intents; only IO Manager writes physical outputs
+- invalid configuration or unsafe state forces the approved safe image
+- command replay does not create extra output transitions

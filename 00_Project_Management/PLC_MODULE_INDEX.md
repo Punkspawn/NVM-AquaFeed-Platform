@@ -17,9 +17,10 @@ Authoritative scope index
 | `FB_AlarmManager` | AUTHORITATIVE | Bounded active lifecycle, priority summaries, acknowledgement/reset, and Desktop event handshake |
 | `FB_RecoveryManager` | KEEP / NORMALIZE | Deterministic recovery sequences |
 | `FB_CommunicationManager` | DESIGN REQUIRED | Modbus exchange and communication supervision |
-| `FB_IOManager` | KEEP / NORMALIZE | IO acquisition, validation, and output application |
+| `FB_IOManager` | AUTHORITATIVE | Deterministic IO acquisition, validation, safe arbitration, and single-write output application |
 | `FB_SafetyManager` | REVIEW | Realtime safety coordination; must not replace hardwired safety |
 | `FB_HealthMonitor` | REVIEW | Bounded realtime health status only |
+| `FB_DiagnosticsManager` | AUTHORITATIVE | Bounded current PLC diagnostics; no history, reporting, or predictive analytics |
 
 ## Equipment Blocks
 
@@ -67,7 +68,8 @@ These concepts belong to Integration / Edge:
 - `ST_Runtime` — authoritative retentive lifetime counters
 - `ST_MaintenanceCounter` — per-device runtime service threshold
 - `ST_SystemStatus`
-- `ST_Diagnostics`
+- `ST_Diagnostics` — authoritative bounded current diagnostic snapshot
+- `ST_IO` — authoritative non-retentive bounded process image
 - `ST_ModbusMap`
 - `ST_JobExecution`
 - `ST_RecipeExecution`
@@ -190,3 +192,15 @@ The former Update, AI, Remote, Digital Twin, Integration, Cloud, Edge, and Firmw
 - PLC boundary: `04_Integration/PLC_EDGE_BOUNDARY.md`
 - PLC safe activation handshake: `02_Software_Design/PLC/04_Interfaces/IF_UpdateActivation.md`
 - `FB_NetworkManager` remains queued for normalization as bounded PLC communication supervision only.
+
+
+## Authoritative Diagnostics and IO Contract
+
+- diagnostics manager: `02_Software_Design/PLC/01_Function_Blocks/88_FB_DiagnosticsManager.md`
+- IO manager: `02_Software_Design/PLC/01_Function_Blocks/102_FB_IOManager.md`
+- structures: `ST_Diagnostics.md` and `ST_IO.md`
+- interfaces: `IF_Diagnostics.md` and `IF_IO.md`
+- tests: `TEST_Diagnostics.md` and `TEST_IO.md`
+- explicit Modbus diagnostics allocation: offsets 2200–2217
+
+Expanded platform-diagnostics, predictive, report, dynamic-discovery, and history responsibilities are excluded from PLC. Original drafts are preserved under `Archive/Legacy/PLC`.
