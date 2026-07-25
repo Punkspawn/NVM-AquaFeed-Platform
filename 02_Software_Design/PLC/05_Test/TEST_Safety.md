@@ -31,6 +31,7 @@
 | SAF-020 | Permit request removed | HealthyStopped; production permits false |
 | SAF-021 | Recovery permission | true only with clear safety gate and stopped equipment |
 | SAF-022 | Missing/invalid feedback after prior healthy state | permits false immediately; ResetRequired latched |
+| SAF-023 | New reset sequence while ResetRequired is already false | rejected one scan with bounded ResetNotRequired diagnostic; permits follow current safe state |
 
 ## Separate Hardware Validation
 
