@@ -4,7 +4,7 @@
 |---|---|
 | Status | Authoritative |
 | Owner | PLC Runtime / VFD boundary |
-| Version | 2.1 |
+| Version | 2.2 |
 
 ## Commands
 
@@ -14,6 +14,7 @@
 | `xRunRequest` | BOOL | Requests transport airflow. |
 | `xNormalStopRequest` | BOOL | Requests controlled stop/post-run. |
 | `uiTargetFreqCentiHz` | UINT | Frequency reference; 1 count = 0.01 Hz. |
+| `udiRequestedPostRunTimeMs` | UDINT | Accepted job post-run; zero selects configured default, nonzero must not exceed the configured maximum. |
 | `udiCommandSequence` | UDINT | Idempotent run command. |
 | `udiResetSequence` | UDINT | Idempotent reset request. |
 | `xSafetyOK` | BOOL | Standard-control safety permission. |
@@ -46,4 +47,4 @@
 | `uiDiagnosticCode` | UINT | Stable reason code. |
 | `udiLastAcceptedSequence` | UDINT | Command replay protection. |
 
-Critical stop conditions remove Run without waiting for post-run.
+Frequency and requested post-run are latched together with the accepted command. Later input changes do not alter the active run. Critical stop conditions remove Run without waiting for post-run.
