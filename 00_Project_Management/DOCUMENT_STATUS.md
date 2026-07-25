@@ -63,7 +63,8 @@ Authoritative classification manifest
 - `58_FB_Selector.md`
 - `59_FB_Blower.md`
 - `60_FB_Dosing.md`
-- `61_FB_AlarmManager.md`
+- `FB_AlarmManager.md` — KEEP; authoritative bounded PLC alarm lifecycle
+- `Archive/Legacy/PLC/Function_Blocks/61_FB_AlarmManager.md` — ARCHIVED
 - `62_FB_RecoveryManager.md`
 - `63_FB_HealthMonitor.md`
 - `88_FB_DiagnosticsManager.md`
@@ -130,7 +131,7 @@ Authoritative classification manifest
 | Path | Action |
 |---|---|
 | `ST_Device.md` | KEEP — authoritative current structure |
-| `ST_Alarm.md` | KEEP / COMPLETE |
+| `ST_Alarm.md` | KEEP; authoritative bounded active alarm record |
 | `ST_Diagnostics.md` | KEEP / NORMALIZE |
 | `ST_Line.md` | KEEP; authoritative bounded realtime line snapshot |
 | `ST_ModbusMap.md` | KEEP / NORMALIZE |
@@ -220,3 +221,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Three LineManager source documents | Consolidated into authoritative `PLC/01_Function_Blocks/FB_LineManager.md`; sources archived without content loss. |
 | 2026-07-25 | `ST_Line.md` and `IF_Line.md` | Normalized as the authoritative bounded line contract; `E_LineState.md` added. |
 | 2026-07-25 | Job/Recipe structures and interfaces | Split into Desktop domain masters, bounded PLC execution snapshots, and atomic transfer contract; four mixed legacy documents archived. |
+| 2026-07-25 | Alarm architecture | Consolidated manager, lifecycle enums, active structure, interface, catalog, and tests; three legacy sources archived. |
