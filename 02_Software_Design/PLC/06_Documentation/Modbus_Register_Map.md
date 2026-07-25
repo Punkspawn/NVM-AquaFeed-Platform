@@ -68,8 +68,9 @@ Each register uses standard Modbus big-endian byte transmission. AquaFeed v1 use
 | 1000–2023 | 1024 | R | 16 line blocks × 64 words |
 | 2024–2199 | 176 | — | Reserved |
 | 2200–2399 | 200 | R | Communication and PLC diagnostics |
-| 2400–2599 | 200 | R | Bounded runtime/maintenance counters |
-| 2600–3999 | 1400 | — | Reserved for append-only expansion |
+| 2400–2463 | 64 | R | Global ST_Runtime lifetime counters |
+| 2464–3103 | 640 | R | 32 maintenance counters × 20 words |
+| 3104–3999 | 896 | — | Reserved for append-only expansion |
 
 The current project uses lines 1–6. Blocks 7–16 remain reserved with identical layout.
 
@@ -230,9 +231,35 @@ Permanent history is not mapped; Desktop persists lifecycle events.
 | 24 | UINT | ActiveAlarmId |
 | 25–63 | — | Reserved |
 
-## Diagnostics and Runtime
+## Runtime — Offset 2400
 
-Offsets 2200–2599 are PLC-owned, read-only, bounded counters and diagnostics. Their detailed allocation remains reserved until `ST_Diagnostics`, `ST_Runtime`, and `ST_Maintenance` are normalized. Publishing unapproved implicit structure layouts is prohibited.
+| Offset | Type | ST_Runtime field |
+|---:|---|---|
+| 2400–2401 | UDINT | TotalPoweredSec |
+| 2402–2403 | UDINT | TotalReadyIdleSec |
+| 2404–2405 | UDINT | TotalFeedingSec |
+| 2406–2407 | UDINT | TotalPausedSec |
+| 2408–2409 | UDINT | TotalFaultSec |
+| 2410–2411 | UDINT | TotalServiceSec |
+| 2412–2413 | UDINT | TotalFeedCentiKg |
+| 2414–2415 | UDINT | CompletedJobCount |
+| 2416–2417 | UDINT | MachineStartCount |
+| 2418–2419 | UDINT | EmergencyStopCount |
+| 2420–2421 | UDINT | AlarmOccurrenceCount |
+| 2422–2463 | — | Reserved |
+
+## Maintenance Counters — Offset 2464
+
+- 32 fixed device/scope blocks
+- 20 words per block
+- base = 2464 + (index × 20), index 0–31
+- field order follows ST_MaintenanceCounter
+- unused record has DeviceId = 0
+- records are read-only; reset/configuration uses IF_MaintenanceCounter command/ack mapping added in reserved command space during implementation review
+
+## Diagnostics
+
+Offsets 2200–2399 remain reserved until ST_Diagnostics is normalized. Publishing an implicit compiler structure layout is prohibited.
 
 ## Write Validation
 
