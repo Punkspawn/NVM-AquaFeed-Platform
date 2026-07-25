@@ -97,6 +97,7 @@ These concepts belong to Integration / Edge:
 - `ST_TimeService` — monotonic tick/second sequence plus observational UTC
 - `ST_JobExecution`
 - `ST_RecipeExecution`
+- `ST_RecoveryCheckpoint` — complete retained accepted snapshots and trustworthy quantity evidence
 
 ### Move to Desktop or split
 
