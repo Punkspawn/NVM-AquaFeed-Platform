@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Lifetime | Candidate transfer and one active execution |
-| Version | 1.0 |
+| Version | 1.1 |
 
 ## Purpose
 
@@ -16,23 +16,23 @@ Contains only immutable fields required by one LineManager to execute one accept
 ```iecst
 TYPE ST_JobExecution :
 STRUCT
-    SnapshotVersion          : UINT;
-    TransferSequence         : UDINT;
-    JobId                    : UDINT;
-    LineId                   : USINT;
-    RecipeId                 : UINT;
-    RecipeRevision           : UDINT;
+    uiSnapshotVersion        : UINT;
+    udiTransferSequence      : UDINT;
+    udiJobId                 : UDINT;
+    usiLineId                : USINT;
+    uiRecipeId               : UINT;
+    udiRecipeRevision        : UDINT;
 
-    TargetSelectorPosition   : USINT;
-    DosingUnitMask           : BYTE;
-    TargetFeedKg             : REAL;
-    MaximumExecutionTimeSec  : UDINT;
+    uiTargetSelectorOutlet   : UINT;
+    byDosingUnitMask         : BYTE;
+    udiTargetFeedCentiKg     : UDINT;
+    udiMaximumExecutionTimeSec : UDINT;
 
-    AllowRecovery            : BOOL;
-    MaximumRetryCount        : USINT;
+    xAllowRecovery           : BOOL;
+    usiMaximumRetryCount     : USINT;
 
-    PayloadCRC16             : UINT;
-END_STRUCT
+    uiPayloadCRC16           : UINT;
+END_STRUCT;
 END_TYPE
 ```
 
@@ -43,8 +43,9 @@ END_TYPE
 - LineManager copies the accepted snapshot to private active storage.
 - The active copy is immutable until completion, cancellation, or terminal fault.
 - User, schedule, queue, history, cage, fish-lot, stock, and reporting data are excluded.
-- `DosingUnitMask` uses approved bits only; unsupported combinations are rejected.
-- `TargetFeedKg` must be positive and within configured line limits.
+- `udiTargetFeedCentiKg` uses 0.01 kg per count and must be positive and within configured line limits.
+- Current release accepts exactly one Dosing unit per job: mask `16#01` or `16#02`.
+- Mask `16#03` is reserved until an explicit dual-unit target-split policy and tests are approved.
 
 ## Related Documents
 
