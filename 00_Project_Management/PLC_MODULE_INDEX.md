@@ -121,4 +121,12 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - Authoritative PLC document: `02_Software_Design/PLC/01_Function_Blocks/FB_LineManager.md`
 - Archived sources: `Archive/Legacy/PLC/Function_Blocks/57_FB_LineManager.md`, `Archive/Legacy/System_Engineering/14_Line_Manager_Specification.md`, and `Archive/Legacy/System_Engineering/74_FB_LineManager_State_Machine.md`
 - Resolution: PLC owns one immutable active-job execution snapshot and equipment coordination. Desktop owns job queues, scheduling, history, statistics, and Smart Farm updates.
-- Follow-up: define `E_LineState`, normalize `ST_Line`, and consolidate `IF_Line` with the authoritative state sequence.
+- Line contract: `E_LineState.md`, `ST_Line.md`, and `IF_Line.md` are authoritative.
+
+
+## Authoritative Line Contract
+
+- State enum: `02_Software_Design/PLC/02_Structures/E_LineState.md`
+- Realtime snapshot: `02_Software_Design/PLC/02_Structures/ST_Line.md`
+- Command, feedback, equipment-request, and status interface: `02_Software_Design/PLC/04_Interfaces/IF_Line.md`
+- Pending boundary split: replace temporary `ST_JobOrder` and `ST_Recipe` inputs with bounded PLC execution structures.

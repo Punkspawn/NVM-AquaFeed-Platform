@@ -38,7 +38,7 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Define `E_LineState` and normalize `ST_Line` / `IF_Line`.
+1. Split Desktop job/recipe masters from bounded PLC execution snapshots.
 2. Normalize alarm architecture.
 3. Split runtime state from historical data.
 4. Move or archive classified documents.
