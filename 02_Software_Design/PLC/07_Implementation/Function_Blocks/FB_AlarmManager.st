@@ -94,19 +94,21 @@ END_IF;
 FOR iCondition := 0 TO 31 DO
     IF astConditions[iCondition].Valid THEN
         xDuplicateUpdate := FALSE;
-        FOR iPreviousCondition := 0 TO iCondition - 1 DO
-            IF astConditions[iPreviousCondition].Valid AND
-               (astConditions[iPreviousCondition].AlarmCode =
-                astConditions[iCondition].AlarmCode) AND
-               (astConditions[iPreviousCondition].Source =
-                astConditions[iCondition].Source) AND
-               (astConditions[iPreviousCondition].LineId =
-                astConditions[iCondition].LineId) AND
-               (astConditions[iPreviousCondition].DeviceId =
-                astConditions[iCondition].DeviceId) THEN
-                xDuplicateUpdate := TRUE;
-            END_IF;
-        END_FOR;
+        IF iCondition > 0 THEN
+            FOR iPreviousCondition := 0 TO iCondition - 1 DO
+                IF astConditions[iPreviousCondition].Valid AND
+                   (astConditions[iPreviousCondition].AlarmCode =
+                    astConditions[iCondition].AlarmCode) AND
+                   (astConditions[iPreviousCondition].Source =
+                    astConditions[iCondition].Source) AND
+                   (astConditions[iPreviousCondition].LineId =
+                    astConditions[iCondition].LineId) AND
+                   (astConditions[iPreviousCondition].DeviceId =
+                    astConditions[iCondition].DeviceId) THEN
+                    xDuplicateUpdate := TRUE;
+                END_IF;
+            END_FOR;
+        END_IF;
 
         xSeverityValid := FALSE;
         CASE astConditions[iCondition].Severity OF
@@ -214,6 +216,16 @@ FOR iCondition := 0 TO 31 DO
                         uiInputResultCode :=
                             c_uiInputResultTableFull;
                     ELSE
+                        IF (astActiveAlarms[iFreeAlarm].AlarmCode <>
+                            astConditions[iCondition].AlarmCode) OR
+                           (astActiveAlarms[iFreeAlarm].Source <>
+                            astConditions[iCondition].Source) OR
+                           (astActiveAlarms[iFreeAlarm].LineId <>
+                            astConditions[iCondition].LineId) OR
+                           (astActiveAlarms[iFreeAlarm].DeviceId <>
+                            astConditions[iCondition].DeviceId) THEN
+                            astActiveAlarms[iFreeAlarm].OccurrenceCount := 0;
+                        END_IF;
                         iFoundAlarm := iFreeAlarm;
                     END_IF;
                 END_IF;
