@@ -119,7 +119,7 @@ EMERGENCY
 SERVICE
 ```
 
-A separate authoritative `E_LineState` and `ST_Line` contract will encode these states.
+The authoritative `E_LineState`, `ST_Line`, and `IF_Line` documents encode these states and boundaries.
 
 ---
 
