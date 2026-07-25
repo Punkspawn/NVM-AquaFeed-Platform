@@ -275,9 +275,31 @@ Permanent history is not mapped; Desktop persists lifecycle events.
 | 2212–2213 | UDINT | MaxScanTimeUs |
 | 2214–2215 | UDINT | ScanOverrunCount |
 | 2216–2217 | UDINT | DiagnosticOccurrenceCount |
-| 2218–2399 | — | Reserved |
 
-This is an explicit wire layout; it is not an implicit compiler serialization of `ST_Diagnostics`.
+## Communication Channel Summaries — Offset 2218
+
+- 16 fixed channel slots
+- 11 words per slot
+- base = 2218 + (index × 11), index 0–15
+- unused slot has ChannelId = 0
+
+| Relative word | Type | Field |
+|---:|---|---|
+| 0 | WORD bitfield | Enabled, RequiredForControl, Ready, Fresh, Fault |
+| 1 | UINT | ChannelId |
+| 2 | UINT | ProfileId |
+| 3 | WORD | ChannelType and State |
+| 4–5 | UDINT | LastAcceptedSequence |
+| 6–7 | UDINT | RxCount |
+| 8–9 | UDINT | ErrorCount |
+| 10 | UINT | DiagnosticCode |
+
+| Offset | Use |
+|---:|---|
+| 2218–2393 | 16 communication channel summaries |
+| 2394–2399 | Reserved |
+
+These are explicit wire layouts; they are not implicit compiler serializations of `ST_Diagnostics` or `ST_CommunicationChannel`.
 
 ## Write Validation
 
