@@ -516,3 +516,26 @@ STRUCT
     uiDiagnosticCode : UINT;
 END_STRUCT;
 END_TYPE
+
+
+TYPE ST_Diagnostics :
+STRUCT
+    xReady : BOOL;
+    xDegraded : BOOL;
+    xFault : BOOL;
+    xWatchdogHealthy : BOOL;
+    xConfigurationValid : BOOL;
+    uiLastDiagnosticCode : UINT;
+    uiHighestSeverity : UINT;
+    uiActiveDiagnosticCount : UINT;
+    uiActiveAlarmCount : UINT;
+    uiInvalidInputCount : UINT;
+    uiInvalidOutputCount : UINT;
+    uiOutputMismatchCount : UINT;
+    uiOfflineChannelCount : UINT;
+    udiScanTimeUs : UDINT;
+    udiMaxScanTimeUs : UDINT;
+    udiScanOverrunCount : UDINT;
+    udiDiagnosticOccurrenceCount : UDINT;
+END_STRUCT;
+END_TYPE
