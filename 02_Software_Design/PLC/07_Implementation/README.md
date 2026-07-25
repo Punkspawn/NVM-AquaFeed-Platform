@@ -16,6 +16,10 @@ This directory contains importable IEC 61131-3 Structured Text sources.
 3. Function Blocks as they are implemented
 4. `Programs/PRG_AquaFeedMain.st`
 
+## Implemented Function Blocks
+
+- `Function_Blocks/FB_TimeService.st` — monotonic timing, wrap-safe elapsed calculation, saturated second sequence, and idempotent UTC observation acceptance
+
 ## Rules
 
 - Documentation under the sibling design folders remains the behavioral authority.
