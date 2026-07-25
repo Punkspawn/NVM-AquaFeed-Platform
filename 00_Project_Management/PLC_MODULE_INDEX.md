@@ -149,3 +149,12 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - Interface: `02_Software_Design/PLC/04_Interfaces/IF_Alarm.md`
 - Catalog: `02_Software_Design/PLC/06_Documentation/Alarm_Catalog.md`
 - Desktop owns persistent history, users, timestamps, localized text, recommended actions, analytics, and notifications.
+
+
+## Authoritative Communication Map
+
+- Topology: `02_Software_Design/PLC/00_Architecture/COMMUNICATION_PROTOCOL.md`
+- Flat buffer: `02_Software_Design/PLC/02_Structures/ST_ModbusMap.md`
+- Register allocation: `02_Software_Design/PLC/06_Documentation/Modbus_Register_Map.md`
+- Channel health interface: `02_Software_Design/PLC/04_Interfaces/IF_Communication.md`
+- Interoperability test: `02_Software_Design/PLC/05_Test/TEST_ModbusTCPMap.md`
