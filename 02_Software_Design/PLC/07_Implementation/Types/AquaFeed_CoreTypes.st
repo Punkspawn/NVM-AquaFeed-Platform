@@ -172,3 +172,18 @@ STRUCT
     udiMaximumPostRunTimeMs : UDINT;
 END_STRUCT;
 END_TYPE
+
+TYPE ST_DosingConfig :
+STRUCT
+    udiMaximumTargetCentiKg : UDINT;
+    udiMaximumCentiKgPer1000Pulses : UDINT;
+    uiMinimumSpeedPermille : UINT;
+    udiCompletionToleranceCentiKg : UDINT;
+    udiStartTimeoutMs : UDINT;
+    udiFirstPulseTimeoutMs : UDINT;
+    udiNoFlowTimeoutMs : UDINT;
+    udiMinimumPulseIntervalMs : UDINT;
+    udiTargetTimeoutMs : UDINT;
+    udiStopTimeoutMs : UDINT;
+END_STRUCT;
+END_TYPE
