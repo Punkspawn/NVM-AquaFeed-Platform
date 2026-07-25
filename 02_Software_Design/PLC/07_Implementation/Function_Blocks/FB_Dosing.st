@@ -243,9 +243,11 @@ ELSE
                     udiPulseIncrement := udiPulseIncrement + 1;
                 END_IF;
 
-                IF udiDeliveredCentiKg >
-                   (stConfig.udiMaximumTargetCentiKg -
-                    udiPulseIncrement) THEN
+                IF (udiPulseIncrement >
+                    stConfig.udiMaximumTargetCentiKg) OR
+                   (udiDeliveredCentiKg >
+                    (stConfig.udiMaximumTargetCentiKg -
+                     udiPulseIncrement)) THEN
                     udiDeliveredCentiKg :=
                         stConfig.udiMaximumTargetCentiKg;
                     eState := DosingFault;
@@ -318,9 +320,11 @@ ELSE
                         udiPulseIncrement := udiPulseIncrement + 1;
                     END_IF;
 
-                    IF udiDeliveredCentiKg >
-                       (stConfig.udiMaximumTargetCentiKg -
-                        udiPulseIncrement) THEN
+                    IF (udiPulseIncrement >
+                        stConfig.udiMaximumTargetCentiKg) OR
+                       (udiDeliveredCentiKg >
+                        (stConfig.udiMaximumTargetCentiKg -
+                         udiPulseIncrement)) THEN
                         udiDeliveredCentiKg :=
                             stConfig.udiMaximumTargetCentiKg;
                         eState := DosingFault;
