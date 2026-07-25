@@ -214,6 +214,25 @@ TYPE E_SafetyCoordinationState :
 );
 END_TYPE
 
+TYPE ST_SafetyStatus :
+STRUCT
+    eState : E_SafetyCoordinationState;
+    xFeedbackValid : BOOL;
+    xEmergencyActive : BOOL;
+    xSafetyRelayHealthy : BOOL;
+    xSTOFeedbackHealthy : BOOL;
+    xContactorFeedbackHealthy : BOOL;
+    xResetRequired : BOOL;
+    xAutomaticPermitted : BOOL;
+    xMotionPermitted : BOOL;
+    xBlowerPermitted : BOOL;
+    xDosingPermitted : BOOL;
+    xRecoveryPermitted : BOOL;
+    udiLastAcceptedResetSequence : UDINT;
+    uiDiagnosticCode : UINT;
+END_STRUCT;
+END_TYPE
+
 TYPE ST_TimeService :
 STRUCT
     udiMonotonicTickMs : UDINT;
