@@ -277,3 +277,13 @@ The former NetworkManager and platform TimeManager are archived. PLC does not ow
 - tests: `TEST_Recovery.md`, `TEST_Health.md`, `TEST_Safety.md`
 
 Recovery never automatically energizes equipment after power return or safety trip. SafetyCoordinator observes approved safety hardware and removes standard-control permissions; it is not a safety-rated function or substitute for electrical safety validation.
+
+
+## PLC Implementation Baseline
+
+- source root: `02_Software_Design/PLC/07_Implementation/`
+- core types: `Types/AquaFeed_CoreTypes.st`
+- fixed project constants: `Globals/GVL_AquaFeed.st`
+- cyclic entry point: `Programs/PRG_AquaFeedMain.st`
+
+Only reviewed implementations are called by the main program. The first implementation dependency is `FB_TimeService`, followed by IO arbitration and the three approved equipment blocks.
