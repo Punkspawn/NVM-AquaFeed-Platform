@@ -1,97 +1,39 @@
 # IF_Diagnostics
 
----
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | PLC Runtime / Desktop observation boundary |
+| Version | 2.0 |
 
-# Purpose
-
-Defines the standard software interface for system diagnostics.
-
-This interface provides a unified method for monitoring the operational health of PLC modules, communication devices and machine components. It is intended for maintenance personnel, service software and the AquaFeed Manager.
-
----
-
-# Inputs
+## PLC Internal Inputs
 
 | Name | Type | Description |
-|------|------|-------------|
-| Enable | BOOL | Enables diagnostic monitoring. |
-| StartTest | BOOL | Starts a diagnostic test. |
-| StopTest | BOOL | Stops the active diagnostic test. |
-| Reset | BOOL | Clears diagnostic results and active faults. |
-| ModuleID | UINT | Identifier of the module to test. |
+|---|---|---|
+| `xEnable` | BOOL | Enables diagnostic aggregation. |
+| `udiScanTimeUs` | UDINT | Current measured scan duration. |
+| `xScanOverrunEvent` | BOOL | One-scan overrun occurrence. |
+| `xWatchdogHealthy` | BOOL | PLC watchdog status. |
+| `xConfigurationValid` | BOOL | Approved configuration status. |
+| `stIO` | ST_IO | IO health snapshot. |
+| `uiOfflineChannelCount` | UINT | Bounded communication summary. |
+| `uiActiveAlarmCount` | UINT | AlarmManager active count. |
 
----
-
-# Outputs
+## Output
 
 | Name | Type | Description |
-|------|------|-------------|
-| Ready | BOOL | Diagnostic system is ready. |
-| TestRunning | BOOL | Diagnostic test is in progress. |
-| TestPassed | BOOL | Test completed successfully. |
-| TestFailed | BOOL | Test failed. |
-| Fault | BOOL | Diagnostic fault detected. |
-| DiagnosticCode | UINT | Diagnostic result code. |
-| AlarmCode | UINT | Active diagnostic alarm code. |
+|---|---|---|
+| `stDiagnostics` | ST_Diagnostics | Current bounded diagnostic snapshot. |
+| `xDiagnosticOccurrence` | BOOL | One-scan new-condition event. |
+| `uiOccurrenceCode` | UINT | Stable diagnostic catalog code. |
 
----
+## Commands
 
-# State Flow
+No generic StartTest, StopTest, or Reset command exists during normal operation. Intrusive tests are separate commissioning procedures and require stopped equipment plus local Service permission.
 
-```text
-Idle
-   │
-StartTest
-   │
-Testing
-   │
-Passed / Failed
-   │
-Ready
-```
+## Rules
 
-Reset sequence
-
-```text
-Passed / Failed
-        │
-Reset
-        │
-Idle
-```
-
-Fault sequence
-
-```text
-Any State
-    │
-Fault
-    │
-Reset
-    │
-Idle
-```
-
----
-
-# Rules
-
-- Only one diagnostic test shall run at a time.
-- A diagnostic test shall not interrupt an active feeding cycle unless explicitly requested by the operator.
-- Diagnostic results shall remain available until reset.
-- Every failed test shall generate a valid `DiagnosticCode`.
-- `AlarmCode` shall be zero when no diagnostic alarm is active.
-
----
-
-# Used By
-
-- FB_DiagnosticsManager
-- FB_SystemManager
-- FB_ModbusMaster
-- FB_LineManager
-- FB_Blower
-- FB_Dosing
-- HMI
-- AquaFeed Manager
-- Service Software
+- Desktop reads status but cannot clear physical diagnostic conditions
+- acknowledgement is handled by AlarmManager and does not alter diagnostic truth
+- history and reporting are persisted outside the PLC
+- diagnostic codes are stable catalog identifiers; zero means no new occurrence
