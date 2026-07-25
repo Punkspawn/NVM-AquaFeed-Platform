@@ -162,6 +162,8 @@ ELSE
                    (udiTargetCentiKg = 0) OR
                    (udiTargetCentiKg >
                     stConfig.udiMaximumTargetCentiKg) OR
+                   (stConfig.udiCompletionToleranceCentiKg >=
+                    udiTargetCentiKg) OR
                    (uiTargetSpeedPermille <
                     stConfig.uiMinimumSpeedPermille) OR
                    (uiTargetSpeedPermille > 1000) OR
