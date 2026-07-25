@@ -38,8 +38,8 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Split runtime and maintenance realtime counters from Desktop history.
-2. Move Desktop-domain manager documents out of PLC.
-3. Move Integration/Edge manager documents out of PLC.
-4. Normalize diagnostics and IO contracts.
-5. Resume remaining core PLC Function Blocks.
+1. Move Desktop-domain manager documents out of PLC.
+2. Move Integration/Edge manager documents out of PLC.
+3. Normalize diagnostics and IO contracts.
+4. Normalize Selector, Blower, and Dosing core equipment blocks.
+5. Resume remaining PLC implementation contracts.
