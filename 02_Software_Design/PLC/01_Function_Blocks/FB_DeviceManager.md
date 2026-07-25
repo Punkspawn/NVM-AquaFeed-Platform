@@ -1,5 +1,13 @@
 # FB_DeviceManager
 
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | PLC Runtime / AquaCore |
+| Responsibility | Runtime state of one physical device |
+| Version | 1.1 |
+| Governing boundary | [System Boundary](../../../00_Project_Management/SYSTEM_BOUNDARY.md) |
+
 ---
 
 ## Purpose
@@ -417,6 +425,12 @@ Minimum unit tests:
 
 ---
 
+## Architectural Exclusions
+
+Platform-wide asset registry, discovery, provisioning, firmware inventory, long-term lifecycle records, database storage, and fleet management are not PLC responsibilities. Those concepts are retained only in the [legacy asset-registry specification](../../../../Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md) for future Desktop/Edge design work.
+
+---
+
 ## Related Documents
 
 - `../02_Structures/ST_Device.md`
@@ -432,3 +446,4 @@ Minimum unit tests:
 | Version | Date | Description |
 |---|---|---|
 | 1.0 | 2026-07-24 | Initial deterministic device manager design. |
+| 1.1 | 2026-07-25 | Declared authoritative PLC ownership and excluded platform asset-registry responsibilities. |
