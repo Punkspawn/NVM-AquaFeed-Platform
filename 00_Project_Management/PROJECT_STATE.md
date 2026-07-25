@@ -2,78 +2,46 @@
 
 ## Project State
 
-Current Phase
+**Current phase:** Architecture normalization  
+**Branch:** `agent/repository-normalization`  
+**Status:** Active
 
-Software Design
+## Current Activity
 
----
+Classify and consolidate accumulated engineering documents before implementation.
 
-Current Activity
+## Current Focus
 
-Review and refine PLC documentation.
+1. Enforce PLC/Desktop/Integration boundaries.
+2. Resolve duplicate Device, System, and Line Manager designs.
+3. Separate realtime PLC responsibilities from business and historical services.
+4. Normalize filenames, document templates, and relative links.
 
----
+## Completed
 
-Current Focus
+- Repository created and uploaded to GitHub.
+- Initial engineering and PLC documentation structure created.
+- `ST_Runtime` and `ST_OperationData` reviewed.
+- `ST_Device` and the new runtime `FB_DeviceManager` drafted.
+- Repository-wide architecture audit completed.
+- Platform architecture decision `AD-001` accepted.
+- Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
-PLC Structures
+## Frozen Until Normalization Completes
 
----
+- New PLC Function Blocks
+- New PLC Functions
+- New Structures
+- New Interfaces
+- PLC implementation
+- Desktop implementation
 
-Completed
+## Next Tasks
 
-- Repository created
-- Project uploaded to GitHub
-- Software Design structure created
-- ST_Runtime reviewed
-- ST_OperationData reviewed
-
----
-
-In Progress
-
-- ST_Alarm
-
----
-
-Next Tasks
-
-1. ST_Diagnostics
-2. ST_Maintenance
-3. Function Blocks
-4. Interfaces
-5. PLC Implementation
-
----
-
-Current Architecture
-
-Platform
-
-↓
-
-Desktop Application
-
-↓
-
-Modbus Communication
-
-↓
-
-PLC
-
-↓
-
-Machine
-
----
-
-Current Repository
-
-Main Branch
-
----
-
-Status
-
-Project documentation is under active development.
+1. Merge and normalize `FB_DeviceManager`.
+2. Merge and normalize `FB_SystemManager`.
+3. Merge and normalize `FB_LineManager`.
+4. Normalize alarm architecture.
+5. Split runtime state from historical data.
+6. Move or archive classified documents.
+7. Resume structures and core PLC design.
