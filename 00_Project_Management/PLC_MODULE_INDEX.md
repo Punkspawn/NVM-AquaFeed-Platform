@@ -15,12 +15,12 @@ Authoritative scope index
 | `FB_Dosing` | AUTHORITATIVE | Deterministic pulse-based delivery of one accepted target |
 | `FB_DeviceManager` | AUTHORITATIVE | One physical device runtime state; owns one `ST_Device` |
 | `FB_AlarmManager` | AUTHORITATIVE | Bounded active lifecycle, priority summaries, acknowledgement/reset, and Desktop event handshake |
-| `FB_RecoveryManager` | KEEP / NORMALIZE | Deterministic recovery sequences |
+| `FB_RecoveryManager` | AUTHORITATIVE | Validated interrupted-execution recovery without automatic restart |
 | `FB_TimeService` | AUTHORITATIVE | Monotonic PLC control timing and observational UTC boundary |
 | `FB_CommunicationManager` | AUTHORITATIVE | Bounded Modbus TCP publication, RTU scheduling, and channel supervision |
 | `FB_IOManager` | AUTHORITATIVE | Deterministic IO acquisition, validation, safe arbitration, and single-write output application |
-| `FB_SafetyManager` | REVIEW | Realtime safety coordination; must not replace hardwired safety |
-| `FB_HealthMonitor` | REVIEW | Bounded realtime health status only |
+| `FB_SafetyCoordinator` | AUTHORITATIVE | Standard-PLC mirror/inhibit coordination; never replaces hardwired safety |
+| `FB_HealthMonitor` | AUTHORITATIVE | Bounded current readiness and degradation aggregation |
 | `FB_DiagnosticsManager` | AUTHORITATIVE | Bounded current PLC diagnostics; no history, reporting, or predictive analytics |
 
 ## Equipment Blocks
@@ -247,3 +247,13 @@ All three use latched accepted commands, idempotent sequences, bounded integer u
 - Modbus publication: 16 channel summaries at offsets 2218–2393
 
 The former NetworkManager and platform TimeManager are archived. PLC does not own routing, switches, VPN, MQTT, OPC UA, cloud networking, NTP, timezone, daylight saving, or calendar scheduling.
+
+
+## Authoritative Recovery, Health, and Safety Coordination
+
+- managers: `FB_RecoveryManager.md`, `FB_HealthMonitor.md`, `FB_SafetyCoordinator.md`
+- structures: `E_RecoveryState.md`, `E_SafetyCoordinationState.md`, `ST_RecoveryStatus.md`, `ST_HealthStatus.md`, `ST_SafetyStatus.md`
+- interfaces: `IF_Recovery.md`, `IF_Health.md`, `IF_Safety.md`
+- tests: `TEST_Recovery.md`, `TEST_Health.md`, `TEST_Safety.md`
+
+Recovery never automatically energizes equipment after power return or safety trip. SafetyCoordinator observes approved safety hardware and removes standard-control permissions; it is not a safety-rated function or substitute for electrical safety validation.
