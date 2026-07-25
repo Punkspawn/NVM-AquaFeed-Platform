@@ -1,88 +1,62 @@
 # IF_Alarm
 
----
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | PLC Runtime / AquaCore |
+| Version | 2.0 |
 
-# Purpose
+## Purpose
 
-Defines the standard software interface for alarm generation, acknowledgement and reset.
+Defines the standard condition-reporting and lifecycle-command boundary between alarm source modules, AlarmManager, and Desktop/HMI.
 
-All PLC modules shall report alarms through this interface to ensure consistent alarm handling throughout the system.
-
----
-
-# Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| Enable | BOOL | Enables alarm monitoring. |
-| AlarmTrigger | BOOL | Requests creation of an alarm. |
-| AlarmCode | UINT | Alarm identification code. |
-| Acknowledge | BOOL | Operator acknowledges the alarm. |
-| Reset | BOOL | Clears the alarm if the fault condition no longer exists. |
-
----
-
-# Outputs
+## Source Module to AlarmManager
 
 | Name | Type | Description |
-|------|------|-------------|
-| Active | BOOL | Alarm is active. |
-| Acknowledged | BOOL | Alarm has been acknowledged. |
-| ResetRequired | BOOL | Alarm requires reset before operation can continue. |
-| FaultPresent | BOOL | Fault condition is still present. |
-| AlarmCode | UINT | Active alarm code. |
+|---|---|---|
+| `xConditionActive` | BOOL | Physical or logical alarm condition owned by the source module. |
+| `uiAlarmCode` | UINT | Catalog code. |
+| `eSource` | E_AlarmSource | Realtime PLC source. |
+| `eSeverity` | E_AlarmSeverity | Catalog severity; runtime override prohibited. |
+| `usiLineId` | USINT | Zero for global/system alarms. |
+| `uiDeviceId` | UINT | Zero when not device-specific. |
+| `xResetRequired` | BOOL | Catalog manual-reset policy. |
+| `xBlocking` | BOOL | Catalog operational blocking policy. |
 
----
+## Desktop/HMI to AlarmManager
 
-# State Flow
+| Name | Type | Description |
+|---|---|---|
+| `xAcknowledgeRequest` | BOOL | Requests acknowledgement of one active alarm key. |
+| `xResetRequest` | BOOL | Requests reset after source condition is inactive. |
+| `udiCommandSequence` | UDINT | Idempotent command sequence. |
+| `uiTargetAlarmCode` | UINT | Target code. |
+| `eTargetSource` | E_AlarmSource | Target source. |
+| `usiTargetLineId` | USINT | Target line. |
+| `uiTargetDeviceId` | UINT | Target device. |
 
-```text
-Normal
-    │
-AlarmTrigger
-    │
-Active
-    │
-Acknowledge
-    │
-Acknowledged
-    │
-Reset
-    │
-Normal
-```
+## AlarmManager Outputs
 
-Persistent fault
+| Name | Type | Description |
+|---|---|---|
+| `xAnyAlarmActive` | BOOL | At least one active lifecycle record exists. |
+| `xAnyBlockingAlarm` | BOOL | At least one blocking alarm exists. |
+| `xAnyCriticalAlarm` | BOOL | Critical or Emergency alarm exists. |
+| `xAnyEmergencyAlarm` | BOOL | Emergency alarm exists. |
+| `eHighestSeverity` | E_AlarmSeverity | Highest current severity. |
+| `uiActiveAlarmCount` | UINT | Bounded active count. |
+| `xTableOverflow` | BOOL | Active table capacity was exceeded. |
+| `xEventBufferOverflow` | BOOL | Unsynchronized event capacity was exceeded. |
+| `xCommandAccepted` | BOOL | One-scan command acknowledgement. |
+| `xCommandRejected` | BOOL | One-scan command rejection. |
+| `uiCommandResultCode` | UINT | Bounded rejection/acceptance reason. |
 
-```text
-Active
-    │
-Reset
-    │
-Fault Present
-    │
-Active
-```
+## Rules
 
----
-
-# Rules
-
-- Every active alarm shall have a valid `AlarmCode`.
-- Alarm acknowledgement shall not clear the fault condition.
-- Reset shall only succeed when the fault condition has been removed.
-- Multiple modules may generate alarms simultaneously.
-- Alarm history shall not be deleted by a reset.
-
----
-
-# Used By
-
-- FB_AlarmManager
-- FB_LineManager
-- FB_Selector
-- FB_Blower
-- FB_Dosing
-- FB_FeedingControlManager
-- HMI
-- AquaFeed Manager
+- Acknowledge does not clear ConditionActive.
+- Reset is rejected while ConditionActive is true.
+- Multiple sources may report simultaneously.
+- Same active key maps to one active record.
+- Information severity cannot be Blocking.
+- AlarmManager outputs summaries only; machine modules decide operational transitions.
+- Command sequences are idempotent.

@@ -1,3 +1,11 @@
+# Legacy PLC AlarmManager Specification
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Mixed bounded active lifecycle with PLC history, statistics, text, and platform notification responsibilities.  
+> **Replacement:** `FB_AlarmManager.md`
+
+---
+
 --------------------------------------------------
 001. Document Header
 --------------------------------------------------

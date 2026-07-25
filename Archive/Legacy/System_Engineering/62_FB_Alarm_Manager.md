@@ -1,3 +1,11 @@
+# Legacy AlarmManager Draft
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Minimal draft consolidated into the authoritative AlarmManager.  
+> **Replacement:** `FB_AlarmManager.md`
+
+---
+
 # 62_FB_Alarm_Manager.md
 
 --------------------------------------------------

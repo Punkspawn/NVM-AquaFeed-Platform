@@ -1,3 +1,11 @@
+# Legacy Alarm System Specification
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Consolidated into bounded PLC lifecycle plus Desktop history/text ownership.  
+> **Replacement:** `FB_AlarmManager.md` and `Alarm_Catalog.md`
+
+---
+
 # NVM AquaFeed Platform
 ## Alarm System Specification
 
