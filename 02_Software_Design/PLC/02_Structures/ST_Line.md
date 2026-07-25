@@ -6,75 +6,67 @@
 | Owner | PLC Runtime / AquaCore |
 | Primary writer | `FB_LineManager` |
 | Instance rule | One instance per physical feeding line |
-| Version | 2.0 |
+| Version | 2.1 |
 
 ## Purpose
 
-Publishes one bounded realtime snapshot of a feeding line.
-
-It contains current execution and equipment-summary data only. Job queues, history, user identity, cage records, Smart Farm data, reports, and long-term statistics remain Desktop-owned.
+Publishes one bounded realtime snapshot of a feeding line. Quantities use integer engineering units matching the equipment contracts.
 
 ## Structure
 
 ```iecst
 TYPE ST_Line :
 STRUCT
-    LineId                   : USINT;
-    LineState                : E_LineState;
+    usiLineId                 : USINT;
+    eLineState                : E_LineState;
 
-    Enabled                  : BOOL;
-    Ready                    : BOOL;
-    Busy                     : BOOL;
-    Running                  : BOOL;
-    Paused                   : BOOL;
-    Completed                : BOOL;
-    Fault                    : BOOL;
-    Emergency                : BOOL;
+    xEnabled                  : BOOL;
+    xReady                    : BOOL;
+    xBusy                     : BOOL;
+    xRunning                  : BOOL;
+    xPaused                   : BOOL;
+    xCompleted                : BOOL;
+    xFault                    : BOOL;
+    xEmergency                : BOOL;
 
-    AutoMode                 : BOOL;
-    ManualMode               : BOOL;
-    ServiceMode              : BOOL;
-    SimulationMode           : BOOL;
+    xAutoMode                 : BOOL;
+    xManualMode               : BOOL;
+    xServiceMode              : BOOL;
+    xSimulationMode           : BOOL;
 
-    ActiveJobValid           : BOOL;
-    ActiveJobId              : UDINT;
-    ActiveRecipeId           : UINT;
+    xActiveJobValid           : BOOL;
+    udiActiveJobId            : UDINT;
+    uiActiveRecipeId          : UINT;
 
-    TargetSelectorPosition   : USINT;
-    CurrentSelectorPosition  : USINT;
-    SelectorAtTarget         : BOOL;
+    uiTargetSelectorOutlet    : UINT;
+    uiCurrentSelectorOutlet   : UINT;
+    xSelectorAtTarget         : BOOL;
 
-    TargetFeedKg             : REAL;
-    DeliveredFeedKg          : REAL;
-    RemainingFeedKg          : REAL;
-    ProgressPercent          : REAL;
+    udiTargetFeedCentiKg      : UDINT;
+    udiDeliveredFeedCentiKg   : UDINT;
+    udiRemainingFeedCentiKg   : UDINT;
+    uiProgressPermille        : UINT;
 
-    ElapsedTimeSec           : UDINT;
-    RemainingTimeSec         : UDINT;
+    udiElapsedTimeSec         : UDINT;
+    udiRemainingTimeSec       : UDINT;
 
-    BlowerRunning            : BOOL;
-    Dosing1Running           : BOOL;
-    Dosing2Running           : BOOL;
+    xBlowerRunning            : BOOL;
+    xDosing1Running           : BOOL;
+    xDosing2Running           : BOOL;
 
-    ActiveAlarmId            : UINT;
-END_STRUCT
+    uiActiveAlarmId           : UINT;
+END_STRUCT;
 END_TYPE
 ```
 
-## Ownership
-
-Only the assigned `FB_LineManager` writes its `ST_Line` instance.
-
-Equipment blocks supply feedback; LineManager copies the bounded summary. SystemManager, HMI, Desktop, diagnostics, alarms, and Modbus publication read the snapshot.
-
 ## Field Rules
 
-- `Completed` is a one-scan event unless the communication contract defines a separate latched handshake.
-- `ActiveJobId` and `ActiveRecipeId` are references, not master records.
-- `RemainingFeedKg` shall never be negative.
-- `ProgressPercent` is clamped from 0 to 100.
-- `DeliveredFeedKg` changes only from validated Dosing feedback.
-- `ActiveAlarmId` is zero when no line alarm is active.
+- `xCompleted` is a one-scan event unless the communication contract defines a separate latched handshake.
+- active job and recipe IDs are references, not master records.
+- feed quantities use 0.01 kg per count and never wrap or become negative.
+- `uiProgressPermille` is clamped to 0–1000.
+- delivered feed changes only from validated Dosing increments.
+- `uiActiveAlarmId` is zero when no line alarm is active.
 - Simulation Mode shall not energize physical outputs without an approved IO simulation boundary.
 
 ## Invariants
@@ -83,34 +75,16 @@ Equipment blocks supply feedback; LineManager copies the bounded summary. System
 Dosing1Running OR Dosing2Running -> BlowerRunning
 Dosing1Running OR Dosing2Running -> SelectorAtTarget
 Running -> ActiveJobValid
-Completed -> LineState = LINE_COMPLETE
+Completed -> eLineState = LINE_COMPLETE
 Fault -> NOT Ready
-Emergency -> LineState = LINE_EMERGENCY
-RemainingFeedKg >= 0
-0 <= ProgressPercent <= 100
+Emergency -> eLineState = LINE_EMERGENCY
+DeliveredFeedCentiKg <= TargetFeedCentiKg + approved tolerance
+RemainingFeedCentiKg >= 0
+0 <= ProgressPermille <= 1000
 ```
-
-## Removed or Renamed Legacy Fields
-
-- `Selected`: HMI selection state, not PLC line runtime.
-- `CurrentRecipe` -> `ActiveRecipeId`.
-- `CurrentJob` -> `ActiveJobId` with `UDINT`.
-- `FeedAmountKg` -> `TargetFeedKg`.
-- `FeededAmountKg` -> grammatically correct `DeliveredFeedKg`.
-- `FeedingTimeSec` -> `ElapsedTimeSec`.
-- `SelectorPosition` split into target, current, and verified-at-target fields.
-- `DosingRunning` split for two supported Dosing units.
-- `LastAlarm` -> current bounded `ActiveAlarmId`.
 
 ## Related Documents
 
 - [E_LineState](E_LineState.md)
 - [FB_LineManager](../01_Function_Blocks/FB_LineManager.md)
 - [IF_Line](../04_Interfaces/IF_Line.md)
-
-## Revision History
-
-| Version | Date | Description |
-|---|---|---|
-| 1.0 | Legacy | Initial mixed line status. |
-| 2.0 | 2026-07-25 | Normalized bounded realtime line snapshot. |
