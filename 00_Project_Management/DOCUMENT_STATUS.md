@@ -66,7 +66,8 @@ Authoritative classification manifest
 - `62_FB_RecoveryManager.md`
 - `63_FB_HealthMonitor.md`
 - `88_FB_DiagnosticsManager.md`
-- `90_FB_SystemManager.md`
+- `FB_SystemManager.md` — KEEP; authoritative consolidated PLC specification
+- `Archive/Legacy/PLC/Function_Blocks/90_FB_SystemManager_PlatformOrchestrator.md` — ARCHIVED
 - `100_FB_NetworkManager.md` — communication scope only
 - `101_FB_TimeManager.md` — bounded PLC time service only
 - `102_FB_IOManager.md`
@@ -206,3 +207,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | Date | Source | Result |
 |---|---|---|
 | 2026-07-25 | `PLC/01_Function_Blocks/98_FB_DeviceManager.md` | Archived as `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md`; authoritative PLC document remains `FB_DeviceManager.md`. |
+| 2026-07-25 | `PLC/01_Function_Blocks/90_FB_SystemManager.md` and `01_System_Engineering/56_FB_System_Manager.md` | Consolidated into authoritative `PLC/01_Function_Blocks/FB_SystemManager.md`; both sources archived. |
