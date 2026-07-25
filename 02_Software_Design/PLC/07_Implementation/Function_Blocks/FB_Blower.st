@@ -52,7 +52,6 @@ VAR CONSTANT
     c_uiDiagnosticAccelerationTimeout : UINT := 24;
     c_uiDiagnosticFeedbackLoss : UINT := 25;
     c_uiDiagnosticStopTimeout : UINT := 26;
-    c_uiDiagnosticPostRunTimeout : UINT := 27;
     c_uiDiagnosticCommunication : UINT := 28;
     c_uiDiagnosticDriveFault : UINT := 29;
     c_uiDiagnosticSafety : UINT := 30;
