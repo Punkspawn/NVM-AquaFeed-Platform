@@ -58,8 +58,8 @@ Authoritative classification manifest
 
 ### Keep and normalize
 
-- `57_FB_LineManager.md.txt`
-- `58_FB_Selector.md.txt`
+- `57_FB_LineManager.md`
+- `58_FB_Selector.md`
 - `59_FB_Blower.md`
 - `60_FB_Dosing.md`
 - `61_FB_AlarmManager.md`
@@ -67,16 +67,16 @@ Authoritative classification manifest
 - `63_FB_HealthMonitor.md`
 - `88_FB_DiagnosticsManager.md`
 - `90_FB_SystemManager.md`
-- `100_FB_NetworkManager.md.txt` — communication scope only
-- `101_FB_TimeManager.md.txt` — bounded PLC time service only
-- `102_FB_IOManager.md.txt`
-- `103_FB_MotionManager.md.txt` — only if required by physical motion
-- `105_FB_SafetyManager.md.txt`
-- `106_FB_CIPManager.md.txt` — only if CIP equipment is in scope
-- `107_FB_WaterManager.md.txt` — only if physical equipment is in scope
-- `108_FB_AerationManager.md.txt` — only if physical equipment is in scope
-- `109_FB_OxygenManager.md.txt` — only if physical equipment is in scope
-- `110_FB_FeedingControlManager.md.txt` — merge into Line Manager unless separate responsibility is proven
+- `100_FB_NetworkManager.md` — communication scope only
+- `101_FB_TimeManager.md` — bounded PLC time service only
+- `102_FB_IOManager.md`
+- `103_FB_MotionManager.md` — only if required by physical motion
+- `105_FB_SafetyManager.md`
+- `106_FB_CIPManager.md` — only if CIP equipment is in scope
+- `107_FB_WaterManager.md` — only if physical equipment is in scope
+- `108_FB_AerationManager.md` — only if physical equipment is in scope
+- `109_FB_OxygenManager.md` — only if physical equipment is in scope
+- `110_FB_FeedingControlManager.md` — merge into Line Manager unless separate responsibility is proven
 - `FB_DeviceManager.md` — authoritative new runtime design
 
 ### Merge then archive source
@@ -89,10 +89,10 @@ Authoritative classification manifest
 - `85_FB_NotificationManager.md` — merge active alarm signals; move notifications
 - `86_FB_SecurityManager.md` — retain machine access interlocks only
 - `89_FB_UpdateManager.md` — move delivery to Edge; retain safe activation rules if needed
-- `95_FB_IntegrationManager.md.txt`
-- `97_FB_EdgeManager.md.txt`
-- `98_FB_DeviceManager.md.txt` — legacy asset registry; conflicts with authoritative Device Manager
-- `99_FB_FirmwareManager.md.txt`
+- `95_FB_IntegrationManager.md`
+- `97_FB_EdgeManager.md`
+- `98_FB_DeviceManager.md` — legacy asset registry; conflicts with authoritative Device Manager
+- `99_FB_FirmwareManager.md`
 
 ### Move to Desktop
 
@@ -120,7 +120,7 @@ Authoritative classification manifest
 - `91_FB_AIManager.md`
 - `92_FB_RemoteManager.md`
 - `93_FB_DigitalTwinManager.md`
-- `96_FB_CloudManager.md.txt`
+- `96_FB_CloudManager.md`
 - platform-wide portions of Network, Update, Integration, Edge, Device and Firmware managers
 
 ## PLC/02_Structures
@@ -129,16 +129,16 @@ Authoritative classification manifest
 |---|---|
 | `ST_Device.md` | KEEP — authoritative current structure |
 | `ST_Alarm.md` | KEEP / COMPLETE |
-| `ST_Diagnostics.md.txt` | KEEP / NORMALIZE |
-| `ST_Line.md.txt` | KEEP / NORMALIZE |
-| `ST_ModbusMap.md.txt` | KEEP / NORMALIZE |
-| `ST_Runtime.md.txt` | KEEP bounded counters only |
-| `ST_SystemStatus.md.txt` | KEEP / NORMALIZE |
-| `ST_JobOrder.md.txt` | SPLIT Desktop master / PLC execution snapshot |
-| `ST_Recipe.md.txt` | SPLIT Desktop master / PLC active snapshot |
-| `ST_OperationData.md.txt` | SPLIT PLC current snapshot / Desktop history |
-| `ST_Maintenance.md.txt` | SPLIT PLC counters / Desktop history and plans |
-| `ST_User.md.txt` | MOVE to Desktop |
+| `ST_Diagnostics.md` | KEEP / NORMALIZE |
+| `ST_Line.md` | KEEP / NORMALIZE |
+| `ST_ModbusMap.md` | KEEP / NORMALIZE |
+| `ST_Runtime.md` | KEEP bounded counters only |
+| `ST_SystemStatus.md` | KEEP / NORMALIZE |
+| `ST_JobOrder.md` | SPLIT Desktop master / PLC execution snapshot |
+| `ST_Recipe.md` | SPLIT Desktop master / PLC active snapshot |
+| `ST_OperationData.md` | SPLIT PLC current snapshot / Desktop history |
+| `ST_Maintenance.md` | SPLIT PLC counters / Desktop history and plans |
+| `ST_User.md` | MOVE to Desktop |
 
 ## PLC/03_Functions
 
