@@ -1,110 +1,61 @@
 # IF_Communication
 
----
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | PLC Communication Layer |
+| Version | 2.0 |
 
-# Purpose
+## Purpose
 
-Defines the standard software interface for communication between PLC modules and external devices.
+Publishes bounded channel health and counters without combining application data maps, Desktop sessions, and field-device drivers into one ambiguous interface.
 
-This interface provides a unified communication layer for internal PLC data exchange, HMI communication, AquaFeed Manager connectivity and third-party devices.
+One instance exists per communication channel.
 
----
-
-# Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| Enable | BOOL | Enables the communication interface. |
-| Connect | BOOL | Starts the communication session. |
-| Disconnect | BOOL | Terminates the communication session. |
-| Reset | BOOL | Clears communication faults. |
-
----
-
-# Outputs
+## Inputs
 
 | Name | Type | Description |
-|------|------|-------------|
-| Ready | BOOL | Communication interface is initialized. |
-| Connected | BOOL | Communication link is active. |
-| Busy | BOOL | Data transmission is in progress. |
-| TxCount | UDINT | Total transmitted packets. |
-| RxCount | UDINT | Total received packets. |
-| ErrorCount | UDINT | Total communication errors. |
-| Fault | BOOL | Communication interface fault. |
-| AlarmCode | UINT | Active communication alarm code. |
+|---|---|---|
+| `xEnable` | BOOL | Enables channel supervision. |
+| `xRxActivity` | BOOL | Valid receive activity event. |
+| `xTxActivity` | BOOL | Valid transmit activity event. |
+| `xProtocolError` | BOOL | Bounded protocol error event. |
+| `xTimeout` | BOOL | Timeout event. |
+| `xResetCounters` | BOOL | Accepted service command to reset diagnostic counters. |
 
----
+## Outputs
 
-# Supported Communication
+| Name | Type | Description |
+|---|---|---|
+| `xReady` | BOOL | Channel initialized. |
+| `xCommunicationOK` | BOOL | Fresh validated activity within configured timeout. |
+| `xFault` | BOOL | Channel fault threshold reached. |
+| `udiTxCount` | UDINT | Saturating transmit count. |
+| `udiRxCount` | UDINT | Saturating receive count. |
+| `udiErrorCount` | UDINT | Saturating protocol-error count. |
+| `udiTimeoutCount` | UDINT | Saturating timeout count. |
+| `uiAlarmCode` | UINT | Active bounded communication alarm code. |
 
-- PLC Internal Data Exchange
-- HMI Communication
-- AquaFeed Manager
-- Modbus RTU
-- Modbus TCP
-- Ethernet
+## Channel Profiles
 
----
+### Desktop Modbus TCP
 
-# State Flow
+- Desktop/HMI is client/master.
+- PLC is server/slave.
+- Freshness uses heartbeat counter change, not TCP connection alone.
+- Loss blocks new remote transactions but does not stop healthy active production.
 
-```text
-Disabled
-    │
-Enable
-    │
-Ready
-    │
-Connect
-    │
-Connected
-    │
-Transmit / Receive
-```
+### VFD Modbus RTU
 
-Disconnect sequence
+- PLC is master.
+- VFDs are addressed slaves.
+- Retry and polling are bounded.
+- Each drive profile owns its register definitions.
 
-```text
-Connected
-     │
-Disconnect
-     │
-Ready
-```
+## Rules
 
-Fault sequence
-
-```text
-Any State
-    │
-Communication Error
-    │
-Fault
-    │
-Reset
-    │
-Ready
-```
-
----
-
-# Rules
-
-- Only one active communication session shall exist per interface.
-- Communication errors shall increment `ErrorCount`.
-- Communication faults shall not affect the PLC scan cycle.
-- Automatic reconnection may be attempted after a recoverable fault.
-- `AlarmCode` shall be zero when communication is healthy.
-
----
-
-# Used By
-
-- FB_CommunicationManager
-- FB_ModbusMaster
-- FB_ModbusSlave
-- FB_SystemManager
-- HMI
-- AquaFeed Manager
-- External SCADA Systems
+- Counters saturate instead of wrapping silently.
+- Communication processing never blocks the PLC scan.
+- Channel fault does not directly write machine outputs.
+- Alarm conditions use IF_Alarm.
+- Application data uses the authoritative Modbus TCP register map.
