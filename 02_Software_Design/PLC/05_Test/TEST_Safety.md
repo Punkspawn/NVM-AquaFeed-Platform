@@ -26,7 +26,7 @@
 | SAF-015 | Simultaneous feedback faults | fail closed with deterministic code |
 | SAF-016 | Healthy feedback after startup without local reset | ResetRequired; all permits false |
 | SAF-017 | Valid reset while permit request high | rejected; all permits false |
-| SAF-018 | Valid reset with permit request low | accepted one scan; HealthyStopped; all production permits false |
+| SAF-018 | Valid reset with permit request low | accepted one scan; HealthyStopped; every permit including Recovery false in the reset scan |
 | SAF-019 | New permit request after accepted reset | HealthyPermitted; standard production permits true |
 | SAF-020 | Permit request removed | HealthyStopped; production permits false |
 | SAF-021 | Recovery permission | true only with clear safety gate and stopped equipment |
