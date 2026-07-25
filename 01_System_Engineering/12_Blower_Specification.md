@@ -1,573 +1,93 @@
-# 12_Blower_Specification.md
+# Blower Specification
 
-# NVM AquaFeed Platform
+| Field | Value |
+|---|---|
+| Document ID | AQ-BLW-012 |
+| Status | Approved baseline |
+| Version | 2.0 |
+| Responsibility | Generate transport airflow before and during dosing |
 
-## Blower Specification
+## Hardware Baseline
 
-Document ID : AQ-BLW-012
+| Item | Baseline |
+|---|---|
+| Blower supplier | TMM |
+| Motor | 22 kW, three-phase AC induction motor |
+| Supply class | 380–480 V AC |
+| Default drive | Delta C2000 Plus, panel-mounted |
+| Drive sizing | Heavy-duty output current shall be at least the motor nameplate current |
+| PLC communication | Modbus RTU, PLC sole master |
+| Safety | Hardwired protection remains independent of PLC and Modbus |
 
-Version : 1.0
+The final C2000 Plus order code is selected from the approved motor nameplate current, supply voltage, enclosure arrangement, and regional catalog. The motor/blower nameplate and TMM operating envelope remain the commissioning authority.
 
-Status : Draft
+## Architectural Boundary
 
---------------------------------------------------
-1. Purpose
---------------------------------------------------
+`FB_Blower` is vendor-independent. It consumes only normalized VFD feedback and produces normalized Run and frequency requests.
 
-The blower is responsible for transporting feed from the dosing unit to the selected fish cage.
+The C2000 Plus device profile owns:
 
-The blower is the most critical equipment in the pneumatic feeding system.
+- vendor register addresses and control-word encoding
+- frequency scaling and byte/word order
+- drive status and fault-code decoding
+- bounded poll, timeout, and retry behavior
+- the conversion between C2000 Plus data and `IF_Blower`
 
-No feeding shall occur without blower operation.
+Changing the VFD model replaces the approved device profile and commissioning parameters; it does not replace the blower state machine.
 
-The blower shall always operate under Variable Frequency Drive (VFD) control.
+## Required Normalized Signals
 
---------------------------------------------------
-2. Hardware
---------------------------------------------------
+### PLC to drive profile
 
-Motor Type
+- Run request
+- frequency reference in 0.01 Hz
+- approved reset pulse where permitted by the electrical design
 
-Three Phase AC Induction Motor
+### Drive profile to PLC
 
-Drive
+- drive ready
+- drive running
+- drive fault
+- actual frequency in 0.01 Hz
+- bounded drive fault code
+- communication freshness/health
 
-Delta MS300 (or equivalent)
+Motor current may be published for diagnostics, but it does not bypass drive protection or directly grant dosing permission.
 
-Power
+## Operating Sequence
 
-Configurable
+1. Selector reaches its accepted position.
+2. Blower command and target frequency are validated and latched.
+3. The drive starts and accelerates within bounded time.
+4. Actual frequency remains within tolerance for the complete stable interval.
+5. Only then may `xDosingPermitted` become true.
+6. After normal dosing completion, the blower runs for the configured post-run interval.
+7. Run is removed and stopped feedback is verified within timeout.
 
-Default
+Safety loss, drive fault, or critical VFD communication loss removes Run immediately and bypasses post-run. Reset never restarts the blower automatically.
 
-22 kW
+## Commissioning Parameters
 
-Communication
+The following values are approved during TMM blower and motor commissioning rather than compiled as model-specific constants:
 
-Modbus RTU
+- minimum and maximum operating frequency
+- target frequency
+- acceleration time; initial engineering range 15–30 s
+- deceleration or coast-stop method
+- AtSpeed tolerance and stable time
+- start, acceleration, feedback-loss, stop, and communication timeouts
+- post-run time and maximum permitted post-run
+- TMM minimum-speed, pressure/vacuum, relief-valve, and thermal constraints
 
-Speed Feedback
+For a lobed/positive-displacement blower, constant-torque capability and the manufacturer minimum-speed limit are mandatory. A side-channel blower may use a variable-torque profile only after the exact blower curve is approved.
 
-VFD
+## Acceptance Criteria
 
-Current Feedback
-
-VFD
-
-Fault Feedback
-
-VFD
-
---------------------------------------------------
-3. Operating Modes
---------------------------------------------------
-
-Automatic
-
-Controlled by Line Manager.
-
-Manual
-
-Operator can manually start and stop the blower.
-
-Frequency is adjustable within service limits.
-
-Service
-
-Direct engineering control.
-
-No Mission required.
-
-All diagnostics available.
-
---------------------------------------------------
-4. Automatic Sequence
---------------------------------------------------
-
-Mission Start
-
-↓
-
-Selector Ready
-
-↓
-
-Start Blower
-
-↓
-
-Acceleration
-
-↓
-
-Reach Target Frequency
-
-↓
-
-PreRun Timer
-
-↓
-
-Generate Blower Ready
-
-↓
-
-Allow Dosing
-
---------------------------------------------------
-5. Blower Ready Logic
---------------------------------------------------
-
-READY shall become TRUE only if
-
-Drive Online
-
-AND
-
-No Active Fault
-
-AND
-
-Actual Frequency >= Minimum Operating Frequency
-
-AND
-
-PreRun Timer Completed
-
-AND
-
-Communication OK
-
---------------------------------------------------
-6. Blower Stop Sequence
---------------------------------------------------
-
-Mission Finished
-
-↓
-
-Stop Dosing
-
-↓
-
-PostRun Timer
-
-↓
-
-Ramp Down
-
-↓
-
-Drive Stop
-
-↓
-
-Ready = FALSE
-
---------------------------------------------------
-7. Emergency Stop
---------------------------------------------------
-
-Emergency Stop immediately removes blower run command.
-
-PostRun shall NOT execute.
-
-Mission status becomes PAUSED.
-
-Operator intervention required.
-
---------------------------------------------------
-8. Frequency Control
---------------------------------------------------
-
-Frequency command is generated by PLC.
-
-Operator may change blower frequency during feeding.
-
-Changes shall be limited by Service Parameters.
-
---------------------------------------------------
-9. Frequency Limits
---------------------------------------------------
-
-Minimum Frequency
-
-Service Adjustable
-
-Default
-
-25 Hz
-
-Maximum Frequency
-
-Service Adjustable
-
-Default
-
-50 Hz
-
-Operator cannot exceed limits.
-
---------------------------------------------------
-10. Ramp Parameters
---------------------------------------------------
-
-Acceleration Time
-
-Configurable
-
-Default
-
-5 seconds
-
-Deceleration Time
-
-Configurable
-
-Default
-
-8 seconds
-
-Controlled by VFD.
-
---------------------------------------------------
-11. PreRun Time
---------------------------------------------------
-
-Purpose
-
-Fill pneumatic line with airflow before feed enters pipe.
-
-Default
-
-5 seconds
-
-Range
-
-0...60 seconds
-
-Service adjustable.
-
---------------------------------------------------
-12. Feed Delay
---------------------------------------------------
-
-After PreRun
-
-System waits additional delay before dosing.
-
-Purpose
-
-Guarantee stable airflow.
-
-Default
-
-1 second
-
-Range
-
-0...10 seconds
-
---------------------------------------------------
-13. PostRun Time
---------------------------------------------------
-
-Purpose
-
-Empty feed remaining inside pipe.
-
-Default
-
-10 seconds
-
-Range
-
-1...120 seconds
-
-Must always execute after normal feeding.
-
---------------------------------------------------
-14. Communication
---------------------------------------------------
-
-Communication
-
-Modbus RTU
-
-PLC shall periodically read
-
-Actual Frequency
-
-Motor Current
-
-Fault Code
-
-Run Status
-
-Ready Status
-
-Communication Status
-
-Communication Timeout
-
---------------------------------------------------
-15. Fault Detection
---------------------------------------------------
-
-The following conditions generate alarms
-
-Drive Fault
-
-Communication Lost
-
-Over Current
-
-Over Voltage
-
-Under Voltage
-
-Motor Overload
-
-Frequency Feedback Error
-
-Drive Not Ready
-
---------------------------------------------------
-16. Alarm List
---------------------------------------------------
-
-BLW001
-
-Drive Communication Lost
-
-BLW002
-
-Drive Fault
-
-BLW003
-
-Motor Over Current
-
-BLW004
-
-Motor Overload
-
-BLW005
-
-Frequency Too Low
-
-BLW006
-
-Frequency Too High
-
-BLW007
-
-Drive Not Ready
-
-BLW008
-
-Emergency Stop
-
-BLW009
-
-Unexpected Stop
-
-BLW010
-
-Configuration Error
-
---------------------------------------------------
-17. Runtime Statistics
---------------------------------------------------
-
-Store
-
-Runtime Hours
-
-Start Count
-
-Stop Count
-
-Fault Count
-
-Average Frequency
-
-Maximum Frequency
-
-Average Motor Current
-
-Total Operating Hours
-
-Last Start Time
-
-Last Stop Time
-
---------------------------------------------------
-18. Maintenance
---------------------------------------------------
-
-Maintenance shall be based on
-
-Runtime Hours
-
-Start Count
-
-Manufacturer Schedule
-
-Examples
-
-Bearing Inspection
-
-Belt Inspection
-
-Coupling Inspection
-
-Cleaning
-
-Motor Inspection
-
-VFD Inspection
-
---------------------------------------------------
-19. Maintenance Reminders
---------------------------------------------------
-
-Reminder 1
-
-Upcoming Maintenance
-
-Reminder 2
-
-Maintenance Due
-
-Reminder 3
-
-Maintenance Overdue
-
-Reminders shall remain active until acknowledged.
-
---------------------------------------------------
-20. Energy Monitoring
---------------------------------------------------
-
-Future versions shall calculate
-
-Estimated Power
-
-Estimated Energy
-
-Daily Consumption
-
-Weekly Consumption
-
-Monthly Consumption
-
-Cost Estimation
-
---------------------------------------------------
-21. Health Monitoring
---------------------------------------------------
-
-Health Score shall consider
-
-Drive Fault History
-
-Motor Current Stability
-
-Communication Errors
-
-Runtime
-
-Maintenance Status
-
-Health Score
-
-0...100 %
-
---------------------------------------------------
-22. Parameters
---------------------------------------------------
-
-Minimum Frequency
-
-Maximum Frequency
-
-PreRun Time
-
-Feed Delay
-
-PostRun Time
-
-Acceleration Time
-
-Deceleration Time
-
-Maintenance Interval
-
-Communication Timeout
-
-Retry Count
-
---------------------------------------------------
-23. Service Functions
---------------------------------------------------
-
-Manual Run
-
-Manual Stop
-
-Manual Frequency
-
-Fault Reset
-
-Read Drive Registers
-
-Write Drive Parameters
-
-Communication Test
-
-Health Report
-
-Backup Parameters
-
-Restore Parameters
-
---------------------------------------------------
-24. Future Features
---------------------------------------------------
-
-Automatic Frequency Optimization
-
-Energy Saving Mode
-
-Dual Blower Support
-
-Redundant Blower
-
-Predictive Bearing Failure
-
-Remote Firmware Update
-
-AI Energy Optimization
-
---------------------------------------------------
-25. Acceptance Criteria
---------------------------------------------------
-
-The blower shall
-
-Start successfully after selector becomes READY.
-
-Never allow dosing before PreRun completes.
-
-Always execute PostRun after normal feeding.
-
-Reject frequencies outside service limits.
-
-Continue operating if PC communication is lost.
-
-Generate alarms within one second after drive fault.
-
---------------------------------------------------
-
-End Of Document
+- no dosing before stable airflow permission
+- frequencies outside the commissioned range are rejected
+- command replay cannot create another start
+- normal completion always receives bounded post-run
+- critical faults remove Run without waiting for post-run
+- PC loss does not stop an already accepted healthy PLC-controlled job
+- VFD communication loss removes dosing permission and Run
+- fault reset requires the cause removed and produces no automatic restart

@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Status | Authoritative |
-| Version | 3.0 |
+| Version | 3.1 |
 
 ## Topology
 
@@ -35,6 +35,15 @@ Desktop–PLC and PLC–field-device communication are separate channels with se
 - each approved device profile owns slave address, register map, poll class, timeout, retry limit, byte/word order, and safe failure behavior
 - control-critical feedback receives bounded polling priority
 - VFD registers never share meaning with the Desktop application map
+
+## Default Blower VFD Profile
+
+- current hardware baseline: panel-mounted Delta C2000 Plus, 22 kW, 380–480 V class
+- final drive order code is selected by motor nameplate current and the C2000 Plus heavy-duty rating
+- the device profile translates vendor-specific registers into the normalized `IF_Blower` boundary
+- `FB_Blower` never contains C2000 register addresses, control words, byte order, or vendor fault decoding
+- replacing the drive requires another approved static profile and commissioning test, not another blower state machine
+- exact register addresses and parameter values are frozen only against the purchased drive manual revision
 
 ## Scheduling and Bounds
 
