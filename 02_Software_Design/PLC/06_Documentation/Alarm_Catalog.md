@@ -93,7 +93,7 @@ Inactive
 - Continued condition does not refresh activation sequence.
 - Reoccurrence after closing creates a new activation sequence.
 - Occurrence counters are bounded.
-- Table or event-buffer overflow creates a dedicated diagnostic alarm.
+- Table or event-buffer overflow is latched without overwriting existing records; the source aggregation layer raises the dedicated diagnostic condition.
 
 ## History
 
