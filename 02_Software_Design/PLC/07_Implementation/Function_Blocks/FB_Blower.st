@@ -92,11 +92,7 @@ ELSIF NOT xSafetyOK THEN
     uiDiagnosticCode := c_uiDiagnosticSafety;
 ELSIF xDriveFault THEN
     eState := BlowerFault;
-    IF uiDriveFaultCode > 0 THEN
-        uiDiagnosticCode := c_uiDiagnosticDriveFault;
-    ELSE
-        uiDiagnosticCode := c_uiDiagnosticDriveFault;
-    END_IF;
+    uiDiagnosticCode := c_uiDiagnosticDriveFault;
 ELSIF NOT xCommunicationHealthy THEN
     eState := BlowerFault;
     uiDiagnosticCode := c_uiDiagnosticCommunication;
