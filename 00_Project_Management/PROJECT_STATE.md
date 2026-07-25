@@ -25,6 +25,7 @@ Classify and consolidate accumulated engineering documents before implementation
 - `ST_Device` and the new runtime `FB_DeviceManager` drafted.
 - Repository-wide architecture audit completed.
 - Desktop-domain manager documents removed from the PLC tree and classified under the Desktop boundary.
+- Integration/Edge platform managers removed from the PLC tree; a safe update-activation contract remains at the PLC boundary.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -39,7 +40,6 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Move Integration/Edge manager documents out of PLC.
-2. Normalize diagnostics and IO contracts.
-3. Normalize Selector, Blower, and Dosing core equipment blocks.
-4. Resume remaining PLC implementation contracts.
+1. Normalize diagnostics and IO contracts.
+2. Normalize Selector, Blower, and Dosing core equipment blocks.
+3. Resume remaining PLC implementation contracts.

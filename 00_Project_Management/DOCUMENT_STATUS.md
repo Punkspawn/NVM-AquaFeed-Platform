@@ -92,11 +92,7 @@ Authoritative classification manifest
 - `Archive/Legacy/PLC/Function_Blocks/84_FB_MaintenanceManager.md` — ARCHIVED; platform maintenance belongs to Desktop
 - `85_FB_NotificationManager.md` — merge active alarm signals; move notifications
 - `86_FB_SecurityManager.md` — retain machine access interlocks only
-- `89_FB_UpdateManager.md` — move delivery to Edge; retain safe activation rules if needed
-- `95_FB_IntegrationManager.md`
-- `97_FB_EdgeManager.md`
 - `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md` — ARCHIVED; non-authoritative Desktop/Edge concept source
-- `99_FB_FirmwareManager.md`
 
 ### Moved to Desktop
 
@@ -110,13 +106,11 @@ The following former PLC documents now reside in `03_Desktop/Legacy_Design` as n
 
 Authoritative ownership is defined by `03_Desktop/Domain/DOMAIN_INDEX.md`.
 
-### Move to Integration / Edge
+### Moved to Integration / Edge
 
-- `91_FB_AIManager.md`
-- `92_FB_RemoteManager.md`
-- `93_FB_DigitalTwinManager.md`
-- `96_FB_CloudManager.md`
-- platform-wide portions of Network, Update, Integration, Edge, Device and Firmware managers
+The former Update, AI, Remote, Digital Twin, Integration, Cloud, Edge, and Firmware manager documents now reside in `04_Integration/Legacy_Design` as non-authoritative design inputs.
+
+Authoritative ownership is defined by `04_Integration/INTEGRATION_INDEX.md`; the PLC retains only the bounded `IF_UpdateActivation.md` safety handshake. Network communication supervision remains in PLC pending normalization.
 
 ## PLC/02_Structures
 
@@ -218,3 +212,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Modbus TCP map and communication topology | Defined fixed 4000-WORD map, corrected TCP/RTU roles, added interoperability tests, and archived two conflicting system-engineering drafts. |
 | 2026-07-25 | Runtime and maintenance | Kept retentive lifetime/service counters in PLC; moved plans, users, dates, work orders, history, and analytics to Desktop. |
 | 2026-07-25 | Desktop-domain managers | Removed 18 business/service manager specifications from the PLC tree; preserved them as non-authoritative Desktop design inputs and added an authoritative Desktop domain index. |
+| 2026-07-25 | Integration/Edge managers | Removed eight platform-service specifications from the PLC tree; defined the Integration/Edge boundary and retained only a bounded PLC update-activation handshake. |

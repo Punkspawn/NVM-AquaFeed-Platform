@@ -180,3 +180,13 @@ The following former PLC Function Block specifications were removed from the PLC
 - quality and analytics
 
 Authoritative Desktop scope is indexed by `03_Desktop/Domain/DOMAIN_INDEX.md`. The historical `FB_` prefix in legacy files does not grant PLC ownership.
+
+
+## Completed Integration and Edge Migration
+
+The former Update, AI, Remote, Digital Twin, Integration, Cloud, Edge, and Firmware manager specifications were removed from the PLC tree and preserved under `04_Integration/Legacy_Design` as non-authoritative inputs.
+
+- Integration/Edge authority: `04_Integration/INTEGRATION_INDEX.md`
+- PLC boundary: `04_Integration/PLC_EDGE_BOUNDARY.md`
+- PLC safe activation handshake: `02_Software_Design/PLC/04_Interfaces/IF_UpdateActivation.md`
+- `FB_NetworkManager` remains queued for normalization as bounded PLC communication supervision only.
