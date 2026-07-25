@@ -6,7 +6,7 @@
 | Owner | PLC Runtime / AquaCore |
 | Responsibility | Deterministic execution of one active feeding job on one physical line |
 | Instance rule | One instance per feeding line |
-| Version | 1.1 |
+| Version | 1.2 |
 | Governing boundary | [System Boundary](../../../00_Project_Management/SYSTEM_BOUNDARY.md) |
 
 ---
@@ -220,7 +220,7 @@ Business validation such as fish-lot existence, commercial stock, operator permi
 On Pause:
 
 1. stop Dosing immediately
-2. keep or stop Blower according to the approved safe pause policy
+2. request the Blower's already-latched post-run and confirm it stopped
 3. preserve the immutable job snapshot and delivered quantity
 4. enter Paused only after the required equipment feedback is confirmed
 
@@ -364,6 +364,19 @@ One line instance -> one active job maximum
 
 ---
 
+## Current Implementation Baseline
+
+The current release implements the deterministic single-job core in `07_Implementation/Function_Blocks/FB_LineManager.st`.
+
+- exactly one Dosing unit is selected by mask `16#01` or `16#02`
+- transfer integrity is supplied by the transfer owner as `xCandidateIntegrityValid`
+- accepted and rejected transfer sequences are replay-protected
+- Blower frequency and recipe post-run time are accepted and latched together by `FB_Blower`
+- Pause stops Dosing, completes that latched Blower post-run, then enters Paused with progress preserved
+- Resume returns through equipment validation, Selector verification, Blower verification, and pre-run
+- fault reset currently discards the active execution; automatic quantity-aware recovery remains disabled until `FB_RecoveryManager` integration can prove delivered quantity trustworthy
+- job queue, history, reporting, Smart Farm, and vendor-register logic remain outside this block
+
 ## Dependencies
 
 - `ST_Line`
@@ -410,3 +423,4 @@ The following sources were consolidated into this specification:
 |---|---|---|
 | 1.0 | 2026-07-25 | Consolidated authoritative one-line realtime execution specification. |
 | 1.1 | 2026-07-26 | Aligned integer units with equipment contracts and limited current jobs to one selected Dosing unit. |
+| 1.2 | 2026-07-26 | Recorded the implemented pause, transfer-integrity, Blower post-run, replay, and conservative recovery policies. |

@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Producer | `FB_LineManager` |
-| Version | 2.2 |
+| Version | 2.3 |
 
 ## System Commands and Conditions
 
@@ -27,6 +27,7 @@
 | Name | Type | Description |
 |---|---|---|
 | `xJobAvailable` / `xAcceptJob` | BOOL | Complete candidate and one-scan acceptance request. |
+| `xCandidateIntegrityValid` | BOOL | Transfer owner has validated atomic payload completeness and CRC; false candidates are rejected. |
 | `stJobCandidate` | ST_JobExecution | Candidate immutable job snapshot. |
 | `stRecipeCandidate` | ST_RecipeExecution | Candidate immutable recipe snapshot. |
 
@@ -62,6 +63,7 @@ Accepted candidates are copied into private immutable storage. Current release a
 | `xBlowerRunRequest` | BOOL | Maintain airflow. |
 | `xBlowerNormalStopRequest` | BOOL | Execute controlled Blower post-run/stop. |
 | `uiBlowerTargetFreqCentiHz` | UINT | Accepted Blower frequency. |
+| `udiBlowerRequestedPostRunTimeMs` | UDINT | Accepted recipe post-run, latched by FB_Blower with the run command. |
 | `udiBlowerCommandSequence` | UDINT | Blower command identity. |
 | `xDosing1StartRequest` / `xDosing1StopRequest` | BOOL | Dosing 1 transaction command. |
 | `udiDosing1CommandSequence` | UDINT | Dosing 1 transaction identity. |

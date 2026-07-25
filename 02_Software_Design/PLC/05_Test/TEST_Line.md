@@ -4,7 +4,7 @@
 |---|---|
 | Status | Authoritative test specification |
 | Target | FB_LineManager, E_LineState, ST_Line, IF_Line |
-| Version | 1.0 |
+| Version | 1.1 |
 
 | ID | Test | Expected result |
 |---|---|---|
@@ -32,6 +32,12 @@
 | LIN-022 | Replay line command | no duplicate transition or event |
 | LIN-023 | Completion event | emitted exactly one scan after safe sequence |
 | LIN-024 | Time/counter boundary | wrap-safe elapsed checks; quantities saturate or fault, never wrap |
+| LIN-025 | Replayed accepted or rejected transfer sequence | ignored; no second acceptance/rejection event |
+| LIN-026 | Pause airflow policy | selected Dosing stops; Blower completes its accepted recipe post-run once; Paused follows safe stop |
+| LIN-027 | Resume after Pause | Selector and Blower are revalidated and full pre-run is applied before remaining Dosing target |
+| LIN-028 | Execution-time multiplication bound | maximum accepted seconds cannot overflow UDINT milliseconds |
+| LIN-029 | Inactive status cleanup | active identifiers, targets, delivered quantity, and elapsed time return to zero after terminal event |
+| LIN-030 | Fault reset with prior active job | active job is discarded and no automatic recovery/restart occurs |
 
 ## Gate
 
