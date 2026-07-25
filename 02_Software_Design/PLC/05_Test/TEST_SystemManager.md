@@ -1,189 +1,36 @@
 # TEST_SystemManager
 
----
-
-# Purpose
-
-Verify the correct operation of FB_SystemManager.
-
-This test validates all primary operating states, state transitions and safety functions.
-
----
-
-# Preconditions
-
-- PLC powered on
-- No active alarms
-- Emergency Stop released
-- All communication operational
-
----
-
-# Test Cases
-
-## TC-001 Power Up
-
-### Procedure
-
-1. Power on PLC.
-2. Wait for initialization.
-
-### Expected Result
-
-- Ready = TRUE
-- Running = FALSE
-- Fault = FALSE
-- Emergency = FALSE
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-002 Automatic Start
-
-### Procedure
-
-1. System Ready
-2. Press Start
-
-### Expected Result
-
-- Running = TRUE
-- Ready = FALSE
-- AlarmCode = 0
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-003 Stop
-
-### Procedure
-
-1. System Running
-2. Press Stop
-
-### Expected Result
-
-- Running = FALSE
-- Stopped = TRUE
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-004 Pause
-
-### Procedure
-
-1. System Running
-2. Press Pause
-
-### Expected Result
-
-- Paused = TRUE
-- Production suspended
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-005 Resume
-
-### Procedure
-
-1. System Paused
-2. Press Start
-
-### Expected Result
-
-- Running = TRUE
-- Paused = FALSE
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-006 Emergency Stop
-
-### Procedure
-
-1. System Running
-2. Activate Emergency Stop
-
-### Expected Result
-
-- Emergency = TRUE
-- Running = FALSE
-- All outputs OFF
-- Alarm generated
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-007 Fault Recovery
-
-### Procedure
-
-1. Simulate fault
-2. Remove fault
-3. Press Reset
-
-### Expected Result
-
-- Fault cleared
-- Ready = TRUE
-- Alarm reset
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-# Acceptance Criteria
-
-All test cases shall pass successfully.
-
-No unexpected state transitions shall occur.
-
-No watchdog or communication errors shall be generated.
-
----
-
-# Tested Module
-
-FB_SystemManager
-
----
-
-# Revision
-
-Version 1.0
+| Field | Value |
+|---|---|
+| Status | Authoritative test specification |
+| Target | FB_SystemManager, E_SystemState, ST_SystemStatus, IF_System |
+| Version | 2.0 |
+
+| ID | Test | Expected result |
+|---|---|---|
+| SYS-001 | Disabled, healthy system | state Off; LineEnable false |
+| SYS-002 | Healthy enable with one valid mode and ready lines | Initializing reaches Ready deterministically |
+| SYS-003 | No mode request | not Ready; all mode outputs false |
+| SYS-004 | Two or more mode requests | ModeConflict true; not Ready; LineEnable false |
+| SYS-005 | Automatic Start rising edge | Ready transitions once to Running |
+| SYS-006 | Held Start through later stop cycle | no automatic restart without a new rising edge |
+| SYS-007 | Running Pause rising edge | state Paused; automatic line permission remains safety-gated |
+| SYS-008 | Paused Start rising edge | returns to Running only with valid Automatic mode and ready lines |
+| SYS-009 | Stop from Ready, Running, or Paused | state Stopping until AllLinesStopped |
+| SYS-010 | Automatic-mode loss while Running or Paused | controlled Stopping; no continued production state |
+| SYS-011 | Emergency from every state | state Emergency; SystemReady and LineEnable false |
+| SYS-012 | Safety loss or blocking fault from every state | state Fault; SystemReady and LineEnable false |
+| SYS-013 | Reset while cause active | rejected; state remains Fault or Emergency |
+| SYS-014 | Reset after cause removed but lines not stopped | rejected |
+| SYS-015 | Valid Reset rising edge | one-scan ResetAccepted; state Initializing; no automatic restart |
+| SYS-016 | Held Reset | no repeated acceptance event |
+| SYS-017 | Desktop communication loss while Running | running lifecycle unchanged; status flag false |
+| SYS-018 | Manual, Service, or Simulation mode | mutually exclusive status; automatic LineEnable false |
+| SYS-019 | Feeding inactive | CurrentLine, ActiveRecipeId, and CurrentJobId publish zero |
+| SYS-020 | Feeding active with bounded summary | supplied current references are published without business/history data |
+| SYS-021 | Undefined internal state | fail-closed Fault state |
+| SYS-022 | Status invariants | one primary state; Running implies AutoMode; ModeConflict implies not Ready |
+
+## Gate
+
+Implementation is accepted only when all state transitions are deterministic, command replay is prevented, safety priority is preserved, and Desktop communication remains diagnostic rather than a safety interlock.
