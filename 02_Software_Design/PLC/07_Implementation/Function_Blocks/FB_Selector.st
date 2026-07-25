@@ -35,8 +35,12 @@ VAR
     udiMoveStartTickMs : UDINT;
     udiSettleStartTickMs : UDINT;
     udiLastResetSequence : UDINT;
+    xHasAcceptedCommand : BOOL;
+    xHasAcceptedReset : BOOL;
     diPositionError : DINT;
     iOutlet : INT;
+    iTargetOutlet : INT;
+    uiPositionMatchCount : UINT;
     xConfigValid : BOOL;
     xTargetValid : BOOL;
     xLogicalLeft : BOOL;
@@ -103,21 +107,30 @@ ELSE
                (diPosition > stConfig.diAnalogMaximum) THEN
                 uiDiagnosticCode := c_uiDiagnosticPosition;
             ELSE
+                uiPositionMatchCount := 0;
+
                 FOR iOutlet := 1 TO 12 DO
                     IF (iOutlet <= UINT_TO_INT(stConfig.uiOutletCount)) AND
                        stConfig.axOutletCalibrated[iOutlet] AND
                        (ABS(diPosition - stConfig.adiOutletPosition[iOutlet]) <=
                         stConfig.diPositionTolerance) THEN
                         uiCurrentOutlet := INT_TO_UINT(iOutlet);
+                        uiPositionMatchCount := uiPositionMatchCount + 1;
                     END_IF;
                 END_FOR;
 
-                IF uiCurrentOutlet > 0 THEN
+                IF uiPositionMatchCount > 1 THEN
+                    uiCurrentOutlet := 0;
+                    eState := SelectorFault;
+                    uiDiagnosticCode := c_uiDiagnosticConfig;
+                ELSIF uiCurrentOutlet > 0 THEN
                     eState := SelectorReady;
                     uiDiagnosticCode := c_uiDiagnosticNone;
                 ELSIF xHomeRequest AND
-                      (udiCommandSequence <> udiLastAcceptedSequence) THEN
+                      (NOT xHasAcceptedCommand OR
+                       (udiCommandSequence <> udiLastAcceptedSequence)) THEN
                     udiLastAcceptedSequence := udiCommandSequence;
+                    xHasAcceptedCommand := TRUE;
                     udiMoveStartTickMs := udiMonotonicTickMs;
                     eState := SelectorHoming;
                     uiDiagnosticCode := c_uiDiagnosticNone;
@@ -141,7 +154,6 @@ ELSE
                 eState := SelectorFault;
                 uiDiagnosticCode := c_uiDiagnosticTimeout;
             ELSE
-                xLogicalLeft := TRUE;
                 xMoveLeftRequest := NOT stConfig.xReverseDirection;
                 xMoveRightRequest := stConfig.xReverseDirection;
             END_IF;
@@ -154,13 +166,16 @@ ELSE
                 eState := SelectorFault;
                 uiDiagnosticCode := c_uiDiagnosticFeedback;
             ELSIF xMoveRequest AND
-                  (udiCommandSequence <> udiLastAcceptedSequence) THEN
+                  (NOT xHasAcceptedCommand OR
+                   (udiCommandSequence <> udiLastAcceptedSequence)) THEN
                 udiLastAcceptedSequence := udiCommandSequence;
+                xHasAcceptedCommand := TRUE;
                 xTargetValid := (uiTargetOutlet >= 1) AND
                                 (uiTargetOutlet <= stConfig.uiOutletCount);
 
                 IF xTargetValid THEN
-                    xTargetValid := stConfig.axOutletCalibrated[uiTargetOutlet];
+                    iTargetOutlet := UINT_TO_INT(uiTargetOutlet);
+                    xTargetValid := stConfig.axOutletCalibrated[iTargetOutlet];
                 END_IF;
 
                 IF NOT xTargetValid THEN
@@ -168,7 +183,7 @@ ELSE
                 ELSE
                     uiLatchedTargetOutlet := uiTargetOutlet;
                     diLatchedTargetPosition :=
-                        stConfig.adiOutletPosition[uiTargetOutlet];
+                        stConfig.adiOutletPosition[iTargetOutlet];
                     uiCurrentOutlet := 0;
                     udiMoveStartTickMs := udiMonotonicTickMs;
                     eState := SelectorMoving;
@@ -234,12 +249,14 @@ ELSE
             END_IF;
 
         SelectorFault:
-            IF (udiResetSequence <> udiLastResetSequence) AND
+            IF (NOT xHasAcceptedReset OR
+                (udiResetSequence <> udiLastResetSequence)) AND
                xSafetyOK AND
                NOT xMotorFault AND
                NOT xMotorRunning AND
                xPositionValid THEN
                 udiLastResetSequence := udiResetSequence;
+                xHasAcceptedReset := TRUE;
                 eState := SelectorInitializing;
                 uiDiagnosticCode := c_uiDiagnosticNone;
             END_IF;
@@ -257,11 +274,6 @@ IF xMoveLeftRequest AND xMoveRightRequest THEN
     xMoveRightRequest := FALSE;
     eState := SelectorFault;
     uiDiagnosticCode := c_uiDiagnosticFeedback;
-END_IF;
-
-(* Service permission is intentionally unused until explicit jog commands exist. *)
-IF xServicePermission AND FALSE THEN
-    xReady := xReady;
 END_IF;
 
 END_FUNCTION_BLOCK
