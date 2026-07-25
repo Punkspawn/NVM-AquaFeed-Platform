@@ -117,12 +117,12 @@ fbLine1(
     xSelectorReady := fbSelector.xReady,
     xSelectorInPosition := fbSelector.xInPosition,
     uiSelectorOutlet := fbSelector.uiCurrentOutlet,
-    xSelectorFault := fbSelector.eState = SelectorFault,
+    xSelectorFault := (fbSelector.eState = SelectorFault),
     xBlowerReady := fbBlower.xReady,
     xBlowerRunning := fbBlower.xRunning,
     xBlowerAtSpeed := fbBlower.xAtSpeed,
     xBlowerDosingPermitted := fbBlower.xDosingPermitted,
-    xBlowerFault := fbBlower.eState = BlowerFault,
+    xBlowerFault := (fbBlower.eState = BlowerFault),
     xDosing1Ready := fbDosing1.xReady,
     xDosing1Running := fbDosing1.xRunning,
     xDosing1Fault := fbDosing1.xFault,
@@ -233,7 +233,7 @@ fbSelectorDevice(
     xAutoRequest := FALSE,
     xManualRequest := FALSE,
     xRunFeedback := fbSelector.xMoving,
-    xFaultFeedback := fbSelector.eState = SelectorFault,
+    xFaultFeedback := (fbSelector.eState = SelectorFault),
     xInterlockOK := FALSE,
     xCommunicationOK := TRUE);
 
@@ -245,7 +245,7 @@ fbBlowerDevice(
     xAutoRequest := FALSE,
     xManualRequest := FALSE,
     xRunFeedback := fbBlower.xRunning,
-    xFaultFeedback := fbBlower.eState = BlowerFault,
+    xFaultFeedback := (fbBlower.eState = BlowerFault),
     xInterlockOK := FALSE,
     xCommunicationOK := FALSE);
 
@@ -302,7 +302,7 @@ fbDiagnostics(
     uiEquipmentDiagnosticCode := 0,
     uiEquipmentSeverity := 30,
     xCounterSaturation :=
-        g_udiScanSequence = c_udiCounterMaximum);
+        (g_udiScanSequence = c_udiCounterMaximum));
 
 fbRecovery(
     xEvaluateRequest := FALSE,
