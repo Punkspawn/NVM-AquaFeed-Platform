@@ -179,6 +179,7 @@ Every retained function must be reviewed for deterministic, stateless execution.
 - MOVE Desktop manager tests with their corresponding Desktop specifications.
 - ARCHIVE tests whose target module is archived.
 - Treat all current files as test specifications, not evidence of executed tests.
+- `TEST_Line.md` — AUTHORITATIVE LineManager contract and sequence test specification.
 
 ## PLC/06_Documentation
 
