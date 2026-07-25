@@ -24,12 +24,13 @@ Passing this document permits one-line bench composition. It does not authorize 
 | 4 | `Functions/F_CyclicDistance.st` | UDINT arithmetic |
 | 5 | `Function_Blocks/FB_TimeService.st` | `ST_TimeService` |
 | 6 | `Function_Blocks/FB_IOManager.st` | `ST_IO` |
-| 7 | `Function_Blocks/FB_Selector.st` | Selector types, `F_ElapsedMs`, `F_CyclicDistance` |
-| 8 | `Function_Blocks/FB_Blower.st` | Blower types, `F_ElapsedMs` |
-| 9 | `Function_Blocks/FB_Dosing.st` | Dosing types, `F_ElapsedMs` |
-| 10 | `Function_Blocks/FB_LineManager.st` | Line/job/recipe types, `F_ElapsedMs` |
-| 11 | `Function_Blocks/FB_SystemManager.st` | `E_SystemState`, `ST_SystemStatus` |
-| 12 | `Programs/PRG_AquaFeedMain.st` | imported globals |
+| 7 | `Function_Blocks/FB_AlarmManager.st` | Alarm types and fixed alarm capacities |
+| 8 | `Function_Blocks/FB_Selector.st` | Selector types, `F_ElapsedMs`, `F_CyclicDistance` |
+| 9 | `Function_Blocks/FB_Blower.st` | Blower types, `F_ElapsedMs` |
+| 10 | `Function_Blocks/FB_Dosing.st` | Dosing types, `F_ElapsedMs` |
+| 11 | `Function_Blocks/FB_LineManager.st` | Line/job/recipe types, `F_ElapsedMs` |
+| 12 | `Function_Blocks/FB_SystemManager.st` | `E_SystemState`, `ST_SystemStatus` |
+| 13 | `Programs/PRG_AquaFeedMain.st` | imported globals |
 
 Do not import archived or documentation-only PLC drafts into the vendor project.
 
@@ -37,7 +38,7 @@ Do not import archived or documentation-only PLC drafts into the vendor project.
 
 Pass only when:
 
-- all twelve sources import in the listed order
+- all thirteen sources import in the listed order
 - no duplicate type, Function, Function Block, Program, or global symbol exists
 - the vendor project retains the intended unsigned widths (`USINT`, `UINT`, `UDINT`)
 - no automatic conversion introduces `REAL`
