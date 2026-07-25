@@ -47,6 +47,7 @@ Implement the approved PLC core from normalized authoritative contracts.
 - `FB_AlarmManager` runtime core implemented with catalog range validation, duplicate/policy-drift rejection, saturating occurrence/event sequences, automatic/manual-clear lifecycles, replay-safe commands, oldest-first Desktop persistence, and bounded global summaries.
 - `FB_SafetyCoordinator` standard-PLC core implemented with startup/reset latching, immediate fail-closed permission removal, local sequence-controlled reset, reset-scan restart prevention, and no safety-hardware command path.
 - `FB_RecoveryManager` runtime implemented from the closed contract with private immutable checkpoint capture, fail-closed quantity/prerequisite validation, replay-safe local approval, safe reinitialization handshake, and explicit LineManager acceptance.
+- `FB_CommunicationManager` per-channel supervision core implemented with explicit static bounds, wrap-safe freshness, finite failure threshold, saturating counters, recovery lifecycle, and Service-authorized replay-safe reset.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -56,7 +57,7 @@ New PLC code is admitted only when an authoritative contract and test specificat
 
 ## Next Tasks
 
-1. Run the fifteen-source ISPSoft import and isolated compile gate; record exact vendor diagnostics.
+1. Run the sixteen-source ISPSoft import and isolated compile gate; record exact vendor diagnostics.
 2. Implement the next bounded core manager without expanding field scope.
 2. Run Vendor Compile Gate A and B in ISPSoft and record the exact version, CPU/firmware, errors, and warnings.
 3. Approve one line's physical IO list, channel enable masks, polarity, safe values, time base, and equipment parameters.

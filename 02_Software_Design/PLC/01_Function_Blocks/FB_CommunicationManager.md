@@ -4,35 +4,34 @@
 |---|---|
 | Status | Authoritative |
 | Owner | PLC Communication Layer |
-| Responsibility | Bounded supervision and scheduling of configured PLC communication channels |
-| Version | 1.0 |
+| Responsibility | Deterministic supervision of one statically configured PLC communication channel |
+| Version | 1.1 |
 
 ## Scope
 
-- Desktop/HMI Modbus TCP server publication and command validation
-- PLC-master Modbus RTU polling of approved VFD/field-device profiles
-- channel freshness, timeout, retry, sequence, and bounded counters
-- communication diagnostic conditions
+- one instance per approved Desktop/HMI or field-device channel
+- bounded freshness, timeout, error, recovery, sequence, and counter supervision
+- stable status for equipment and transfer owners
 
-Excluded: DHCP/router/switch management, node discovery, VPN, MQTT, OPC UA, cloud, topology optimization, bandwidth analytics, and remote sessions.
+Excluded: protocol framing, serial-bus arbitration, socket handling, dynamic discovery, DHCP, routing, VPN, MQTT, OPC UA, cloud services, and physical output control. Vendor adapters own actual Modbus TCP/RTU transactions.
 
 ## Execution
 
-- fixed maximum 16 channel records
-- no dynamic discovery or dynamic memory
-- at most one RTU transaction active on one physical bus
-- bounded round-robin polling with priority for required control feedback
-- retry count and timeout are finite per profile
-- cyclic work is limited by the approved scan-time budget
-- TCP application publication uses the explicit `ST_ModbusMap` wire buffer
+- configuration is valid only with non-zero channel/profile/type, freshness timeout, and failure threshold
+- a valid receive refreshes the channel even when its application sequence is a replay
+- only a new application sequence advances LastAcceptedSequence
+- protocol and timeout events increase a saturating consecutive-failure count
+- the configured finite threshold latches the channel fault
+- one valid receive clears the active communication fault and emits one recovery event
+- wrap-safe monotonic elapsed time determines freshness
+- counter reset is sequence-controlled and requires local Service permission
 
 ## Failure Behavior
 
-- channel failure publishes status and alarm conditions; it does not directly write outputs
-- VFD feedback loss is consumed by the owning equipment block, which applies its defined stop behavior
-- Desktop/HMI loss blocks new remote transfers but does not stop a healthy accepted PLC-controlled job
-- reconnection validates map version and sequences before writes resume
-- stale or duplicate commands change no PLC state
+- failure publishes status and a one-scan event; it never writes outputs
+- VFD feedback loss is consumed by the owning equipment block
+- Desktop/HMI loss blocks new remote transfers but does not stop a healthy accepted PLC job
+- disabled or invalidly configured channels fail closed
 
 ## Contracts
 
@@ -40,3 +39,10 @@ Excluded: DHCP/router/switch management, node discovery, VPN, MQTT, OPC UA, clou
 - interface: `IF_Communication.md`
 - topology: `COMMUNICATION_PROTOCOL.md`
 - test: `TEST_Communication.md`
+
+## Revision History
+
+| Version | Date | Description |
+|---|---|---|
+| 1.0 | 2026-07-25 | Normalized bounded communication ownership. |
+| 1.1 | 2026-07-26 | Closed per-channel configuration, freshness, failure, recovery, and reset semantics. |

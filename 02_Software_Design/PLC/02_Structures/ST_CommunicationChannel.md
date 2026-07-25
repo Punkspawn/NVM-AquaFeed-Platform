@@ -33,8 +33,8 @@ STRUCT
 
     uiConsecutiveFailureCount : UINT;
     uiDiagnosticCode        : UINT;
-END_STRUCT
+END_STRUCT;
 END_TYPE
 ```
 
-Counters saturate. Tick comparisons use wrap-safe unsigned elapsed arithmetic. Channel/profile identities come from static approved configuration.
+Counters saturate. Tick comparisons use wrap-safe unsigned elapsed arithmetic. Channel/profile/type identities and supervision thresholds come from static approved configuration. State codes are Disabled=0, Starting=10, Ready=20, Stale=30, and Fault=90.
