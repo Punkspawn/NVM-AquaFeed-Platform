@@ -24,13 +24,14 @@ Passing this document permits one-line bench composition. It does not authorize 
 | 4 | `Functions/F_CyclicDistance.st` | UDINT arithmetic |
 | 5 | `Function_Blocks/FB_TimeService.st` | `ST_TimeService` |
 | 6 | `Function_Blocks/FB_IOManager.st` | `ST_IO` |
-| 7 | `Function_Blocks/FB_AlarmManager.st` | Alarm types and fixed alarm capacities |
-| 8 | `Function_Blocks/FB_Selector.st` | Selector types, `F_ElapsedMs`, `F_CyclicDistance` |
-| 9 | `Function_Blocks/FB_Blower.st` | Blower types, `F_ElapsedMs` |
-| 10 | `Function_Blocks/FB_Dosing.st` | Dosing types, `F_ElapsedMs` |
-| 11 | `Function_Blocks/FB_LineManager.st` | Line/job/recipe types, `F_ElapsedMs` |
-| 12 | `Function_Blocks/FB_SystemManager.st` | `E_SystemState`, `ST_SystemStatus` |
-| 13 | `Programs/PRG_AquaFeedMain.st` | imported globals |
+| 7 | `Function_Blocks/FB_SafetyCoordinator.st` | safety coordination state and status types |
+| 8 | `Function_Blocks/FB_AlarmManager.st` | Alarm types and fixed alarm capacities |
+| 9 | `Function_Blocks/FB_Selector.st` | Selector types, `F_ElapsedMs`, `F_CyclicDistance` |
+| 10 | `Function_Blocks/FB_Blower.st` | Blower types, `F_ElapsedMs` |
+| 11 | `Function_Blocks/FB_Dosing.st` | Dosing types, `F_ElapsedMs` |
+| 12 | `Function_Blocks/FB_LineManager.st` | Line/job/recipe types, `F_ElapsedMs` |
+| 13 | `Function_Blocks/FB_SystemManager.st` | `E_SystemState`, `ST_SystemStatus` |
+| 14 | `Programs/PRG_AquaFeedMain.st` | imported globals |
 
 Do not import archived or documentation-only PLC drafts into the vendor project.
 
@@ -38,7 +39,7 @@ Do not import archived or documentation-only PLC drafts into the vendor project.
 
 Pass only when:
 
-- all thirteen sources import in the listed order
+- all fourteen sources import in the listed order
 - no duplicate type, Function, Function Block, Program, or global symbol exists
 - the vendor project retains the intended unsigned widths (`USINT`, `UINT`, `UDINT`)
 - no automatic conversion introduces `REAL`
@@ -53,13 +54,14 @@ Compile in this order:
 1. Types, globals, and both Functions
 2. `FB_TimeService`
 3. `FB_IOManager`
-4. `FB_AlarmManager`
-5. `FB_Selector`
-6. `FB_Blower`
-7. `FB_Dosing`
-8. `FB_LineManager`
-9. `FB_SystemManager`
-10. `PRG_AquaFeedMain`
+4. `FB_SafetyCoordinator`
+5. `FB_AlarmManager`
+6. `FB_Selector`
+7. `FB_Blower`
+8. `FB_Dosing`
+9. `FB_LineManager`
+10. `FB_SystemManager`
+11. `PRG_AquaFeedMain`
 
 Acceptance:
 

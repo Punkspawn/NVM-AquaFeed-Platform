@@ -45,6 +45,7 @@ Implement the approved PLC core from normalized authoritative contracts.
 - Delta DVP-SV3/ISPSoft vendor compile gate defined with exact import order, isolated compile acceptance, syntax-risk checks, one-line bench prerequisites, six-line composition evidence, and hardware commissioning stop conditions.
 - AlarmManager execution boundary closed with 32 bounded condition updates per scan, 64 active lifecycle records, a 128-event oldest-first persistence handshake, explicit inactive updates, and fail-visible overflow behavior.
 - `FB_AlarmManager` runtime core implemented with catalog range validation, duplicate/policy-drift rejection, saturating occurrence/event sequences, automatic/manual-clear lifecycles, replay-safe commands, oldest-first Desktop persistence, and bounded global summaries.
+- `FB_SafetyCoordinator` standard-PLC core implemented with startup/reset latching, immediate fail-closed permission removal, local sequence-controlled reset, reset-scan restart prevention, and no safety-hardware command path.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 

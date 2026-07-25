@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Status | Authoritative coordination test specification |
-| Target | FB_SafetyCoordinator, E_SafetyCoordinationState, ST_SafetyStatus, IF_Safety |
+| Target | FB_SafetyCoordinator v1.1, E_SafetyCoordinationState, ST_SafetyStatus, IF_Safety v1.1 |
 
 > Safety validation of E-stop, safety relay, STO, contactors, stopping time, PL/SIL, wiring, and fault exclusions requires the approved electrical safety plan and competent-person validation. These PLC tests do not certify a safety function.
 
@@ -24,6 +24,14 @@
 | SAF-013 | Simulation/force request | prohibited; permits unchanged |
 | SAF-014 | Power recovery | no automatic restart |
 | SAF-015 | Simultaneous feedback faults | fail closed with deterministic code |
+| SAF-016 | Healthy feedback after startup without local reset | ResetRequired; all permits false |
+| SAF-017 | Valid reset while permit request high | rejected; all permits false |
+| SAF-018 | Valid reset with permit request low | accepted one scan; HealthyStopped; every permit including Recovery false in the reset scan |
+| SAF-019 | New permit request after accepted reset | HealthyPermitted; standard production permits true |
+| SAF-020 | Permit request removed | HealthyStopped; production permits false |
+| SAF-021 | Recovery permission | true only with clear safety gate and stopped equipment |
+| SAF-022 | Missing/invalid feedback after prior healthy state | permits false immediately; ResetRequired latched |
+| SAF-023 | New reset sequence while ResetRequired is already false | rejected one scan with bounded ResetNotRequired diagnostic; permits follow current safe state |
 
 ## Separate Hardware Validation
 
