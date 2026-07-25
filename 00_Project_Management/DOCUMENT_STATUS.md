@@ -132,7 +132,7 @@ Authoritative classification manifest
 | `ST_Device.md` | KEEP — authoritative current structure |
 | `ST_Alarm.md` | KEEP / COMPLETE |
 | `ST_Diagnostics.md` | KEEP / NORMALIZE |
-| `ST_Line.md` | KEEP / NORMALIZE |
+| `ST_Line.md` | KEEP; authoritative bounded realtime line snapshot |
 | `ST_ModbusMap.md` | KEEP / NORMALIZE |
 | `ST_Runtime.md` | KEEP bounded counters only |
 | `ST_SystemStatus.md` | KEEP / NORMALIZE |
@@ -168,7 +168,8 @@ Every retained function must be reviewed for deterministic, stateless execution.
 
 | Scope | Action |
 |---|---|
-| Line, selector, diagnostics | KEEP / NORMALIZE |
+| `IF_Line.md` | KEEP; authoritative line command/feedback/status contract |
+| Selector and diagnostics interfaces | KEEP / NORMALIZE |
 | `IF_System.md` | KEEP; authoritative consolidated command/status contract |
 | `Archive/Legacy/PLC/Interfaces/IF_SystemStatus.md` | ARCHIVED; superseded duplicate |
 | Communication | KEEP / NORMALIZE |
@@ -214,3 +215,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | `PLC/04_Interfaces/IF_SystemStatus.md` | Consolidated into authoritative `IF_System.md`; former interface archived. |
 | 2026-07-25 | `ST_SystemStatus.md` | Normalized as bounded realtime PLC snapshot; `E_SystemState.md` added. |
 | 2026-07-25 | Three LineManager source documents | Consolidated into authoritative `PLC/01_Function_Blocks/FB_LineManager.md`; sources archived without content loss. |
+| 2026-07-25 | `ST_Line.md` and `IF_Line.md` | Normalized as the authoritative bounded line contract; `E_LineState.md` added. |
