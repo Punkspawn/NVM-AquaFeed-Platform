@@ -20,6 +20,8 @@ This directory contains importable IEC 61131-3 Structured Text sources.
 
 - `Function_Blocks/FB_TimeService.st` — monotonic timing, wrap-safe elapsed calculation, saturated second sequence, and idempotent UTC observation acceptance
 - `Function_Blocks/FB_IOManager.st` — safe startup image, immutable input snapshot, bounded output arbitration, and single applied-output image
+- `Function_Blocks/FB_Selector.st` — bounded 12-outlet automatic positioning and homing core
+- `Functions/F_ElapsedMs.st` — wrap-safe unsigned elapsed-time helper
 
 ## Rules
 
