@@ -187,3 +187,92 @@ STRUCT
     udiStopTimeoutMs : UDINT;
 END_STRUCT;
 END_TYPE
+
+TYPE ST_JobExecution :
+STRUCT
+    uiSnapshotVersion : UINT;
+    udiTransferSequence : UDINT;
+    udiJobId : UDINT;
+    usiLineId : USINT;
+    uiRecipeId : UINT;
+    udiRecipeRevision : UDINT;
+    uiTargetSelectorOutlet : UINT;
+    byDosingUnitMask : BYTE;
+    udiTargetFeedCentiKg : UDINT;
+    udiMaximumExecutionTimeSec : UDINT;
+    xAllowRecovery : BOOL;
+    usiMaximumRetryCount : USINT;
+    uiPayloadCRC16 : UINT;
+END_STRUCT;
+END_TYPE
+
+TYPE ST_RecipeExecution :
+STRUCT
+    uiSnapshotVersion : UINT;
+    uiRecipeId : UINT;
+    udiRecipeRevision : UDINT;
+    uiDosingSpeedPermille : UINT;
+    uiBlowerFreqCentiHz : UINT;
+    udiSelectorSettleTimeMs : UDINT;
+    udiBlowerPreRunTimeMs : UDINT;
+    udiBlowerPostRunTimeMs : UDINT;
+    udiMaximumDosingTimeSec : UDINT;
+    udiFeedToleranceCentiKg : UDINT;
+    uiPayloadCRC16 : UINT;
+END_STRUCT;
+END_TYPE
+
+TYPE ST_LineConfig :
+STRUCT
+    usiLineId : USINT;
+    uiSelectorOutletCount : UINT;
+    xDosing1Enabled : BOOL;
+    xDosing2Enabled : BOOL;
+    udiMaximumTargetCentiKg : UDINT;
+    udiMaximumFeedToleranceCentiKg : UDINT;
+    uiMinimumDosingSpeedPermille : UINT;
+    uiMaximumDosingSpeedPermille : UINT;
+    uiMinimumBlowerFreqCentiHz : UINT;
+    uiMaximumBlowerFreqCentiHz : UINT;
+    udiMaximumSelectorSettleTimeMs : UDINT;
+    udiMaximumBlowerPreRunTimeMs : UDINT;
+    udiMaximumBlowerPostRunTimeMs : UDINT;
+    udiMaximumDosingTimeSec : UDINT;
+    udiMaximumExecutionTimeSec : UDINT;
+END_STRUCT;
+END_TYPE
+
+TYPE ST_Line :
+STRUCT
+    usiLineId : USINT;
+    eLineState : E_LineState;
+    xEnabled : BOOL;
+    xReady : BOOL;
+    xBusy : BOOL;
+    xRunning : BOOL;
+    xPaused : BOOL;
+    xCompleted : BOOL;
+    xFault : BOOL;
+    xEmergency : BOOL;
+    xAutoMode : BOOL;
+    xManualMode : BOOL;
+    xServiceMode : BOOL;
+    xSimulationMode : BOOL;
+    xActiveJobValid : BOOL;
+    udiActiveJobId : UDINT;
+    uiActiveRecipeId : UINT;
+    uiTargetSelectorOutlet : UINT;
+    uiCurrentSelectorOutlet : UINT;
+    xSelectorAtTarget : BOOL;
+    udiTargetFeedCentiKg : UDINT;
+    udiDeliveredFeedCentiKg : UDINT;
+    udiRemainingFeedCentiKg : UDINT;
+    uiProgressPermille : UINT;
+    udiElapsedTimeSec : UDINT;
+    udiRemainingTimeSec : UDINT;
+    xBlowerRunning : BOOL;
+    xDosing1Running : BOOL;
+    xDosing2Running : BOOL;
+    uiActiveAlarmId : UINT;
+END_STRUCT;
+END_TYPE
