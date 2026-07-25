@@ -18,6 +18,7 @@ Use [VENDOR_COMPILE_GATE.md](VENDOR_COMPILE_GATE.md) for the exact listed-source
 - `Function_Blocks/FB_SystemManager.st` — global lifecycle, mode arbitration, command-edge handling, safety-priority permissions, and bounded realtime status publication
 - `Function_Blocks/FB_LineManager.st` — immutable single-job acceptance, Selector/Blower/Dosing coordination, bounded progress, controlled shutdown, and one-scan completion
 - `Function_Blocks/FB_AlarmManager.st` — 64-record active lifecycle, oldest-first 128-event persistence handshake, replay-safe commands, and bounded priority summaries
+- `Function_Blocks/FB_DiagnosticsManager.st` — fixed-priority current diagnostic aggregation, replay-safe scan-overrun accounting, saturating counters, and one-scan occurrences
 - `Function_Blocks/FB_DeviceManager.st` — deterministic one-device identity, mode arbitration, common availability, feedback validation, and stable diagnostics
 - `Function_Blocks/FB_HealthMonitor.st` — fixed-priority readiness, continuation, degradation, severity, and one-scan material transition aggregation
 - `Function_Blocks/FB_CommunicationManager.st` — bounded per-channel freshness, failure/recovery lifecycle, saturating counters, and service-authorized replay-safe reset
