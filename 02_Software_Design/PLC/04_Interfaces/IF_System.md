@@ -1,126 +1,73 @@
 # IF_System
 
----
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | PLC Runtime / AquaCore |
+| Producer | `FB_SystemManager` |
+| Version | 2.0 |
 
-# Purpose
+## Purpose
 
-Defines the standard software interface for the overall machine status.
+Defines the single command and status contract for global PLC lifecycle control.
 
-This interface provides a common system status that is shared by all PLC modules, the HMI and AquaFeed Manager.
+This document replaces the overlapping former `IF_System` and `IF_SystemStatus` specifications.
 
----
-
-# Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| Enable | BOOL | Enables the system. |
-| Start | BOOL | Starts automatic operation. |
-| Stop | BOOL | Stops automatic operation. |
-| Pause | BOOL | Pauses the current operation. |
-| Reset | BOOL | Resets system faults and returns to Ready state. |
-| EmergencyStop | BOOL | Emergency stop input. |
-
----
-
-# Outputs
+## Commands Into FB_SystemManager
 
 | Name | Type | Description |
-|------|------|-------------|
-| Ready | BOOL | System is ready for operation. |
-| Running | BOOL | Automatic operation is active. |
-| Paused | BOOL | Operation is paused. |
-| Stopped | BOOL | System is stopped. |
-| Fault | BOOL | System fault detected. |
-| Emergency | BOOL | Emergency stop is active. |
-| AlarmCode | UINT | Active system alarm code. |
+|---|---|---|
+| `xEnable` | BOOL | Enables the PLC application lifecycle. |
+| `xStart` | BOOL | Requests automatic execution from Ready or resume from Paused. |
+| `xStop` | BOOL | Requests controlled stopping. |
+| `xPause` | BOOL | Requests pause of active automatic execution. |
+| `xReset` | BOOL | Requests reset after the physical fault or emergency condition is removed. |
+| `xAutoRequest` | BOOL | Requests Automatic mode. |
+| `xManualRequest` | BOOL | Requests Manual mode. |
+| `xServiceRequest` | BOOL | Requests Service mode. |
+| `xSimulationRequest` | BOOL | Requests Simulation mode. |
 
----
+## Realtime Conditions Into FB_SystemManager
 
-# State Flow
+| Name | Type | Description |
+|---|---|---|
+| `xEmergencyStop` | BOOL | Active emergency input; highest priority. |
+| `xSafetyOK` | BOOL | Aggregated approved safety-chain state. |
+| `xBlockingFault` | BOOL | Active fault that prevents readiness or operation. |
+| `xAllRequiredLinesReady` | BOOL | Required lines are ready for requested operation. |
+| `xAnyLineRunning` | BOOL | At least one line is executing. |
+| `xAllLinesStopped` | BOOL | Controlled stop sequence is complete. |
+| `xDesktopCommunicationOK` | BOOL | Desktop link status; diagnostic only, not a safety interlock. |
 
-```text
-Power On
-    │
-Enable
-    │
-Ready
-    │
-Start
-    │
-Running
-```
+## Outputs
 
-Pause sequence
+| Name | Type | Description |
+|---|---|---|
+| `stSystemStatus` | ST_SystemStatus | Authoritative bounded realtime snapshot. |
+| `xSystemReady` | BOOL | Convenience output matching `stSystemStatus.SystemReady`. |
+| `xLineEnable` | BOOL | Global permission for line execution. |
+| `xModeConflict` | BOOL | More than one operating mode was requested. |
+| `xResetAccepted` | BOOL | Reset request passed all acceptance rules. |
 
-```text
-Running
-    │
-Pause
-    │
-Paused
-    │
-Start
-    │
-Running
-```
+## Contract Rules
 
-Stop sequence
+- Emergency overrides every command.
+- Active safety or blocking faults prevent Ready and Running.
+- Exactly one operating mode may be selected.
+- Service Mode prevents automatic feeding.
+- Desktop communication loss updates status and alarms but does not stop a healthy PLC-controlled feeding cycle.
+- Consumers shall read `ST_SystemStatus` instead of maintaining independent global status flags.
+- Only `FB_SystemManager` writes global lifecycle and mode fields.
 
-```text
-Running
-    │
-Stop
-    │
-Stopped
-    │
-Ready
-```
+## Related Documents
 
-Emergency sequence
+- [FB_SystemManager](../01_Function_Blocks/FB_SystemManager.md)
+- [ST_SystemStatus](../02_Structures/ST_SystemStatus.md)
+- [E_SystemState](../02_Structures/E_SystemState.md)
 
-```text
-Any State
-    │
-Emergency Stop
-    │
-Emergency
-    │
-Reset
-    │
-Ready
-```
+## Revision History
 
-Fault sequence
-
-```text
-Any State
-    │
-Fault
-    │
-Reset
-    │
-Ready
-```
-
----
-
-# Rules
-
-- `EmergencyStop` shall have the highest priority.
-- Automatic operation shall only start when `Ready = TRUE`.
-- `Reset` shall only clear faults after the fault condition has been removed.
-- Only one primary operating state (`Ready`, `Running`, `Paused`, `Stopped`, `Fault`, `Emergency`) shall be active at a time.
-- `AlarmCode` shall be zero when no system alarm is active.
-
----
-
-# Used By
-
-- FB_SystemManager
-- FB_FeedingControlManager
-- FB_LineManager
-- FB_RuntimeManager
-- FB_AlarmManager
-- HMI
-- AquaFeed Manager
+| Version | Date | Description |
+|---|---|---|
+| 1.0 | Legacy | Initial command-only interface. |
+| 2.0 | 2026-07-25 | Consolidated command and status contract. |

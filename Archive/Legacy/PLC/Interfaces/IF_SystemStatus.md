@@ -1,3 +1,12 @@
+# Legacy Global System Status Interface
+
+> **Status:** Legacy / Superseded  
+> **Former path:** `02_Software_Design/PLC/04_Interfaces/IF_SystemStatus.md`  
+> **Reason archived:** Its status outputs and lifecycle rules overlapped with `IF_System.md`.  
+> **Replacement:** `02_Software_Design/PLC/04_Interfaces/IF_System.md`
+
+---
+
 # IF_SystemStatus
 
 ---

@@ -299,7 +299,6 @@ Simulation and Service modes shall also remain mutually exclusive with other ope
 - [PLC Module Index](../../../00_Project_Management/PLC_MODULE_INDEX.md)
 - [ST_SystemStatus](../02_Structures/ST_SystemStatus.md)
 - [IF_System](../04_Interfaces/IF_System.md)
-- [IF_SystemStatus](../04_Interfaces/IF_SystemStatus.md)
 - [FB_DeviceManager](FB_DeviceManager.md)
 
 ---

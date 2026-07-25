@@ -105,4 +105,12 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - Archived expanded legacy concept: `Archive/Legacy/PLC/Function_Blocks/90_FB_SystemManager_PlatformOrchestrator.md`
 - Archived minimal draft: `Archive/Legacy/System_Engineering/56_FB_System_Manager.md`
 - Resolution: PLC owns global lifecycle, mode arbitration, readiness, safety priority, and realtime status. Desktop/Edge owns database, users, history, reports, cloud, and distributed platform orchestration.
-- Follow-up: normalize `ST_SystemStatus`, then consolidate `IF_System.md` and `IF_SystemStatus.md` into one contract.
+- System contract: `E_SystemState.md`, `ST_SystemStatus.md`, and `IF_System.md` are authoritative; the former `IF_SystemStatus.md` is archived.
+
+
+## Authoritative System Contract
+
+- State enum: `02_Software_Design/PLC/02_Structures/E_SystemState.md`
+- Realtime snapshot: `02_Software_Design/PLC/02_Structures/ST_SystemStatus.md`
+- Command and status interface: `02_Software_Design/PLC/04_Interfaces/IF_System.md`
+- Archived duplicate: `Archive/Legacy/PLC/Interfaces/IF_SystemStatus.md`

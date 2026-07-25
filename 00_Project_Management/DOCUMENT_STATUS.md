@@ -167,7 +167,9 @@ Every retained function must be reviewed for deterministic, stateless execution.
 
 | Scope | Action |
 |---|---|
-| Line, selector, diagnostics, system status | KEEP / NORMALIZE |
+| Line, selector, diagnostics | KEEP / NORMALIZE |
+| `IF_System.md` | KEEP; authoritative consolidated command/status contract |
+| `Archive/Legacy/PLC/Interfaces/IF_SystemStatus.md` | ARCHIVED; superseded duplicate |
 | Communication | KEEP / NORMALIZE |
 | Job order and recipe | SPLIT Desktop master / PLC snapshot |
 | Service | KEEP realtime machine-service subset only |
@@ -208,3 +210,5 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 |---|---|---|
 | 2026-07-25 | `PLC/01_Function_Blocks/98_FB_DeviceManager.md` | Archived as `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md`; authoritative PLC document remains `FB_DeviceManager.md`. |
 | 2026-07-25 | `PLC/01_Function_Blocks/90_FB_SystemManager.md` and `01_System_Engineering/56_FB_System_Manager.md` | Consolidated into authoritative `PLC/01_Function_Blocks/FB_SystemManager.md`; both sources archived. |
+| 2026-07-25 | `PLC/04_Interfaces/IF_SystemStatus.md` | Consolidated into authoritative `IF_System.md`; former interface archived. |
+| 2026-07-25 | `ST_SystemStatus.md` | Normalized as bounded realtime PLC snapshot; `E_SystemState.md` added. |
