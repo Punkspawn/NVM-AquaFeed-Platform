@@ -31,6 +31,7 @@ VAR CONSTANT
     c_uiDiagnosticContactorFeedback : UINT := 54;
     c_uiDiagnosticEquipmentRunning : UINT := 55;
     c_uiDiagnosticPermitRequestActive : UINT := 56;
+    c_uiDiagnosticResetNotRequired : UINT := 57;
 END_VAR
 
 xResetAccepted := FALSE;
@@ -80,6 +81,10 @@ IF xLocalResetRequest AND
         xResetRejected := TRUE;
         stSafety.uiDiagnosticCode :=
             c_uiDiagnosticContactorFeedback;
+    ELSIF NOT xResetRequiredLatched THEN
+        xResetRejected := TRUE;
+        stSafety.uiDiagnosticCode :=
+            c_uiDiagnosticResetNotRequired;
     ELSIF NOT xEquipmentStopped THEN
         xResetRejected := TRUE;
         stSafety.uiDiagnosticCode :=
@@ -126,14 +131,18 @@ ELSIF xResetRequiredLatched THEN
 ELSIF xStandardControlPermitRequest AND
       NOT xResetAccepted THEN
     stSafety.eState := SafetyHealthyPermitted;
-    stSafety.uiDiagnosticCode := c_uiDiagnosticNone;
+    IF NOT xResetRejected THEN
+        stSafety.uiDiagnosticCode := c_uiDiagnosticNone;
+    END_IF;
     stSafety.xAutomaticPermitted := TRUE;
     stSafety.xMotionPermitted := TRUE;
     stSafety.xBlowerPermitted := TRUE;
     stSafety.xDosingPermitted := TRUE;
 ELSE
     stSafety.eState := SafetyHealthyStopped;
-    stSafety.uiDiagnosticCode := c_uiDiagnosticNone;
+    IF NOT xResetRejected THEN
+        stSafety.uiDiagnosticCode := c_uiDiagnosticNone;
+    END_IF;
 END_IF;
 
 stSafety.xRecoveryPermitted :=
