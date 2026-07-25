@@ -17,6 +17,7 @@ Use [VENDOR_COMPILE_GATE.md](VENDOR_COMPILE_GATE.md) for the exact twelve-source
 
 - `Function_Blocks/FB_SystemManager.st` — global lifecycle, mode arbitration, command-edge handling, safety-priority permissions, and bounded realtime status publication
 - `Function_Blocks/FB_LineManager.st` — immutable single-job acceptance, Selector/Blower/Dosing coordination, bounded progress, controlled shutdown, and one-scan completion
+- `Function_Blocks/FB_AlarmManager.st` — 64-record active lifecycle, oldest-first 128-event persistence handshake, replay-safe commands, and bounded priority summaries
 - `Function_Blocks/FB_TimeService.st` — monotonic timing, wrap-safe elapsed calculation, saturated second sequence, and idempotent UTC observation acceptance
 - `Function_Blocks/FB_IOManager.st` — safe startup image, immutable input snapshot, bounded output arbitration, and single applied-output image
 - `Function_Blocks/FB_Selector.st` — bounded linear or cyclic automatic positioning and homing core

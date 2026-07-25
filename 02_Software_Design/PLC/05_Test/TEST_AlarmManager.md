@@ -4,7 +4,7 @@
 |---|---|
 | Status | Authoritative test specification |
 | Target | FB_AlarmManager v1.1 and alarm contract v2.1 |
-| Version | 2.1 |
+| Version | 2.2 |
 
 ## Test Cases
 
@@ -39,6 +39,8 @@
 | ALM-027 | 65th simultaneous active key | TableOverflow latched; existing 64 records preserved |
 | ALM-028 | 129th unsynchronized event | EventBufferOverflow latched; existing 128 events preserved |
 | ALM-029 | Event sequence exhaustion | no silent wrap; fail-visible overflow/diagnostic state |
+| ALM-030 | Duplicate valid key twice in one input image | first update processed; later duplicate rejected visibly |
+| ALM-031 | Severity/reset/blocking changes while key active | update rejected; accepted policy remains immutable |
 
 ## Acceptance Criteria
 

@@ -129,6 +129,19 @@ AlarmManager -> no direct physical output
 14. Full active table and event-buffer overflow are reported.
 15. Reset never restarts equipment.
 
+## Current Implementation Baseline
+
+The current release implements the bounded lifecycle core in `07_Implementation/Function_Blocks/FB_AlarmManager.st`.
+
+- array order is deterministic; the first valid update for one key wins and later same-scan duplicates are rejected
+- catalog code/source ranges and Information/non-blocking policy are validated numerically
+- accepted severity, reset, and blocking policy is immutable until the lifecycle returns Inactive
+- activation, acknowledgement, clear, and reset share one saturating event sequence
+- Desktop removes only the exact oldest event; replay or mismatch removes nothing
+- table and event overflow are latched and never overwrite an active record or retained pending event
+- automatic clear and manual reset lifecycles remain separate
+- AlarmManager publishes summaries only and has no equipment command output
+
 ## Dependencies
 
 - `ST_Alarm`

@@ -46,10 +46,13 @@ The aggregation caller presents at most 32 valid condition updates per scan. A p
 | `eHighestSeverity` | E_AlarmSeverity | Highest current severity. |
 | `uiActiveAlarmCount` | UINT | Bounded active count. |
 | `xTableOverflow` | BOOL | Active table capacity was exceeded. |
+| `xInputRejected` | BOOL | One or more condition updates were rejected this scan. |
+| `uiInputResultCode` | UINT | Bounded last input rejection reason for this scan. |
 | `xEventBufferOverflow` | BOOL | Unsynchronized event capacity was exceeded. |
 | `xCommandAccepted` | BOOL | One-scan command acknowledgement. |
 | `xCommandRejected` | BOOL | One-scan command rejection. |
 | `uiCommandResultCode` | UINT | Bounded rejection/acceptance reason. |
+| `udiLastProcessedCommandSequence` | UDINT | Last new command sequence accepted for evaluation, including rejected commands. |
 
 ## Rules
 
@@ -57,6 +60,8 @@ The aggregation caller presents at most 32 valid condition updates per scan. A p
 - Reset is rejected while ConditionActive is true.
 - Multiple sources may report simultaneously.
 - Same active key maps to one active record.
+- Duplicate valid updates for one key in the same scan are rejected after the first entry.
+- Severity, reset policy, and blocking policy cannot change during an active lifecycle.
 - Information severity cannot be Blocking.
 - AlarmManager outputs summaries only; machine modules decide operational transitions.
 - Command sequences are idempotent.
