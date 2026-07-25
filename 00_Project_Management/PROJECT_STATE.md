@@ -37,6 +37,7 @@ Implement the approved PLC core from normalized authoritative contracts.
 - `FB_IOManager` safety core implemented with safe startup, fixed process-image bounds, permission/safety/watchdog arbitration, and zero/false baseline safe outputs.
 - `FB_Selector` automatic positioning/homing core implemented with bounded configurable outlets, linear-limit and cyclic-360 travel modes, shortest-path selection, replay protection, wrap-safe timeouts, and mutually exclusive logical outputs.
 - `FB_Blower` control core implemented with bounded frequency validation, VFD start/acceleration supervision, stable-speed dosing permission, controlled post-run, critical-stop priority, replay protection, and reset without automatic restart.
+- Blower hardware baseline approved as a panel-mounted 22 kW, 380–480 V Delta C2000 Plus for TMM equipment; vendor register handling remains isolated in a replaceable Modbus RTU device profile.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
