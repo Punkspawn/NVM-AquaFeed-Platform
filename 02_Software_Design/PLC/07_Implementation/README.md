@@ -9,16 +9,14 @@ This directory contains importable IEC 61131-3 Structured Text sources.
 - six feeding lines
 - one Selector, one Blower, and two Dosing units per line
 
-## Import Order
+## Import and Compile Gate
 
-1. `Types/AquaFeed_CoreTypes.st`
-2. `Globals/GVL_AquaFeed.st`
-3. Function Blocks as they are implemented
-4. `Programs/PRG_AquaFeedMain.st`
+Use [VENDOR_COMPILE_GATE.md](VENDOR_COMPILE_GATE.md) for the exact twelve-source import order, isolated compile sequence, ISPSoft syntax checks, one-line bench prerequisites, six-line composition gate, and commissioning stop conditions.
 
 ## Implemented Function Blocks
 
 - `Function_Blocks/FB_SystemManager.st` — global lifecycle, mode arbitration, command-edge handling, safety-priority permissions, and bounded realtime status publication
+- `Function_Blocks/FB_LineManager.st` — immutable single-job acceptance, Selector/Blower/Dosing coordination, bounded progress, controlled shutdown, and one-scan completion
 - `Function_Blocks/FB_TimeService.st` — monotonic timing, wrap-safe elapsed calculation, saturated second sequence, and idempotent UTC observation acceptance
 - `Function_Blocks/FB_IOManager.st` — safe startup image, immutable input snapshot, bounded output arbitration, and single applied-output image
 - `Function_Blocks/FB_Selector.st` — bounded linear or cyclic automatic positioning and homing core
