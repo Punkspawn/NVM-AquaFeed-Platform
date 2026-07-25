@@ -1,3 +1,13 @@
+# Legacy Device Asset Registry Specification
+
+> **Status:** Legacy / Non-authoritative  
+> **Former path:** `02_Software_Design/PLC/01_Function_Blocks/98_FB_DeviceManager.md`  
+> **Former identity:** `FB_DeviceManager` / `AQ-FB-098`  
+> **Reason archived:** This document describes platform-wide discovery, provisioning, firmware inventory, database storage, asset lifecycle, and fleet services. Those responsibilities belong to Desktop or Integration/Edge under AD-001 and SYSTEM_BOUNDARY.md.  
+> **Implementation rule:** Do not implement this document as a PLC Function Block. Reuse relevant requirements only when designing future Desktop/Edge device services.
+
+---
+
 001. Document Header
 
 Document Name
