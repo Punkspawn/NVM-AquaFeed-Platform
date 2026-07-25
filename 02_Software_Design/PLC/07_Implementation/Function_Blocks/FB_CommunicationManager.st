@@ -100,9 +100,17 @@ ELSIF NOT xConfigurationValid THEN
     stChannel.xFault := TRUE;
     xFaultLatched := TRUE;
 ELSIF NOT xTransportReady THEN
-    stChannel.uiState := c_uiStateStale;
-    stChannel.uiDiagnosticCode := c_uiDiagnosticTransportUnavailable;
-    stChannel.xFault := xFaultLatched;
+    IF xFaultLatched THEN
+        stChannel.uiState := c_uiStateFault;
+        stChannel.uiDiagnosticCode :=
+            c_uiDiagnosticFailureThreshold;
+        stChannel.xFault := TRUE;
+    ELSE
+        stChannel.uiState := c_uiStateStale;
+        stChannel.uiDiagnosticCode :=
+            c_uiDiagnosticTransportUnavailable;
+        stChannel.xFault := FALSE;
+    END_IF;
 ELSE
     IF xTxEvent THEN
         stChannel.udiLastTxTickMs := udiMonotonicTickMs;
