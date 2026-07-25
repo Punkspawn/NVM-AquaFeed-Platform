@@ -25,13 +25,22 @@ Authoritative scope index
 
 ## Equipment Blocks
 
-The following remain PLC responsibilities when limited to physical equipment control:
+Current release scope is governed by `AD-004_Current_Physical_Scope.md` and `01_System_Engineering/CURRENT_PHYSICAL_SCOPE.md`:
 
-- `FB_Selector`
-- `FB_Blower`
-- `FB_Dosing`
-- water, aeration, and oxygen blocks only when corresponding physical equipment is in project scope
-- motion and CIP blocks only when a concrete realtime machine requirement is approved
+- `FB_Selector` — **IN SCOPE**
+- `FB_Blower` — **IN SCOPE**
+- `FB_Dosing` — **IN SCOPE**
+- generic Motion manager — **EXCLUDED**; duplicates owned equipment behavior
+- CIP, Water, Aeration, and Oxygen managers — **FUTURE OPTIONS**; archived until an approved scope change satisfies the admission gate
+
+Excluded and future-option modules create no current code, IO, alarm, Modbus, test, or commissioning obligation.
+
+## Authoritative Physical Scope
+
+- decision: `00_Project_Management/Decisions/AD-004_Current_Physical_Scope.md`
+- system scope: `01_System_Engineering/CURRENT_PHYSICAL_SCOPE.md`
+- preserved optional-module sources: `Archive/Legacy/PLC/Optional_Modules/`
+
 
 ## Move Out of PLC
 

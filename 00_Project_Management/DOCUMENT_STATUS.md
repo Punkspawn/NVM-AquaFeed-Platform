@@ -73,14 +73,19 @@ Authoritative classification manifest
 - `FB_CommunicationManager.md` — AUTHORITATIVE bounded channel supervision; former `100_FB_NetworkManager.md` archived
 - `FB_TimeService.md` — AUTHORITATIVE monotonic control time; former `101_FB_TimeManager.md` archived
 - `102_FB_IOManager.md` — AUTHORITATIVE; deterministic process-image and output arbitration
-- `103_FB_MotionManager.md` — only if required by physical motion
 - `FB_SafetyCoordinator.md` — AUTHORITATIVE standard-PLC coordination; former SafetyManager archived
-- `106_FB_CIPManager.md` — only if CIP equipment is in scope
-- `107_FB_WaterManager.md` — only if physical equipment is in scope
-- `108_FB_AerationManager.md` — only if physical equipment is in scope
-- `109_FB_OxygenManager.md` — only if physical equipment is in scope
 - `110_FB_FeedingControlManager.md` — merge into Line Manager unless separate responsibility is proven
 - `FB_DeviceManager.md` — KEEP; authoritative PLC runtime design
+
+### Excluded and future optional modules
+
+- `Archive/Legacy/PLC/Optional_Modules/103_FB_MotionManager.md` — ARCHIVED / EXCLUDED; duplicates Selector, Blower, and Dosing equipment ownership
+- `Archive/Legacy/PLC/Optional_Modules/106_FB_CIPManager.md` — ARCHIVED / FUTURE OPTION
+- `Archive/Legacy/PLC/Optional_Modules/107_FB_WaterManager.md` — ARCHIVED / FUTURE OPTION
+- `Archive/Legacy/PLC/Optional_Modules/108_FB_AerationManager.md` — ARCHIVED / FUTURE OPTION
+- `Archive/Legacy/PLC/Optional_Modules/109_FB_OxygenManager.md` — ARCHIVED / FUTURE OPTION
+
+Current authority is `AD-004_Current_Physical_Scope.md` and `01_System_Engineering/CURRENT_PHYSICAL_SCOPE.md`. Reactivation requires an approved scope change and admission-gate evidence.
 
 ### Merge then archive source
 
@@ -217,3 +222,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Selector, Blower, and Dosing | Normalized three core equipment state machines, integer-unit interfaces, safety/interlock behavior, and tests; archived 16 superseded sources. |
 | 2026-07-25 | Communication, Network, and Time | Replaced platform network/time managers with bounded channel supervision and monotonic PLC time; added interfaces, structures, tests, and 16 Modbus channel summaries. |
 | 2026-07-25 | Recovery, Health, and Safety | Defined restart-safe recovery, bounded readiness aggregation, and standard-PLC safety coordination; archived five expanded manager/test sources. |
+| 2026-07-25 | Optional physical modules | Accepted AD-004; excluded duplicate generic Motion and archived CIP, Water, Aeration, and Oxygen as future options with an explicit admission gate. |
