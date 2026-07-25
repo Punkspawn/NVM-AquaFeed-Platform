@@ -11,13 +11,14 @@ This directory contains importable IEC 61131-3 Structured Text sources.
 
 ## Import and Compile Gate
 
-Use [VENDOR_COMPILE_GATE.md](VENDOR_COMPILE_GATE.md) for the exact twelve-source import order, isolated compile sequence, ISPSoft syntax checks, one-line bench prerequisites, six-line composition gate, and commissioning stop conditions.
+Use [VENDOR_COMPILE_GATE.md](VENDOR_COMPILE_GATE.md) for the exact listed-source import order, isolated compile sequence, ISPSoft syntax checks, one-line bench prerequisites, six-line composition gate, and commissioning stop conditions.
 
 ## Implemented Function Blocks
 
 - `Function_Blocks/FB_SystemManager.st` — global lifecycle, mode arbitration, command-edge handling, safety-priority permissions, and bounded realtime status publication
 - `Function_Blocks/FB_LineManager.st` — immutable single-job acceptance, Selector/Blower/Dosing coordination, bounded progress, controlled shutdown, and one-scan completion
 - `Function_Blocks/FB_AlarmManager.st` — 64-record active lifecycle, oldest-first 128-event persistence handshake, replay-safe commands, and bounded priority summaries
+- `Function_Blocks/FB_RecoveryManager.st` — immutable checkpoint validation, local approval, safe reinitialization handshake, and explicit LineManager handoff
 - `Function_Blocks/FB_SafetyCoordinator.st` — fail-closed observed-safety state, latched restart prevention, local reset sequencing, and standard-control permissions
 - `Function_Blocks/FB_TimeService.st` — monotonic timing, wrap-safe elapsed calculation, saturated second sequence, and idempotent UTC observation acceptance
 - `Function_Blocks/FB_IOManager.st` — safe startup image, immutable input snapshot, bounded output arbitration, and single applied-output image
