@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Status | Authoritative |
-| Version | 2.0 |
+| Version | 3.0 |
 
 ## Topology
 
@@ -11,73 +11,63 @@
 AquaFeed Manager / HMI
         │ Modbus TCP client/master
         ▼
-Delta PLC
-        │ Modbus RTU master
+Delta PLC server/slave
+        │ Modbus RTU sole master
         ▼
-VFDs and approved field devices
+Approved VFDs / field devices
 ```
 
-Desktop–PLC and PLC–field-device communication are separate channels with different roles and maps.
+Desktop–PLC and PLC–field-device communication are separate channels with separate roles, maps, timeout policies, and failure effects.
 
 ## Desktop–PLC Modbus TCP
 
-- Desktop/HMI: client/master
-- PLC: server/slave
-- TCP port: 502
-- application data: versioned Holding Register map
-- commands: sequence + payload + acknowledgement
-- machine authority: PLC
-- Desktop loss: no automatic stop of a healthy active feeding sequence
-- new execution transfer: prohibited while Desktop communication is unavailable
+- application data uses the versioned 4000-WORD Holding Register map
+- commands use identity, sequence, bounded payload, validation result, and acknowledgement
+- changed heartbeat counter proves freshness; socket state or static nonzero value does not
+- Desktop loss blocks new remote commands/transfers
+- a healthy already accepted PLC-controlled job continues
+- unsupported major map version permits diagnostic reads only
 
-## PLC–VFD Modbus RTU
+## PLC–Field Modbus RTU
 
-- PLC: sole master
-- each VFD/device: unique slave address
-- physical layer: RS-485
-- timeout and retry: bounded and configurable
-- drive register definitions: separate device profiles
-- VFD map shall never be confused with the Desktop–PLC application map
+- PLC is the only master on each configured RS-485 bus
+- one transaction may be active per bus
+- each approved device profile owns slave address, register map, poll class, timeout, retry limit, byte/word order, and safe failure behavior
+- control-critical feedback receives bounded polling priority
+- VFD registers never share meaning with the Desktop application map
 
-## Heartbeat
+## Scheduling and Bounds
 
-- PLC increments PLC heartbeat once per second.
-- Desktop increments Desktop heartbeat once per second.
-- PLC echoes the last accepted Desktop heartbeat.
-- A changed counter proves freshness; a static nonzero value does not.
-- Timeout raises a communication alarm and prevents new remote transactions.
-- Active healthy PLC-controlled production continues.
+- maximum 16 statically configured channel records
+- fixed queues/buffers only
+- finite retry and timeout values
+- no dynamic node discovery
+- communication work never blocks the cyclic PLC task
+- all counters saturate
 
-## Time
+## Time and Freshness
 
-Desktop is the wall-clock authority for persistent history. PLC may receive validated time synchronization for display/diagnostics, but safety and sequence timers use monotonic PLC timers and never depend on wall-clock time.
-
-## Control Boundary
-
-Desktop may request commands and transfer validated snapshots. PLC validates every request and decides whether it is accepted.
-
-Desktop never writes:
-
-- physical outputs
-- safety state
-- SystemState or LineState
-- active alarm lifecycle state
-- delivered quantity
-- internal timers or state-machine steps
+Timeouts use `FB_TimeService` monotonic ticks or IEC timers. Desktop remains wall-clock authority. Wall-clock adjustment cannot change channel freshness, retry deadlines, runtime, or equipment timers.
 
 ## Reconnection
 
-1. establish TCP connection
-2. read magic and map version
-3. enter read-only mode if major version is unsupported
-4. synchronize heartbeat and last processed sequences
-5. reconcile execution-transfer and alarm-event sequences idempotently
-6. resume new writes only after validation
+1. establish transport
+2. validate channel/profile or map identity
+3. validate major version
+4. synchronize heartbeat and last accepted sequences
+5. reconcile event/transfer acknowledgements idempotently
+6. enable writes only after validation
 
 No PLC restart is required.
+
+## Ownership Boundary
+
+PLC owns bounded protocol handling, map validation, channel freshness, and field-device polling. Integration/Edge owns VPN, routing, cloud, MQTT, OPC UA, external APIs, fleet transport, persistent message queues, and remote-session security.
 
 ## Related Documents
 
 - [Modbus Register Map](../06_Documentation/Modbus_Register_Map.md)
 - [ST_ModbusMap](../02_Structures/ST_ModbusMap.md)
-- [IF_ExecutionTransfer](../04_Interfaces/IF_ExecutionTransfer.md)
+- [ST_CommunicationChannel](../02_Structures/ST_CommunicationChannel.md)
+- [IF_Communication](../04_Interfaces/IF_Communication.md)
+- [IF_Time](../04_Interfaces/IF_Time.md)
