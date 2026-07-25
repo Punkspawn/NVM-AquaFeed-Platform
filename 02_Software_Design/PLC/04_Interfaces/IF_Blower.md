@@ -4,7 +4,7 @@
 |---|---|
 | Status | Authoritative |
 | Owner | PLC Runtime / VFD boundary |
-| Version | 2.0 |
+| Version | 2.1 |
 
 ## Commands
 
@@ -26,6 +26,13 @@
 | `xCommunicationHealthy` | BOOL | VFD channel health. |
 | `uiActualFreqCentiHz` | UINT | Actual frequency. |
 | `uiDriveFaultCode` | UINT | Bounded VFD fault code. |
+
+## Configuration and Time
+
+| Name | Type | Description |
+|---|---|---|
+| `stConfig` | ST_BlowerConfig | Approved frequency bounds, tolerance, stable-time, start/acceleration/feedback/stop timeouts, and post-run limits. |
+| `udiMonotonicTickMs` | UDINT | Monotonic millisecond tick used for wrap-safe elapsed-time checks. |
 
 ## Outputs
 
