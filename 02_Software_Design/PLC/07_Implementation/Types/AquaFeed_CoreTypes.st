@@ -496,3 +496,23 @@ STRUCT
     udiStatusSequence : UDINT;
 END_STRUCT;
 END_TYPE
+
+
+TYPE ST_Device :
+STRUCT
+    uiDeviceId : UINT;
+    uiDeviceType : UINT;
+    usiLineId : USINT;
+    xConfigurationValid : BOOL;
+    xEnabled : BOOL;
+    xAvailable : BOOL;
+    xRunning : BOOL;
+    xFault : BOOL;
+    xAutoMode : BOOL;
+    xManualMode : BOOL;
+    xInterlockOK : BOOL;
+    xCommunicationOK : BOOL;
+    xUnexpectedRunFeedback : BOOL;
+    uiDiagnosticCode : UINT;
+END_STRUCT;
+END_TYPE
