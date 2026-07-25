@@ -70,8 +70,8 @@ Authoritative classification manifest
 - `88_FB_DiagnosticsManager.md` — AUTHORITATIVE; bounded current PLC diagnostics only
 - `FB_SystemManager.md` — KEEP; authoritative consolidated PLC specification
 - `Archive/Legacy/PLC/Function_Blocks/90_FB_SystemManager_PlatformOrchestrator.md` — ARCHIVED
-- `100_FB_NetworkManager.md` — communication scope only
-- `101_FB_TimeManager.md` — bounded PLC time service only
+- `FB_CommunicationManager.md` — AUTHORITATIVE bounded channel supervision; former `100_FB_NetworkManager.md` archived
+- `FB_TimeService.md` — AUTHORITATIVE monotonic control time; former `101_FB_TimeManager.md` archived
 - `102_FB_IOManager.md` — AUTHORITATIVE; deterministic process-image and output arbitration
 - `103_FB_MotionManager.md` — only if required by physical motion
 - `105_FB_SafetyManager.md`
@@ -215,3 +215,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Integration/Edge managers | Removed eight platform-service specifications from the PLC tree; defined the Integration/Edge boundary and retained only a bounded PLC update-activation handshake. |
 | 2026-07-25 | Diagnostics and IO | Normalized bounded structures, managers, interfaces, tests, safe output arbitration, and explicit Modbus diagnostic offsets; archived seven expanded drafts. |
 | 2026-07-25 | Selector, Blower, and Dosing | Normalized three core equipment state machines, integer-unit interfaces, safety/interlock behavior, and tests; archived 16 superseded sources. |
+| 2026-07-25 | Communication, Network, and Time | Replaced platform network/time managers with bounded channel supervision and monotonic PLC time; added interfaces, structures, tests, and 16 Modbus channel summaries. |
