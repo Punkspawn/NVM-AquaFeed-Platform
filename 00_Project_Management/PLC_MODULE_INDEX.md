@@ -290,4 +290,4 @@ Recovery never automatically energizes equipment after power return or safety tr
 - fixed project constants: `Globals/GVL_AquaFeed.st`
 - cyclic entry point: `Programs/PRG_AquaFeedMain.st`
 
-Only reviewed implementations are called by the main program. `FB_TimeService`, the `FB_IOManager` safety core, the linear/cyclic automatic `FB_Selector` core, the deterministic `FB_Blower` core, and the pulse-based `FB_Dosing` core are implemented under `07_Implementation/Function_Blocks`; physical channel configuration, Selector service jog, vendor compilation, and cyclic integration follow.
+Only reviewed implementations are called by the main program. `FB_TimeService`, the `FB_IOManager` safety core, the linear/cyclic automatic `FB_Selector` core, the deterministic `FB_Blower` core, the pulse-based `FB_Dosing` core, and the deterministic single-job `FB_LineManager` core are implemented under `07_Implementation/Function_Blocks`; physical channel configuration, Selector service jog, vendor compilation, and cyclic integration follow.
