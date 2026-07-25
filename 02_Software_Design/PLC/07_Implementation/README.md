@@ -22,6 +22,7 @@ This directory contains importable IEC 61131-3 Structured Text sources.
 - `Function_Blocks/FB_IOManager.st` — safe startup image, immutable input snapshot, bounded output arbitration, and single applied-output image
 - `Function_Blocks/FB_Selector.st` — bounded linear or cyclic automatic positioning and homing core
 - `Function_Blocks/FB_Blower.st` — bounded VFD start, stable-speed permission, controlled post-run, and fail-safe stop core
+- `Function_Blocks/FB_Dosing.st` — latched pulse-based delivery, guarded integer conversion, interlock supervision, and one-scan completion
 - `Functions/F_ElapsedMs.st` — wrap-safe unsigned elapsed-time helper
 - `Functions/F_CyclicDistance.st` — shortest distance across a cyclic position range
 
