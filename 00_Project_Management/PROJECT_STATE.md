@@ -38,8 +38,8 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Normalize Modbus map for system, line, execution, and alarm contracts.
-2. Split runtime state from historical data.
-3. Move Desktop-domain manager documents out of PLC.
-4. Move Integration/Edge manager documents out of PLC.
-5. Resume remaining core PLC structures and Function Blocks.
+1. Split runtime and maintenance realtime counters from Desktop history.
+2. Move Desktop-domain manager documents out of PLC.
+3. Move Integration/Edge manager documents out of PLC.
+4. Normalize diagnostics and IO contracts.
+5. Resume remaining core PLC Function Blocks.
