@@ -1,3 +1,11 @@
+# Legacy Platform MaintenanceManager Specification
+
+> **Status:** Legacy / Non-authoritative  
+> **Reason archived:** Work orders, plans, history, reports, costs, users, cloud, and enterprise asset management belong to Desktop.  
+> **PLC replacements:** `FB_RuntimeCounter.md` and `FB_MaintenanceCounter.md`
+
+---
+
 001. Document Header
 
 Document Name

@@ -88,7 +88,8 @@ Authoritative classification manifest
 - `69_FB_Scheduler.md` — keep only execution of an accepted current mission
 - `70_FB_RecipeManager.md` — keep only validation/use of active PLC recipe snapshot
 - `71_FB_FeedProgramManager.md` — merge active execution into Line Manager
-- `84_FB_MaintenanceManager.md` — retain counters/status; move history/plans
+- `FB_RuntimeCounter.md` and `FB_MaintenanceCounter.md` — KEEP; authoritative PLC counters
+- `Archive/Legacy/PLC/Function_Blocks/84_FB_MaintenanceManager.md` — ARCHIVED; platform maintenance belongs to Desktop
 - `85_FB_NotificationManager.md` — merge active alarm signals; move notifications
 - `86_FB_SecurityManager.md` — retain machine access interlocks only
 - `89_FB_UpdateManager.md` — move delivery to Edge; retain safe activation rules if needed
@@ -135,14 +136,15 @@ Authoritative classification manifest
 | `ST_Diagnostics.md` | KEEP / NORMALIZE |
 | `ST_Line.md` | KEEP; authoritative bounded realtime line snapshot |
 | `ST_ModbusMap.md` | KEEP; authoritative flat 4000-WORD publication buffer |
-| `ST_Runtime.md` | KEEP bounded counters only |
+| `ST_Runtime.md` | KEEP; authoritative retentive lifetime counters |
 | `ST_SystemStatus.md` | KEEP / NORMALIZE |
 | `ST_JobExecution.md` | KEEP; authoritative bounded PLC job snapshot |
 | `ST_RecipeExecution.md` | KEEP; authoritative bounded PLC recipe snapshot |
 | `Archive/Legacy/PLC/Structures/ST_JobOrder.md` | ARCHIVED; split into Desktop master and PLC execution snapshot |
 | `Archive/Legacy/PLC/Structures/ST_Recipe.md` | ARCHIVED; split into Desktop master and PLC execution snapshot |
 | `ST_OperationData.md` | SPLIT PLC current snapshot / Desktop history |
-| `ST_Maintenance.md` | SPLIT PLC counters / Desktop history and plans |
+| `ST_MaintenanceCounter.md` | KEEP; authoritative per-device runtime service threshold |
+| `Archive/Legacy/PLC/Structures/ST_Maintenance.md` | ARCHIVED; mixed Desktop/PLC structure |
 | `ST_User.md` | MOVE to Desktop |
 
 ## PLC/03_Functions
@@ -223,3 +225,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Job/Recipe structures and interfaces | Split into Desktop domain masters, bounded PLC execution snapshots, and atomic transfer contract; four mixed legacy documents archived. |
 | 2026-07-25 | Alarm architecture | Consolidated manager, lifecycle enums, active structure, interface, catalog, and tests; three legacy sources archived. |
 | 2026-07-25 | Modbus TCP map and communication topology | Defined fixed 4000-WORD map, corrected TCP/RTU roles, added interoperability tests, and archived two conflicting system-engineering drafts. |
+| 2026-07-25 | Runtime and maintenance | Kept retentive lifetime/service counters in PLC; moved plans, users, dates, work orders, history, and analytics to Desktop. |

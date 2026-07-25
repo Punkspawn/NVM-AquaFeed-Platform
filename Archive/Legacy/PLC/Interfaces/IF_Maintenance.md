@@ -1,3 +1,11 @@
+# Legacy Maintenance Management Interface
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Mixed PLC threshold/reset behavior with Desktop authorization and history.  
+> **Replacement:** `IF_MaintenanceCounter.md`
+
+---
+
 # IF_Maintenance
 
 ---

@@ -1,3 +1,11 @@
+# Legacy Mixed Maintenance Structure
+
+> **Status:** Legacy / Superseded  
+> **Reason archived:** Mixed PLC counters with Desktop dates, users, notes, plans, and history.  
+> **Replacements:** `ST_MaintenanceCounter.md` and `03_Desktop/Domain/Maintenance.md`
+
+---
+
 # ST_Maintenance
 
 ---
