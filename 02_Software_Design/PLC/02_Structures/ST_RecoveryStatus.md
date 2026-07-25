@@ -18,7 +18,7 @@ STRUCT
     xApprovedCheckpointValid  : BOOL;
 
     udiJobId                  : UDINT;
-    udiRecipeVersion          : UDINT;
+    udiRecipeRevision          : UDINT;
     usiLineId                 : USINT;
     uiOutletId                : UINT;
     udiTargetFeedCentiKg      : UDINT;
