@@ -2,13 +2,13 @@
 
 ## Project State
 
-**Current phase:** Architecture normalization  
+**Current phase:** PLC implementation  
 **Branch strategy:** focused normalization PRs  
 **Status:** Active
 
 ## Current Activity
 
-Classify and consolidate accumulated engineering documents before implementation.
+Implement the approved PLC core from normalized authoritative contracts.
 
 ## Current Focus
 
@@ -32,18 +32,16 @@ Classify and consolidate accumulated engineering documents before implementation
 - Recovery, bounded health aggregation, and standard-PLC safety coordination normalized with fail-closed restart prevention.
 - Optional physical module scope classified under `AD-004`: Motion excluded as duplicate; CIP, Water, Aeration, and Oxygen retained as future options outside the current release.
 - Remaining mixed managers removed from active PLC scope; service mode reduced to a fail-closed permission contract without duplicate control or platform services.
+- PLC implementation baseline created with importable core types, bounded global constants, and a deterministic main-program entry point.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
-## Frozen Until Normalization Completes
+## Implementation Gate
 
-- New PLC Function Blocks
-- New PLC Functions
-- New Structures
-- New Interfaces
-- PLC implementation
-- Desktop implementation
+New PLC code is admitted only when an authoritative contract and test specification already exist.
 
 ## Next Tasks
 
-1. Resume PLC implementation contracts.
+1. Implement and test the monotonic PLC TimeService.
+2. Implement deterministic IO acquisition and safe output arbitration.
+3. Implement Selector, Blower, and Dosing in dependency order.
