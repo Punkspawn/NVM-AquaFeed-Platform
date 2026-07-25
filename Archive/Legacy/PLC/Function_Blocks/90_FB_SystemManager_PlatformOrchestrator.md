@@ -1,3 +1,13 @@
+# Legacy Platform System Orchestrator Specification
+
+> **Status:** Legacy / Non-authoritative  
+> **Former path:** `02_Software_Design/PLC/01_Function_Blocks/90_FB_SystemManager.md`  
+> **Former identity:** `FB_SystemManager` / `AQ-FB-090`  
+> **Reason archived:** Responsibilities extend into Desktop, database, cloud, and distributed platform orchestration.  
+> **Implementation rule:** Do not implement this document as the PLC System Manager. Reuse only bounded realtime requirements that agree with the authoritative specification.
+
+---
+
 001. Document Header
 
 Document Name

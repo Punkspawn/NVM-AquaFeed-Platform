@@ -38,10 +38,9 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Merge and normalize `FB_DeviceManager`.
-2. Merge and normalize `FB_SystemManager`.
-3. Merge and normalize `FB_LineManager`.
-4. Normalize alarm architecture.
-5. Split runtime state from historical data.
-6. Move or archive classified documents.
-7. Resume structures and core PLC design.
+1. Normalize `ST_SystemStatus` and consolidate system interfaces.
+2. Merge and normalize `FB_LineManager`.
+3. Normalize alarm architecture.
+4. Split runtime state from historical data.
+5. Move or archive classified documents.
+6. Resume structures and core PLC design.

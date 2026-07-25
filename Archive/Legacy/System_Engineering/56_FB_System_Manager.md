@@ -1,3 +1,13 @@
+# Legacy System Manager Draft
+
+> **Status:** Legacy / Superseded  
+> **Former path:** `01_System_Engineering/56_FB_System_Manager.md`  
+> **Former identity:** `FB_SystemManager` / `AQ-FB-056`  
+> **Reason archived:** Useful minimal draft consolidated into the authoritative PLC System Manager specification.  
+> **Implementation rule:** Use the active `FB_SystemManager.md` document for implementation.
+
+---
+
 # 56_FB_System_Manager.md
 
 # NVM AquaFeed Platform
