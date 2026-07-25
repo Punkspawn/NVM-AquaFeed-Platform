@@ -1,103 +1,55 @@
 # IF_Service
 
----
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | FB_SystemManager |
+| Version | 1.0 |
 
-# Purpose
+## Purpose
 
-Defines the standard software interface for Service Mode.
+Defines the bounded PLC permission and status contract for service mode. It does not implement users, passwords, roles, sessions, or direct physical output writes.
 
-Service Mode allows maintenance personnel to safely operate and test individual machine components without executing the automatic feeding sequence.
+## Commands
 
----
+| Name | Type | Rule |
+|---|---|---|
+| RequestEnter | BOOL | Rising-edge request to enter service mode |
+| RequestExit | BOOL | Rising-edge request to leave service mode |
+| AuthorizationGranted | BOOL | Trusted external authorization result; no credentials are stored in PLC |
+| ResetFault | BOOL | Rising-edge request; cannot bypass active safety or interlocks |
 
-# Inputs
+## Preconditions
 
-| Name | Type | Description |
-|------|------|-------------|
-| Enable | BOOL | Enables Service Mode. |
-| LoginGranted | BOOL | Service authorization confirmed. |
-| ManualControl | BOOL | Enables manual component control. |
-| Reset | BOOL | Clears service faults. |
-| Exit | BOOL | Exits Service Mode. |
+Service mode may become active only when all are true:
 
----
+- the system is stopped and no line has an active job
+- hardwired safety and `FB_SafetyCoordinator` permit operation
+- `AuthorizationGranted` is true
+- no automatic equipment request is active
+- the request is accepted by `FB_SystemManager`
 
-# Outputs
+## Status
 
-| Name | Type | Description |
-|------|------|-------------|
-| Active | BOOL | Service Mode is active. |
-| Authorized | BOOL | User has service privileges. |
-| ManualEnabled | BOOL | Manual controls are enabled. |
-| AutomaticLocked | BOOL | Automatic operation is locked. |
-| Fault | BOOL | Service Mode fault detected. |
-| AlarmCode | UINT | Active service alarm code. |
+| Name | Type | Meaning |
+|---|---|---|
+| Active | BOOL | Service mode is active |
+| ManualPermission | BOOL | Manual equipment commands may be evaluated |
+| AutomaticInhibited | BOOL | Automatic execution is blocked |
+| RequestRejected | BOOL | Latest enter request failed validation |
+| RejectReason | UINT | Stable reason code; zero when none |
 
----
+## Ownership
 
-# Available Manual Operations
+- `FB_SystemManager` owns service-mode entry, exit, and automatic inhibition.
+- Selector, Blower, and Dosing accept manual commands only through their authoritative interfaces and only while `ManualPermission` is true.
+- `FB_IOManager` remains the sole physical-output writer and applies safety arbitration.
+- Desktop/HMI owns authentication, users, roles, sessions, and audit attribution.
 
-- Selector Jog Left
-- Selector Jog Right
-- Selector Home
-- Blower Start / Stop
-- Blower Speed Control
-- Dosing Start / Stop
-- Dosing Speed Control
-- Digital Output Test
-- Analog Output Test
+## Fail-Closed Rules
 
----
-
-# State Flow
-
-```text
-Normal Operation
-        │
-Service Login
-        │
-Service Mode
-        │
-Manual Control
-        │
-Exit
-        │
-Normal Operation
-```
-
-Fault sequence
-
-```text
-Service Mode
-      │
-Fault
-      │
-Reset
-      │
-Service Mode
-```
-
----
-
-# Rules
-
-- Service Mode shall only be accessible to authorized users.
-- Automatic production shall be disabled while Service Mode is active.
-- Manual commands shall affect only the selected component.
-- All safety circuits shall remain active during Service Mode.
-- Exiting Service Mode shall stop all manually controlled outputs.
-- `AlarmCode` shall be zero when no service alarm is active.
-
----
-
-# Used By
-
-- FB_ServiceManager
-- FB_SystemManager
-- FB_IOManager
-- FB_Selector
-- FB_Blower
-- FB_Dosing
-- HMI
-- AquaFeed Manager
-- Service Software
+- loss of authorization, safety permission, or PLC restart clears `ManualPermission`
+- exit or fault removes all manual requests before automatic mode can be selected
+- service mode never overrides hardwired safety, interlocks, feedback validation, timeouts, or safe output removal
+- direct digital/analog output forcing is an engineering commissioning function outside this runtime interface
+- leaving service mode never starts or resumes an automatic job

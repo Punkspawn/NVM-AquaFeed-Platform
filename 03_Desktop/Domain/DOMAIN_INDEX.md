@@ -14,6 +14,9 @@
 - users, roles, authorization, and audit attribution
 - licensing and entitlement
 - historical analytics
+- persistent operational/event logging, retention, search, and export
+- notifications and message delivery
+- users, passwords, roles, sessions, authorization, and audit attribution
 
 ## Farm and Production Domains
 
@@ -22,6 +25,8 @@
 - FCR calculation and historical analysis
 - mortality and harvest records
 - recipe, job, feeding-program, and maintenance master data
+- calendar, meal, report, backup, and maintenance scheduling
+- energy history, demand reports, and power-quality analytics
 
 ## Commercial and Quality Domains
 

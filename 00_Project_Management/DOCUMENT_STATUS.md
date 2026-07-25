@@ -74,7 +74,6 @@ Authoritative classification manifest
 - `FB_TimeService.md` — AUTHORITATIVE monotonic control time; former `101_FB_TimeManager.md` archived
 - `102_FB_IOManager.md` — AUTHORITATIVE; deterministic process-image and output arbitration
 - `FB_SafetyCoordinator.md` — AUTHORITATIVE standard-PLC coordination; former SafetyManager archived
-- `110_FB_FeedingControlManager.md` — merge into Line Manager unless separate responsibility is proven
 - `FB_DeviceManager.md` — KEEP; authoritative PLC runtime design
 
 ### Excluded and future optional modules
@@ -87,16 +86,18 @@ Authoritative classification manifest
 
 Current authority is `AD-004_Current_Physical_Scope.md` and `01_System_Engineering/CURRENT_PHYSICAL_SCOPE.md`. Reactivation requires an approved scope change and admission-gate evidence.
 
-### Merge then archive source
+### Resolved mixed managers
 
-- `64_FB_DataLogger.md` — keep only bounded event snapshot/buffer behavior
-- `69_FB_Scheduler.md` — keep only execution of an accepted current mission
-- `70_FB_RecipeManager.md` — keep only validation/use of active PLC recipe snapshot
-- `71_FB_FeedProgramManager.md` — merge active execution into Line Manager
+- `Archive/Legacy/PLC/Mixed_Managers/64_FB_DataLogger.md` — ARCHIVED; persistence, archive, search, and synchronization belong to Desktop
+- `Archive/Legacy/PLC/Mixed_Managers/69_FB_Scheduler.md` — ARCHIVED; calendar and queue scheduling belong to Desktop
+- `Archive/Legacy/PLC/Mixed_Managers/70_FB_RecipeManager.md` — ARCHIVED; recipe master/version/history belongs to Desktop
+- `Archive/Legacy/PLC/Mixed_Managers/71_FB_FeedProgramManager.md` — ARCHIVED; program and meal planning belong to Desktop
+- `Archive/Legacy/PLC/Mixed_Managers/85_FB_NotificationManager.md` — ARCHIVED; PLC retains only current alarm state
+- `Archive/Legacy/PLC/Mixed_Managers/86_FB_SecurityManager.md` — ARCHIVED; identity, roles, passwords, sessions, and audit belong to Desktop
+- `Archive/Legacy/PLC/Mixed_Managers/104_FB_EnergyManager.md` — ARCHIVED; no approved physical energy-control scope; analytics belong to Desktop
+- `Archive/Legacy/PLC/Mixed_Managers/110_FB_FeedingControlManager.md` — ARCHIVED; duplicates execution transfer, LineManager, Dosing, and Desktop domains
 - `FB_RuntimeCounter.md` and `FB_MaintenanceCounter.md` — KEEP; authoritative PLC counters
 - `Archive/Legacy/PLC/Function_Blocks/84_FB_MaintenanceManager.md` — ARCHIVED; platform maintenance belongs to Desktop
-- `85_FB_NotificationManager.md` — merge active alarm signals; move notifications
-- `86_FB_SecurityManager.md` — retain machine access interlocks only
 - `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md` — ARCHIVED; non-authoritative Desktop/Edge concept source
 
 ### Moved to Desktop
@@ -170,7 +171,7 @@ Every retained function must be reviewed for deterministic, stateless execution.
 | `IF_Communication.md` | KEEP; authoritative bounded channel-health contract |
 | `IF_ExecutionTransfer.md` | KEEP; authoritative atomic Desktop-to-PLC transfer contract |
 | Legacy JobOrder and Recipe interfaces | ARCHIVED; CRUD and queue actions belong to Desktop |
-| Service | KEEP realtime machine-service subset only |
+| `IF_Service.md` | AUTHORITATIVE; fail-closed service permission only, with no users, credentials, output forcing, or duplicate equipment commands |
 
 ## PLC/05_Test
 
@@ -223,3 +224,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Communication, Network, and Time | Replaced platform network/time managers with bounded channel supervision and monotonic PLC time; added interfaces, structures, tests, and 16 Modbus channel summaries. |
 | 2026-07-25 | Recovery, Health, and Safety | Defined restart-safe recovery, bounded readiness aggregation, and standard-PLC safety coordination; archived five expanded manager/test sources. |
 | 2026-07-25 | Optional physical modules | Accepted AD-004; excluded duplicate generic Motion and archived CIP, Water, Aeration, and Oxygen as future options with an explicit admission gate. |
+| 2026-07-25 | Mixed managers and service interface | Archived eight cross-domain/duplicate managers and normalized `IF_Service` as a fail-closed permission contract. |

@@ -68,6 +68,17 @@ These concepts belong to Integration / Edge:
 - platform-wide asset provisioning and discovery
 - AI integration services
 
+## Resolved Mixed Managers and Service Boundary
+
+- DataLogger, Scheduler, RecipeManager, FeedProgramManager, NotificationManager, SecurityManager, EnergyManager, and FeedingControlManager are not active PLC Function Blocks.
+- Persistent logs, calendars, recipe/program masters, notifications, identity, sessions, audit attribution, and energy analytics belong to Desktop.
+- Accepted job/recipe execution is already owned by `IF_ExecutionTransfer` and `FB_LineManager`.
+- Current alarm events are already owned by `FB_AlarmManager`; current measurements remain in IO/Diagnostics.
+- No approved energy meter, generator-control, or demand-control equipment exists in the current physical scope.
+- Legacy sources are preserved under `Archive/Legacy/PLC/Mixed_Managers/`.
+- `IF_Service.md` is authoritative for fail-closed service permission. It creates no `FB_ServiceManager` and duplicates no equipment command interface.
+
+
 ## Structures
 
 ### Keep in PLC after normalization
