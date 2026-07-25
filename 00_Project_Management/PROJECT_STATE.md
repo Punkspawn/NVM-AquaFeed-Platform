@@ -38,6 +38,7 @@ Implement the approved PLC core from normalized authoritative contracts.
 - `FB_Selector` automatic positioning/homing core implemented with bounded configurable outlets, linear-limit and cyclic-360 travel modes, shortest-path selection, replay protection, wrap-safe timeouts, and mutually exclusive logical outputs.
 - `FB_Blower` control core implemented with bounded frequency validation, VFD start/acceleration supervision, stable-speed dosing permission, controlled post-run, critical-stop priority, replay protection, and reset without automatic restart.
 - Blower hardware baseline approved as a panel-mounted 22 kW, 380–480 V Delta C2000 Plus for TMM equipment; vendor register handling remains isolated in a replaceable Modbus RTU device profile.
+- `FB_Dosing` pulse-based transaction core implemented with immutable accepted parameters, guarded integer quantity conversion, first-pulse/no-flow/rate/target supervision, immediate interlock stop, replay protection, and one-scan successful completion.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -48,6 +49,6 @@ New PLC code is admitted only when an authoritative contract and test specificat
 ## Next Tasks
 
 1. Approve the physical IO list, channel enable masks, debounce/range parameters, safe values, and mutual-exclusion pairs.
-2. Implement Dosing after the reviewed Blower core.
+2. Review and vendor-compile the completed Selector, Blower, and Dosing equipment core.
 3. Approve explicit Selector manual-jog commands and maximum jog duration before implementing service jog.
 4. Integrate implemented blocks into the cyclic main program after vendor compilation checks.
