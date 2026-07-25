@@ -8,7 +8,7 @@
 | PLC role | Server / Slave |
 | Desktop and HMI role | Client / Master |
 | Transport | TCP port 502 |
-| Map version | 1.0 |
+| Map version | 2.0 |
 | Address notation | Zero-based PDU offset is authoritative |
 
 ## Address Notation
@@ -221,10 +221,11 @@ Permanent history is not mapped; Desktop persists lifecycle events.
 | 8 | USINT | TargetSelectorPosition |
 | 9 | USINT | CurrentSelectorPosition |
 | 10 | BOOL | SelectorAtTarget |
-| 11–12 | REAL | TargetFeedKg |
-| 13–14 | REAL | DeliveredFeedKg |
-| 15–16 | REAL | RemainingFeedKg |
-| 17–18 | REAL | ProgressPercent |
+| 11–12 | UDINT | TargetFeedCentiKg; 0.01 kg/count |
+| 13–14 | UDINT | DeliveredFeedCentiKg; 0.01 kg/count |
+| 15–16 | UDINT | RemainingFeedCentiKg; 0.01 kg/count |
+| 17 | UINT | ProgressPermille; 0–1000 |
+| 18 | — | Reserved |
 | 19–20 | UDINT | ElapsedTimeSec |
 | 21–22 | UDINT | RemainingTimeSec |
 | 23 | WORD | Blower/Dosing1/Dosing2 running flags |
@@ -316,6 +317,10 @@ Every Desktop write is validated for:
 - idempotent replay behavior
 
 Invalid writes change no active PLC state and return a bounded result code.
+
+## Version 2 Migration
+
+Map major version 2 replaces the former REAL line quantity/progress fields with bounded integer units matching Selector, Blower, and Dosing contracts. Version 1 clients remain read-only and must not reinterpret these words. Execution snapshot fields also use centi-kilograms, permille, and centi-Hz.
 
 ## Compatibility Rules
 
