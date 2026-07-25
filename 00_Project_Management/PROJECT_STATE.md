@@ -42,6 +42,7 @@ Implement the approved PLC core from normalized authoritative contracts.
 - Line execution contract aligned to centi-kilograms, permille, and centi-Hz; current jobs select exactly one of two installed Dosing units, and `TEST_Line` now closes the implementation gate.
 - `FB_LineManager` deterministic single-job core implemented with immutable transfer acceptance, replay protection, Selector/Blower/Dosing coordination, bounded progress arithmetic, controlled pause/stop/cancel post-run, one-scan completion, and fail-closed fault/emergency handling.
 - `FB_SystemManager` lifecycle core implemented with exclusive mode arbitration, edge-triggered commands, safety-priority state transitions, controlled Automatic-mode loss, line permission, and bounded global status publication.
+- Delta DVP-SV3/ISPSoft vendor compile gate defined with exact import order, isolated compile acceptance, syntax-risk checks, one-line bench prerequisites, six-line composition evidence, and hardware commissioning stop conditions.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -51,7 +52,7 @@ New PLC code is admitted only when an authoritative contract and test specificat
 
 ## Next Tasks
 
-1. Approve the physical IO list, channel enable masks, debounce/range parameters, safe values, and mutual-exclusion pairs.
-2. Validate implemented core blocks in the target vendor IDE.
-3. Integrate six reviewed line/equipment instance groups into the cyclic main program using approved IO and configuration data.
+1. Run Vendor Compile Gate A and B in ISPSoft and record the exact version, CPU/firmware, errors, and warnings.
+2. Approve one line's physical IO list, channel enable masks, polarity, safe values, time base, and equipment parameters.
+3. Compose and bench-test one disabled line before expanding to six line/equipment groups.
 4. Approve explicit Selector manual-jog commands and maximum jog duration before implementing service jog.
