@@ -1,102 +1,47 @@
 # IF_Dosing
 
----
+| Field | Value |
+|---|---|
+| Status | Authoritative |
+| Owner | PLC Runtime |
+| Version | 2.0 |
 
-# Purpose
-
-Defines the standard software interface for the Dosing unit.
-
-The Dosing unit controls the feed delivery rate according to the active recipe. It shall operate only when the blower is ready and the selector is confirmed in position.
-
----
-
-# Inputs
+## Accepted Transaction Inputs
 
 | Name | Type | Description |
-|------|------|-------------|
-| Enable | BOOL | Enables the dosing unit. |
-| Start | BOOL | Starts feed dosing. |
-| Stop | BOOL | Stops feed dosing. |
-| Reset | BOOL | Clears active faults. |
-| SpeedSetpoint | REAL | Requested dosing speed (%). |
-| FeedTargetKg | REAL | Target feed amount (kg). |
+|---|---|---|
+| `xEnable` | BOOL | Enables dosing control. |
+| `xStartRequest` / `xStopRequest` | BOOL | Transaction commands. |
+| `udiCommandSequence` | UDINT | Idempotent transaction sequence. |
+| `udiJobId` | UDINT | Accepted job identity. |
+| `uiOutletId` | UINT | Latched selector outlet. |
+| `udiTargetCentiKg` | UDINT | Target; 1 count = 0.01 kg. |
+| `uiTargetSpeedPermille` | UINT | 0–1000 bounded speed reference. |
+| `udiCentiKgPer1000Pulses` | UDINT | Integer calibration factor. |
+| `uiCalibrationVersion` | UINT | Approved calibration identity. |
 
----
-
-# Outputs
+## Interlocks and Feedback
 
 | Name | Type | Description |
-|------|------|-------------|
-| Ready | BOOL | Dosing unit is ready. |
-| Running | BOOL | Feed dosing is active. |
-| Completed | BOOL | Target feed amount reached. |
-| Fault | BOOL | Dosing fault detected. |
-| ActualSpeed | REAL | Actual dosing speed (%). |
-| FeedDeliveredKg | REAL | Total delivered feed (kg). |
-| AlarmCode | UINT | Active alarm code. |
+|---|---|---|
+| `xSelectorInPosition` | BOOL | Selector at latched outlet. |
+| `xBlowerAtSpeed` | BOOL | Stable transport airflow. |
+| `xFeedAvailable` / `xSafetyOK` | BOOL | Required permissions. |
+| `xDriveRunning` / `xDriveFault` | BOOL | Dosing drive feedback. |
+| `xPulse` | BOOL | Validated one-scan pulse event. |
 
----
+## Outputs
 
-# State Flow
+| Name | Type | Description |
+|---|---|---|
+| `eState` | E_DosingState | Current state. |
+| `xMotorRunRequest` | BOOL | Logical dosing output. |
+| `uiSpeedPermille` | UINT | Applied requested speed, 0–1000. |
+| `xReady` / `xRunning` / `xFault` | BOOL | Current status. |
+| `xCompletedEvent` | BOOL | One-scan successful completion event. |
+| `udiDeliveredCentiKg` | UDINT | Frozen/current transaction quantity. |
+| `udiDeliveredIncrementCentiKg` | UDINT | Validated new increment for runtime accounting. |
+| `uiDiagnosticCode` | UINT | Stable reason code. |
+| `udiLastAcceptedSequence` | UDINT | Replay protection. |
 
-```text
-Disabled
-    │
-Enable
-    │
-Ready
-    │
-Start
-    │
-Running
-    │
-Completed
-    │
-Ready
-```
-
-Stop sequence
-
-```text
-Running
-    │
-Stop
-    │
-Ready
-```
-
-Fault sequence
-
-```text
-Any State
-    │
-Fault
-    │
-Reset
-    │
-Ready
-```
-
----
-
-# Rules
-
-- Dosing shall not start unless:
-  - `Blower.AtSpeed = TRUE`
-  - `Selector.InPosition = TRUE`
-  - `Ready = TRUE`
-- `FeedDeliveredKg` shall increase only while `Running = TRUE`.
-- `Completed` shall become TRUE when `FeedTargetKg` is reached.
-- `Fault` shall immediately stop feed dosing.
-- `AlarmCode` shall be zero when no alarm is active.
-
----
-
-# Used By
-
-- FB_Dosing
-- FB_FeedingControlManager
-- FB_RecipeManager
-- FB_RuntimeManager
-- HMI
-- AquaFeed Manager
+Parameter changes after command acceptance are ignored and diagnosed.

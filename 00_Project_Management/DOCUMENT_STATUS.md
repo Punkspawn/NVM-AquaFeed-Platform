@@ -60,9 +60,9 @@ Authoritative classification manifest
 
 - `FB_LineManager.md` — KEEP; authoritative consolidated PLC specification
 - `Archive/Legacy/PLC/Function_Blocks/57_FB_LineManager.md` — ARCHIVED
-- `58_FB_Selector.md`
-- `59_FB_Blower.md`
-- `60_FB_Dosing.md`
+- `58_FB_Selector.md` — AUTHORITATIVE
+- `59_FB_Blower.md` — AUTHORITATIVE
+- `60_FB_Dosing.md` — AUTHORITATIVE
 - `FB_AlarmManager.md` — KEEP; authoritative bounded PLC alarm lifecycle
 - `Archive/Legacy/PLC/Function_Blocks/61_FB_AlarmManager.md` — ARCHIVED
 - `62_FB_RecoveryManager.md`
@@ -214,3 +214,4 @@ A file marked MOVE, MERGE, or ARCHIVE remains non-authoritative until migration 
 | 2026-07-25 | Desktop-domain managers | Removed 18 business/service manager specifications from the PLC tree; preserved them as non-authoritative Desktop design inputs and added an authoritative Desktop domain index. |
 | 2026-07-25 | Integration/Edge managers | Removed eight platform-service specifications from the PLC tree; defined the Integration/Edge boundary and retained only a bounded PLC update-activation handshake. |
 | 2026-07-25 | Diagnostics and IO | Normalized bounded structures, managers, interfaces, tests, safe output arbitration, and explicit Modbus diagnostic offsets; archived seven expanded drafts. |
+| 2026-07-25 | Selector, Blower, and Dosing | Normalized three core equipment state machines, integer-unit interfaces, safety/interlock behavior, and tests; archived 16 superseded sources. |
