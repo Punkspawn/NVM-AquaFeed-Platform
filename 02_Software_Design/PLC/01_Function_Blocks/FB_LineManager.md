@@ -6,7 +6,7 @@
 | Owner | PLC Runtime / AquaCore |
 | Responsibility | Deterministic execution of one active feeding job on one physical line |
 | Instance rule | One instance per feeding line |
-| Version | 1.0 |
+| Version | 1.1 |
 | Governing boundary | [System Boundary](../../../00_Project_Management/SYSTEM_BOUNDARY.md) |
 
 ---
@@ -63,7 +63,7 @@ One line normally coordinates:
 
 - one Selector
 - one Blower
-- one or two Dosing units
+- two installed Dosing units, with exactly one mask-selected unit active per current-release job
 - the approved silo/feed source reference
 - the target selector position/cage reference
 
@@ -80,14 +80,14 @@ Before execution, the Desktop or approved scheduling boundary transfers one boun
 - Recipe ID
 - Target selector position
 - Selected dosing unit(s)
-- Feed target in kilograms
-- Dosing setpoint
-- Blower setpoint
+- Feed target in centi-kilograms
+- Dosing setpoint in permille
+- Blower setpoint in centi-Hz
 - Blower pre-run time
 - Blower post-run time
 - permitted retry/recovery policy
 
-The snapshot is immutable from acceptance until Complete, Cancelled, or Faulted. Updated Desktop master data shall not change an active PLC execution.
+The snapshot is immutable from acceptance until Complete, Cancelled, or Faulted. No REAL value crosses the realtime LineManager/equipment boundary. Updated Desktop master data shall not change an active PLC execution.
 
 ---
 
@@ -409,3 +409,4 @@ The following sources were consolidated into this specification:
 | Version | Date | Description |
 |---|---|---|
 | 1.0 | 2026-07-25 | Consolidated authoritative one-line realtime execution specification. |
+| 1.1 | 2026-07-26 | Aligned integer units with equipment contracts and limited current jobs to one selected Dosing unit. |

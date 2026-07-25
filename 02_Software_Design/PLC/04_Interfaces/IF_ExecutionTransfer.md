@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | Desktop–PLC integration boundary |
 | Direction | Desktop to PLC request; PLC to Desktop acknowledgement |
-| Version | 1.0 |
+| Version | 1.1 |
 
 ## Purpose
 
@@ -42,7 +42,8 @@ PLC accepts only when:
 - Job ID, Line ID, Recipe ID, and Recipe Revision are valid and mutually consistent
 - both snapshot versions are supported
 - both CRC values are valid
-- all quantities, setpoints, timings, positions, masks, and policies are within engineering limits
+- all quantities, integer-unit setpoints, timings, positions, masks, and policies are within engineering limits
+- current-release Dosing mask selects exactly one unit: `16#01` or `16#02`
 - target line and required equipment configuration are compatible
 
 ## Handshake
@@ -75,6 +76,13 @@ PLC clears one-scan event
 - Active LineManager storage never references a mutable communication buffer.
 - Communication loss during an already active job does not invalidate its private accepted snapshot.
 - Communication loss prevents acceptance of a new transfer.
+
+## Realtime Units
+
+- feed quantity and tolerance: centi-kilograms
+- Dosing speed: permille
+- Blower frequency: centi-Hz
+- floating-point values are excluded from the accepted PLC execution pair
 
 ## Related Documents
 

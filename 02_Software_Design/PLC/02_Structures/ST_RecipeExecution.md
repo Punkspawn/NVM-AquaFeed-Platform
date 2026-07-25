@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Lifetime | Candidate transfer and one active execution |
-| Version | 1.0 |
+| Version | 1.1 |
 
 ## Purpose
 
@@ -16,32 +16,34 @@ Contains only immutable machine parameters required to execute one accepted reci
 ```iecst
 TYPE ST_RecipeExecution :
 STRUCT
-    SnapshotVersion          : UINT;
-    RecipeId                 : UINT;
-    RecipeRevision           : UDINT;
+    uiSnapshotVersion        : UINT;
+    uiRecipeId               : UINT;
+    udiRecipeRevision        : UDINT;
 
-    DosingSpeedPercent       : REAL;
-    BlowerSpeedPercent       : REAL;
+    uiDosingSpeedPermille    : UINT;
+    uiBlowerFreqCentiHz      : UINT;
 
-    SelectorSettleTimeMs     : UDINT;
-    BlowerPreRunTimeMs       : UDINT;
-    BlowerPostRunTimeMs      : UDINT;
-    MaximumDosingTimeSec     : UDINT;
+    udiSelectorSettleTimeMs  : UDINT;
+    udiBlowerPreRunTimeMs    : UDINT;
+    udiBlowerPostRunTimeMs   : UDINT;
+    udiMaximumDosingTimeSec  : UDINT;
 
-    FeedToleranceKg          : REAL;
+    udiFeedToleranceCentiKg  : UDINT;
 
-    PayloadCRC16             : UINT;
-END_STRUCT
+    uiPayloadCRC16           : UINT;
+END_STRUCT;
 END_TYPE
 ```
 
 ## Rules
 
-- Setpoints are validated against engineering configuration, not merely 0–100 percent.
+- Dosing speed uses 0–1000 permille and is validated against equipment configuration.
+- Blower frequency uses 0.01 Hz per count and is validated against the commissioned VFD/blower range.
 - All timing values are bounded before acceptance.
-- Feed tolerance must be non-negative and within approved limits.
+- Feed tolerance uses 0.01 kg per count and must be smaller than the accepted target.
 - Recipe name, users, timestamps, line masks, repeat programs, and history are excluded.
 - Accepted values remain immutable for the active job.
+- No floating-point value crosses the LineManager/equipment execution boundary.
 
 ## Related Documents
 

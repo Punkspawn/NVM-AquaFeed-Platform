@@ -5,106 +5,108 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Producer | `FB_LineManager` |
-| Version | 2.0 |
-
-## Purpose
-
-Defines the command, condition, equipment-feedback, and published-status contract for one feeding line.
+| Version | 2.2 |
 
 ## System Commands and Conditions
 
 | Name | Type | Description |
 |---|---|---|
 | `xEnableFromSystem` | BOOL | Global permission from SystemManager. |
-| `xStart` | BOOL | Starts an accepted job or resumes from Paused. |
-| `xPause` | BOOL | Requests controlled pause. |
-| `xStop` | BOOL | Requests controlled stop. |
-| `xCancel` | BOOL | Cancels active execution after safe shutdown. |
-| `xReset` | BOOL | Requests reset after fault conditions are removed. |
-| `xEmergencyStop` | BOOL | Active emergency input; highest priority. |
+| `xStart` / `xPause` / `xStop` / `xCancel` | BOOL | Requested line action. |
+| `udiCommandSequence` | UDINT | Idempotent line-command identity. |
+| `udiResetSequence` | UDINT | Idempotent reset identity. |
+| `xEmergencyStop` | BOOL | Highest-priority emergency input. |
 | `xSafetyOK` | BOOL | Approved line safety summary. |
 | `xBlockingFault` | BOOL | Fault that prevents or stops execution. |
-| `xDesktopCommunicationOK` | BOOL | Diagnostic link state; does not stop a healthy active job. |
+| `xDesktopCommunicationOK` | BOOL | Diagnostic link; does not stop a healthy active job. |
+| `stConfig` | ST_LineConfig | Static approved line/equipment bounds. |
+| `udiMonotonicTickMs` | UDINT | Wrap-safe control timebase. |
 
-## Active Execution Snapshot
+## Candidate Execution Snapshot
 
 | Name | Type | Description |
 |---|---|---|
-| `xJobAvailable` | BOOL | A complete candidate snapshot is available. |
-| `stActiveJob` | ST_JobExecution | Bounded candidate job snapshot. |
-| `stActiveRecipe` | ST_RecipeExecution | Bounded candidate recipe snapshot. |
-| `xAcceptJob` | BOOL | One-scan acceptance request; LineManager copies and locks required fields. |
+| `xJobAvailable` / `xAcceptJob` | BOOL | Complete candidate and one-scan acceptance request. |
+| `stJobCandidate` | ST_JobExecution | Candidate immutable job snapshot. |
+| `stRecipeCandidate` | ST_RecipeExecution | Candidate immutable recipe snapshot. |
 
-Candidates are accepted through `IF_ExecutionTransfer`. After acceptance, LineManager copies them to private immutable storage; later Desktop changes do not modify active execution.
+Accepted candidates are copied into private immutable storage. Current release accepts one Dosing unit per job: mask `16#01` or `16#02`.
 
 ## Equipment Feedback Inputs
 
 | Name | Type | Description |
 |---|---|---|
-| `xSelectorReady` | BOOL | Selector available for command. |
-| `xSelectorAtTarget` | BOOL | Target position is confirmed. |
-| `uiSelectorPosition` | USINT | Confirmed current position. |
+| `xSelectorReady` | BOOL | Selector accepts a new move. |
+| `xSelectorInPosition` | BOOL | Selector is settled at its reported outlet. |
+| `uiSelectorOutlet` | UINT | Confirmed outlet; zero means unknown. |
 | `xSelectorFault` | BOOL | Selector blocking fault. |
-| `xBlowerReady` | BOOL | Blower available for command. |
-| `xBlowerRunning` | BOOL | Blower running feedback. |
+| `xBlowerReady` / `xBlowerRunning` / `xBlowerAtSpeed` | BOOL | Normalized Blower status. |
+| `xBlowerDosingPermitted` | BOOL | Stable airflow permission from FB_Blower. |
 | `xBlowerFault` | BOOL | Blower blocking fault. |
-| `xDosing1Ready` | BOOL | First Dosing unit available. |
-| `xDosing1Running` | BOOL | First Dosing running feedback. |
-| `xDosing1Fault` | BOOL | First Dosing blocking fault. |
-| `xDosing2Ready` | BOOL | Optional second Dosing unit available. |
-| `xDosing2Running` | BOOL | Optional second Dosing running feedback. |
-| `xDosing2Fault` | BOOL | Optional second Dosing blocking fault. |
-| `rDeliveredFeedKg` | REAL | Validated cumulative delivered quantity. |
+| `xDosing1Ready` / `xDosing1Running` / `xDosing1Fault` | BOOL | Dosing 1 status. |
+| `xDosing1CompletedEvent` | BOOL | One-scan successful Dosing 1 completion. |
+| `udiDosing1DeliveredCentiKg` | UDINT | Current/frozen Dosing 1 transaction quantity. |
+| `udiDosing1IncrementCentiKg` | UDINT | One-scan validated Dosing 1 increment. |
+| `xDosing2Ready` / `xDosing2Running` / `xDosing2Fault` | BOOL | Dosing 2 status. |
+| `xDosing2CompletedEvent` | BOOL | One-scan successful Dosing 2 completion. |
+| `udiDosing2DeliveredCentiKg` | UDINT | Current/frozen Dosing 2 transaction quantity. |
+| `udiDosing2IncrementCentiKg` | UDINT | One-scan validated Dosing 2 increment. |
 
 ## Equipment Command Outputs
 
 | Name | Type | Description |
 |---|---|---|
-| `xSelectorMoveRequest` | BOOL | Requests Selector movement. |
-| `uiSelectorTarget` | USINT | Accepted immutable target position. |
-| `xBlowerRunRequest` | BOOL | Requests Blower operation. |
-| `rBlowerSetpoint` | REAL | Accepted bounded Blower setpoint. |
-| `xDosing1RunRequest` | BOOL | Requests first Dosing operation. |
-| `xDosing2RunRequest` | BOOL | Requests optional second Dosing operation. |
-| `rDosingSetpoint` | REAL | Accepted bounded Dosing setpoint. |
-| `xEquipmentResetRequest` | BOOL | One-scan reset after LineManager acceptance rules pass. |
+| `xSelectorMoveRequest` | BOOL | Move to accepted outlet. |
+| `uiSelectorTargetOutlet` | UINT | Accepted outlet. |
+| `udiSelectorCommandSequence` | UDINT | Selector command identity. |
+| `xBlowerRunRequest` | BOOL | Maintain airflow. |
+| `xBlowerNormalStopRequest` | BOOL | Execute controlled Blower post-run/stop. |
+| `uiBlowerTargetFreqCentiHz` | UINT | Accepted Blower frequency. |
+| `udiBlowerCommandSequence` | UDINT | Blower command identity. |
+| `xDosing1StartRequest` / `xDosing1StopRequest` | BOOL | Dosing 1 transaction command. |
+| `udiDosing1CommandSequence` | UDINT | Dosing 1 transaction identity. |
+| `udiDosing1JobId` | UDINT | Accepted job identity. |
+| `uiDosing1OutletId` | UINT | Accepted selector outlet. |
+| `udiDosing1TargetCentiKg` | UDINT | Selected transaction target or trusted remaining target on resume. |
+| `uiDosing1SpeedPermille` | UINT | Accepted Dosing speed. |
+| `xDosing2StartRequest` / `xDosing2StopRequest` | BOOL | Dosing 2 transaction command. |
+| `udiDosing2CommandSequence` | UDINT | Dosing 2 transaction identity. |
+| `udiDosing2JobId` | UDINT | Accepted job identity. |
+| `uiDosing2OutletId` | UINT | Accepted selector outlet. |
+| `udiDosing2TargetCentiKg` | UDINT | Selected transaction target or trusted remaining target on resume. |
+| `uiDosing2SpeedPermille` | UINT | Accepted Dosing speed. |
+| `xEquipmentResetRequest` | BOOL | One-scan reset after line reset acceptance. |
+| `udiEquipmentResetSequence` | UDINT | Shared accepted reset identity. |
+
+Static Dosing calibration and equipment configuration are wired from approved configuration storage directly to each equipment block; LineManager does not modify them.
 
 ## Published Outputs
 
 | Name | Type | Description |
 |---|---|---|
 | `stLine` | ST_Line | Authoritative bounded realtime snapshot. |
-| `xReady` | BOOL | Convenience output matching `stLine.Ready`. |
-| `xBusy` | BOOL | Line owns an active job or safe shutdown. |
+| `xReady` / `xBusy` | BOOL | Convenience status. |
 | `xCompleted` | BOOL | One-scan successful completion event. |
-| `xJobAccepted` | BOOL | One-scan acceptance acknowledgement. |
-| `xJobRejected` | BOOL | One-scan rejection event with reason ID. |
-| `uiResultCode` | UINT | Bounded completion, cancellation, or rejection code. |
+| `xJobAccepted` / `xJobRejected` | BOOL | One-scan transfer result. |
+| `uiResultCode` | UINT | Bounded completion, cancellation, fault, or rejection reason. |
+| `udiLastAcceptedCommandSequence` | UDINT | Line-command replay protection. |
 
 ## Contract Rules
 
 - No job is accepted while Desktop communication is unavailable.
 - A healthy active job continues during Desktop communication loss.
-- Dosing command requires Selector at target and Blower running.
-- Stop, Cancel, Fault, and Emergency remove Dosing command before airflow shutdown unless approved safety engineering requires a more immediate action.
+- Dosing Start requires Selector at the accepted outlet and Blower dosing permission.
+- Only the mask-selected Dosing unit may receive Start.
+- Stop, Cancel, Fault, and Emergency remove Dosing Start before airflow shutdown unless safety engineering requires immediate removal of all commands.
 - Resume and Recovery never enter directly into Dosing.
 - Only LineManager writes `ST_Line`.
-- Equipment outputs are requests to equipment Function Blocks, never direct physical outputs.
-- Completion, acceptance, and rejection events are emitted exactly once per transaction.
+- Equipment outputs are requests to equipment Function Blocks, never physical outputs.
+- Completion, acceptance, and rejection events are emitted exactly once.
+- No REAL value is used across the realtime LineManager/equipment boundary.
 
 ## Related Documents
 
 - [FB_LineManager](../01_Function_Blocks/FB_LineManager.md)
 - [ST_Line](../02_Structures/ST_Line.md)
-- [E_LineState](../02_Structures/E_LineState.md)
-- [FB_SystemManager](../01_Function_Blocks/FB_SystemManager.md)
+- [ST_LineConfig](../02_Structures/ST_LineConfig.md)
 - [IF_ExecutionTransfer](IF_ExecutionTransfer.md)
-- [ST_JobExecution](../02_Structures/ST_JobExecution.md)
-- [ST_RecipeExecution](../02_Structures/ST_RecipeExecution.md)
-
-## Revision History
-
-| Version | Date | Description |
-|---|---|---|
-| 1.0 | Legacy | Initial minimal line interface. |
-| 2.0 | 2026-07-25 | Consolidated command, feedback, equipment request, and status contract. |

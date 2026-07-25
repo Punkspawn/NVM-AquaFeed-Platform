@@ -126,6 +126,7 @@ Authoritative ownership is defined by `04_Integration/INTEGRATION_INDEX.md`; the
 | `ST_Alarm.md` | KEEP; authoritative bounded active alarm record |
 | `ST_Diagnostics.md` | KEEP; authoritative bounded current diagnostic snapshot |
 | `ST_Line.md` | KEEP; authoritative bounded realtime line snapshot |
+| `ST_LineConfig.md` | KEEP; authoritative static line/equipment bounds |
 | `ST_ModbusMap.md` | KEEP; authoritative flat 4000-WORD publication buffer |
 | `ST_Runtime.md` | KEEP; authoritative retentive lifetime counters |
 | `ST_SystemStatus.md` | KEEP / NORMALIZE |
@@ -179,6 +180,7 @@ Every retained function must be reviewed for deterministic, stateless execution.
 - MOVE Desktop manager tests with their corresponding Desktop specifications.
 - ARCHIVE tests whose target module is archived.
 - Treat all current files as test specifications, not evidence of executed tests.
+- `TEST_Line.md` — AUTHORITATIVE LineManager contract and sequence test specification.
 
 ## PLC/06_Documentation
 
