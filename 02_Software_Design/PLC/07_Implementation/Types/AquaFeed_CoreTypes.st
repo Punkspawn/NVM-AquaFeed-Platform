@@ -157,3 +157,18 @@ STRUCT
     xReverseDirection : BOOL;
 END_STRUCT;
 END_TYPE
+
+TYPE ST_BlowerConfig :
+STRUCT
+    uiMinimumFreqCentiHz : UINT;
+    uiMaximumFreqCentiHz : UINT;
+    uiAtSpeedToleranceCentiHz : UINT;
+    udiAtSpeedStableTimeMs : UDINT;
+    udiStartTimeoutMs : UDINT;
+    udiAccelerationTimeoutMs : UDINT;
+    udiFeedbackLossTimeoutMs : UDINT;
+    udiStopTimeoutMs : UDINT;
+    udiPostRunTimeMs : UDINT;
+    udiMaximumPostRunTimeMs : UDINT;
+END_STRUCT;
+END_TYPE
