@@ -29,6 +29,7 @@ Classify and consolidate accumulated engineering documents before implementation
 - Diagnostics and IO contracts normalized with bounded process images, deterministic scan order, safe output arbitration, and explicit Modbus diagnostics.
 - Selector, Blower, and Dosing normalized as authoritative deterministic equipment blocks with versioned states, interfaces, and tests.
 - Communication, channel supervision, and monotonic PLC time normalized; platform network/NTP responsibilities removed from PLC.
+- Recovery, bounded health aggregation, and standard-PLC safety coordination normalized with fail-closed restart prevention.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -43,6 +44,6 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Normalize Recovery, Health, and Safety coordination.
-2. Decide scope for optional Motion, CIP, Water, Aeration, and Oxygen blocks.
+1. Decide scope for optional Motion, CIP, Water, Aeration, and Oxygen blocks.
+2. Normalize remaining mixed managers and service interfaces.
 3. Resume PLC implementation contracts.
