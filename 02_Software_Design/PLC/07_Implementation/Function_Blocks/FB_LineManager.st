@@ -616,12 +616,14 @@ ELSE
 
         LINE_PAUSED:
             IF xStart AND
-               (udiCommandSequence <>
-                udiLastAcceptedCommandSequence) AND
+               (NOT xHasAcceptedCommand OR
+                (udiCommandSequence <>
+                 udiLastAcceptedCommandSequence)) AND
                xSafetyOK AND
                NOT xBlockingFault THEN
                 udiLastAcceptedCommandSequence :=
                     udiCommandSequence;
+                xHasAcceptedCommand := TRUE;
                 xShutdownForPause := FALSE;
                 xShutdownForCancel := FALSE;
                 xShutdownForStop := FALSE;
