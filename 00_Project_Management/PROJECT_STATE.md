@@ -3,7 +3,7 @@
 ## Project State
 
 **Current phase:** Architecture normalization  
-**Branch:** `agent/repository-normalization`  
+**Branch strategy:** focused normalization PRs  
 **Status:** Active
 
 ## Current Activity
@@ -24,6 +24,7 @@ Classify and consolidate accumulated engineering documents before implementation
 - `ST_Runtime` and `ST_OperationData` reviewed.
 - `ST_Device` and the new runtime `FB_DeviceManager` drafted.
 - Repository-wide architecture audit completed.
+- Desktop-domain manager documents removed from the PLC tree and classified under the Desktop boundary.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -38,8 +39,7 @@ Classify and consolidate accumulated engineering documents before implementation
 
 ## Next Tasks
 
-1. Move Desktop-domain manager documents out of PLC.
-2. Move Integration/Edge manager documents out of PLC.
-3. Normalize diagnostics and IO contracts.
-4. Normalize Selector, Blower, and Dosing core equipment blocks.
-5. Resume remaining PLC implementation contracts.
+1. Move Integration/Edge manager documents out of PLC.
+2. Normalize diagnostics and IO contracts.
+3. Normalize Selector, Blower, and Dosing core equipment blocks.
+4. Resume remaining PLC implementation contracts.
