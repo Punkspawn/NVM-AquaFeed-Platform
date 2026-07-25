@@ -132,3 +132,17 @@ STRUCT
     udiImageSequence : UDINT;
 END_STRUCT;
 END_TYPE
+
+TYPE ST_SelectorConfig :
+STRUCT
+    uiOutletCount : UINT;
+    adiOutletPosition : ARRAY[1..12] OF DINT;
+    axOutletCalibrated : ARRAY[1..12] OF BOOL;
+    diPositionTolerance : DINT;
+    diAnalogMinimum : DINT;
+    diAnalogMaximum : DINT;
+    udiSettleTimeMs : UDINT;
+    udiMoveTimeoutMs : UDINT;
+    xReverseDirection : BOOL;
+END_STRUCT;
+END_TYPE
