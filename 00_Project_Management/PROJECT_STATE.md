@@ -43,6 +43,7 @@ Implement the approved PLC core from normalized authoritative contracts.
 - `FB_LineManager` deterministic single-job core implemented with immutable transfer acceptance, replay protection, Selector/Blower/Dosing coordination, bounded progress arithmetic, controlled pause/stop/cancel post-run, one-scan completion, and fail-closed fault/emergency handling.
 - `FB_SystemManager` lifecycle core implemented with exclusive mode arbitration, edge-triggered commands, safety-priority state transitions, controlled Automatic-mode loss, line permission, and bounded global status publication.
 - Delta DVP-SV3/ISPSoft vendor compile gate defined with exact import order, isolated compile acceptance, syntax-risk checks, one-line bench prerequisites, six-line composition evidence, and hardware commissioning stop conditions.
+- AlarmManager execution boundary closed with 32 bounded condition updates per scan, 64 active lifecycle records, a 128-event oldest-first persistence handshake, explicit inactive updates, and fail-visible overflow behavior.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -52,7 +53,7 @@ New PLC code is admitted only when an authoritative contract and test specificat
 
 ## Next Tasks
 
-1. Run Vendor Compile Gate A and B in ISPSoft and record the exact version, CPU/firmware, errors, and warnings.
-2. Approve one line's physical IO list, channel enable masks, polarity, safe values, time base, and equipment parameters.
-3. Compose and bench-test one disabled line before expanding to six line/equipment groups.
-4. Approve explicit Selector manual-jog commands and maximum jog duration before implementing service jog.
+1. Implement the bounded `FB_AlarmManager` core from the closed v2.1 interface and 29-case test gate.
+2. Run Vendor Compile Gate A and B in ISPSoft and record the exact version, CPU/firmware, errors, and warnings.
+3. Approve one line's physical IO list, channel enable masks, polarity, safe values, time base, and equipment parameters.
+4. Compose and bench-test one disabled line before expanding to six line/equipment groups.
