@@ -4,7 +4,7 @@
 |---|---|
 | Status | Authoritative |
 | Owner | PLC Runtime |
-| Version | 2.0 |
+| Version | 2.1 |
 
 ## Commands and Conditions
 
@@ -19,6 +19,8 @@
 | `xStopRequest` | BOOL | Highest-priority normal stop. |
 | `xServicePermission` | BOOL | Local approved service permission. |
 | `xSafetyOK` | BOOL | Standard-control safety permission. |
+| `stConfig` | ST_SelectorConfig | Approved bounded calibration and timeout configuration. |
+| `udiMonotonicTickMs` | UDINT | Wrap-safe monotonic time source for movement and settling. |
 
 ## Feedback
 
@@ -41,3 +43,11 @@
 | `udiLastAcceptedSequence` | UDINT | Command replay protection. |
 
 Stop and safety loss override all movement requests. Physical outputs are written only by IO Manager.
+
+## Configuration Boundary
+
+- maximum outlet count is 12
+- outlet positions and calibrated flags are retentive commissioning data
+- homing moves logically left until the left limit, then verifies outlet 1 calibration
+- tolerance must be positive; settle and movement timeouts must be non-zero
+- manual jog remains disabled until explicit hold-to-run command fields and maximum jog duration are approved
