@@ -34,6 +34,7 @@ Implement the approved PLC core from normalized authoritative contracts.
 - Remaining mixed managers removed from active PLC scope; service mode reduced to a fail-closed permission contract without duplicate control or platform services.
 - PLC implementation baseline created with importable core types, bounded global constants, and a deterministic main-program entry point.
 - `FB_TimeService` implemented with wrap-safe monotonic timing, bounded second sequencing, and idempotent observational UTC synchronization.
+- `FB_IOManager` safety core implemented with safe startup, fixed process-image bounds, permission/safety/watchdog arbitration, and zero/false baseline safe outputs.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
@@ -43,6 +44,6 @@ New PLC code is admitted only when an authoritative contract and test specificat
 
 ## Next Tasks
 
-1. Implement deterministic IO acquisition and safe output arbitration.
+1. Approve the physical IO list, channel enable masks, debounce/range parameters, safe values, and mutual-exclusion pairs.
 2. Implement Selector, Blower, and Dosing in dependency order.
 3. Integrate implemented blocks into the cyclic main program after vendor compilation checks.

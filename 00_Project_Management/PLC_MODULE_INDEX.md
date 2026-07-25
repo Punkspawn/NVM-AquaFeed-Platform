@@ -286,4 +286,4 @@ Recovery never automatically energizes equipment after power return or safety tr
 - fixed project constants: `Globals/GVL_AquaFeed.st`
 - cyclic entry point: `Programs/PRG_AquaFeedMain.st`
 
-Only reviewed implementations are called by the main program. `FB_TimeService` is implemented under `07_Implementation/Function_Blocks`; IO arbitration and the three approved equipment blocks follow.
+Only reviewed implementations are called by the main program. `FB_TimeService` and the `FB_IOManager` safety core are implemented under `07_Implementation/Function_Blocks`; physical channel configuration and the three approved equipment blocks follow.

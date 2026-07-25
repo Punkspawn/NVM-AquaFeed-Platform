@@ -112,3 +112,23 @@ STRUCT
     uiTimeDiagnosticCode : UINT;
 END_STRUCT;
 END_TYPE
+
+TYPE ST_IO :
+STRUCT
+    axDigitalInput : ARRAY[0..63] OF BOOL;
+    axDigitalInputValid : ARRAY[0..63] OF BOOL;
+    axDigitalOutput : ARRAY[0..63] OF BOOL;
+    axDigitalOutputValid : ARRAY[0..63] OF BOOL;
+    adiAnalogInput : ARRAY[0..15] OF DINT;
+    axAnalogInputValid : ARRAY[0..15] OF BOOL;
+    adiAnalogOutput : ARRAY[0..15] OF DINT;
+    axAnalogOutputValid : ARRAY[0..15] OF BOOL;
+    xRequiredModulesOnline : BOOL;
+    xForceActive : BOOL;
+    uiInvalidInputCount : UINT;
+    uiInvalidOutputCount : UINT;
+    uiOutputMismatchCount : UINT;
+    uiDiagnosticCode : UINT;
+    udiImageSequence : UDINT;
+END_STRUCT;
+END_TYPE
