@@ -23,6 +23,7 @@ VAR_OUTPUT
     uiOccurrenceCode : UINT;
 END_VAR
 VAR
+    xEffectiveConfigurationValid : BOOL;
     xScanBudgetExceeded : BOOL;
     xInvalidInput : BOOL;
     xInvalidOutput : BOOL;
@@ -70,7 +71,11 @@ uiOccurrenceCode := c_uiCodeNone;
 xNewOverrun := FALSE;
 
 stDiagnostics.xWatchdogHealthy := xWatchdogHealthy;
-stDiagnostics.xConfigurationValid := xConfigurationValid;
+xEffectiveConfigurationValid :=
+    xConfigurationValid AND
+    (udiMaximumScanTimeUs <> 0);
+stDiagnostics.xConfigurationValid :=
+    xEffectiveConfigurationValid;
 stDiagnostics.uiActiveAlarmCount := uiActiveAlarmCount;
 stDiagnostics.uiInvalidInputCount := stIO.uiInvalidInputCount;
 stDiagnostics.uiInvalidOutputCount := stIO.uiInvalidOutputCount;
@@ -85,8 +90,7 @@ ELSE
 END_IF;
 
 xScanBudgetExceeded :=
-    (udiMaximumScanTimeUs = 0) OR
-    (udiScanTimeUs > udiMaximumScanTimeUs);
+    udiScanTimeUs > udiMaximumScanTimeUs;
 xInvalidInput := stIO.uiInvalidInputCount <> 0;
 xInvalidOutput := stIO.uiInvalidOutputCount <> 0;
 xOutputMismatch := stIO.uiOutputMismatchCount <> 0;
@@ -122,7 +126,7 @@ stDiagnostics.uiHighestSeverity := 0;
 stDiagnostics.uiActiveDiagnosticCount := 0;
 
 IF xEnable THEN
-    IF NOT xConfigurationValid THEN
+    IF NOT xEffectiveConfigurationValid THEN
         stDiagnostics.xFault := TRUE;
         stDiagnostics.uiLastDiagnosticCode :=
             c_uiCodeConfiguration;
@@ -209,7 +213,7 @@ IF xEnable THEN
         END_IF;
     END_IF;
 
-    IF NOT xConfigurationValid THEN
+    IF NOT xEffectiveConfigurationValid THEN
         stDiagnostics.uiActiveDiagnosticCount :=
             stDiagnostics.uiActiveDiagnosticCount + 1;
     END_IF;
@@ -259,7 +263,7 @@ IF xEnable THEN
     END_IF;
 
     IF xInitialized THEN
-        IF NOT xConfigurationValid AND
+        IF NOT xEffectiveConfigurationValid AND
            NOT xPrevConfigurationInvalid THEN
             uiOccurrenceCode := c_uiCodeConfiguration;
         ELSIF NOT xWatchdogHealthy AND
@@ -324,7 +328,7 @@ ELSE
     xInitialized := FALSE;
 END_IF;
 
-xPrevConfigurationInvalid := NOT xConfigurationValid;
+xPrevConfigurationInvalid := NOT xEffectiveConfigurationValid;
 xPrevWatchdogUnhealthy := NOT xWatchdogHealthy;
 xPrevRequiredIOModuleOffline :=
     NOT stIO.xRequiredModulesOnline;
