@@ -10,9 +10,9 @@ Authoritative scope index
 |---|---|---|
 | `FB_SystemManager` | AUTHORITATIVE | Global PLC lifecycle, operating mode, readiness, and realtime system state |
 | `FB_LineManager` | AUTHORITATIVE | Deterministic execution of one active feeding job on one physical line |
-| `FB_Selector` | KEEP / NORMALIZE | Selector positioning and local diagnostics |
-| `FB_Blower` | KEEP / NORMALIZE | Blower/VFD sequence and local diagnostics |
-| `FB_Dosing` | KEEP / NORMALIZE | Dosing sequence, calibration, feed delivery |
+| `FB_Selector` | AUTHORITATIVE | Deterministic selector positioning and local diagnostics |
+| `FB_Blower` | AUTHORITATIVE | Deterministic blower/VFD sequence and airflow permission |
+| `FB_Dosing` | AUTHORITATIVE | Deterministic pulse-based delivery of one accepted target |
 | `FB_DeviceManager` | AUTHORITATIVE | One physical device runtime state; owns one `ST_Device` |
 | `FB_AlarmManager` | AUTHORITATIVE | Bounded active lifecycle, priority summaries, acknowledgement/reset, and Desktop event handshake |
 | `FB_RecoveryManager` | KEEP / NORMALIZE | Deterministic recovery sequences |
@@ -204,3 +204,29 @@ The former Update, AI, Remote, Digital Twin, Integration, Cloud, Edge, and Firmw
 - explicit Modbus diagnostics allocation: offsets 2200–2217
 
 Expanded platform-diagnostics, predictive, report, dynamic-discovery, and history responsibilities are excluded from PLC. Original drafts are preserved under `Archive/Legacy/PLC`.
+
+
+## Authoritative Core Equipment Contract
+
+### Selector
+
+- manager: `58_FB_Selector.md`
+- state: `E_SelectorState.md`
+- interface: `IF_Selector.md`
+- test: `TEST_Selector.md`
+
+### Blower
+
+- manager: `59_FB_Blower.md`
+- state: `E_BlowerState.md`
+- interface: `IF_Blower.md`
+- test: `TEST_Blower.md`
+
+### Dosing
+
+- manager: `60_FB_Dosing.md`
+- state: `E_DosingState.md`
+- interface: `IF_Dosing.md`
+- test: `TEST_Dosing.md`
+
+All three use latched accepted commands, idempotent sequences, bounded integer units, explicit timeouts, safe output removal, and IO Manager-owned physical outputs. Superseded PLC and System Engineering drafts are archived.
