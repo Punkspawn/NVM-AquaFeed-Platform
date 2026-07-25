@@ -46,8 +46,11 @@ Stop and safety loss override all movement requests. Physical outputs are writte
 
 ## Configuration Boundary
 
-- maximum outlet count is 12
+- maximum configured outlet capacity is 64; the physical outlet count remains project data
 - outlet positions and calibrated flags are retentive commissioning data
-- homing moves logically left until the left limit, then verifies outlet 1 calibration
+- `SelectorLinearLimited` uses directional limits and homes logically left before verifying outlet 1
+- `SelectorCyclic360` ignores directional limits, requires absolute cyclic position feedback, and selects the shortest permitted direction
+- cyclic positions use `0..diCycleLength-1`; wrap distance is evaluated across zero
 - tolerance must be positive; settle and movement timeouts must be non-zero
+- the current 12-outlet machine is represented by `uiOutletCount := 12`; this is configuration, not a software limit
 - manual jog remains disabled until explicit hold-to-run command fields and maximum jog duration are approved
