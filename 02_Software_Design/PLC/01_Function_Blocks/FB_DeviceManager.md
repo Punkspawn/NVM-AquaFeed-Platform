@@ -33,8 +33,7 @@ Equipment-specific Function Blocks remain responsible for motion, VFD, dosing, t
 4. equipment fault
 5. interlock open
 6. required communication lost
-7. unexpected running feedback
-8. none
+7. none
 
 ## Contracts
 
