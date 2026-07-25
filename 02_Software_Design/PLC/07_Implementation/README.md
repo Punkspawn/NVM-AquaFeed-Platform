@@ -32,6 +32,10 @@ Use [VENDOR_COMPILE_GATE.md](VENDOR_COMPILE_GATE.md) for the exact listed-source
 - `Functions/F_ElapsedMs.st` — wrap-safe unsigned elapsed-time helper
 - `Functions/F_CyclicDistance.st` — shortest distance across a cyclic position range
 
+## One-Line Composition Shell
+
+`Programs/PRG_AquaFeedMain.st` now instantiates all reviewed core managers for one line in the approved cyclic order. It is deliberately non-energizing until vendor compilation and approved bench configuration replace the zero/unmapped inputs.
+
 ## Rules
 
 - Documentation under the sibling design folders remains the behavioral authority.
