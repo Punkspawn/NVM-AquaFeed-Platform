@@ -8,7 +8,7 @@ Authoritative scope index
 
 | Module | Status | Primary responsibility |
 |---|---|---|
-| `FB_SystemManager` | MERGE REQUIRED | Startup, shutdown, global mode, global realtime status |
+| `FB_SystemManager` | AUTHORITATIVE | Global PLC lifecycle, operating mode, readiness, and realtime system state |
 | `FB_LineManager` | MERGE REQUIRED | One feeding line and active mission sequence |
 | `FB_Selector` | KEEP / NORMALIZE | Selector positioning and local diagnostics |
 | `FB_Blower` | KEEP / NORMALIZE | Blower/VFD sequence and local diagnostics |
@@ -97,3 +97,12 @@ OEE, commercial cost, business analytics, report metrics, historical failure ana
 - Authoritative structure: `02_Software_Design/PLC/02_Structures/ST_Device.md`
 - Archived legacy concept: `Archive/Legacy/PLC/Function_Blocks/98_FB_DeviceManager_AssetRegistry.md`
 - Resolution: PLC owns deterministic runtime state for one physical device. Desktop/Edge owns platform asset registry, provisioning, firmware inventory, and long-term lifecycle records.
+
+
+### FB_SystemManager
+
+- Authoritative PLC document: `02_Software_Design/PLC/01_Function_Blocks/FB_SystemManager.md`
+- Archived expanded legacy concept: `Archive/Legacy/PLC/Function_Blocks/90_FB_SystemManager_PlatformOrchestrator.md`
+- Archived minimal draft: `Archive/Legacy/System_Engineering/56_FB_System_Manager.md`
+- Resolution: PLC owns global lifecycle, mode arbitration, readiness, safety priority, and realtime status. Desktop/Edge owns database, users, history, reports, cloud, and distributed platform orchestration.
+- Follow-up: normalize `ST_SystemStatus`, then consolidate `IF_System.md` and `IF_SystemStatus.md` into one contract.
