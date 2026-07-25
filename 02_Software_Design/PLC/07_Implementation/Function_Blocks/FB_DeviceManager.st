@@ -29,7 +29,6 @@ VAR CONSTANT
     c_uiDiagnosticEquipmentFault : UINT := 40;
     c_uiDiagnosticInterlock : UINT := 50;
     c_uiDiagnosticCommunication : UINT := 60;
-    c_uiDiagnosticUnexpectedRun : UINT := 70;
 END_VAR
 
 stDevice.uiDeviceId := uiDeviceId;
@@ -91,8 +90,6 @@ ELSIF NOT xInterlockOK THEN
     uiDiagnosticCode := c_uiDiagnosticInterlock;
 ELSIF NOT xCommunicationOK THEN
     uiDiagnosticCode := c_uiDiagnosticCommunication;
-ELSIF xUnexpectedRunFeedback THEN
-    uiDiagnosticCode := c_uiDiagnosticUnexpectedRun;
 ELSE
     uiDiagnosticCode := c_uiDiagnosticNone;
 END_IF;
