@@ -85,6 +85,10 @@ END_IF;
 (* FALSE and zero are the current approved baseline safe image.
    A future non-zero safe channel requires an approved IO configuration. *)
 FOR iChannel := 0 TO 63 DO
+    stAppliedOutputs.axDigitalInput[iChannel] :=
+        stValidatedInputs.axDigitalInput[iChannel];
+    stAppliedOutputs.axDigitalInputValid[iChannel] :=
+        stValidatedInputs.axDigitalInputValid[iChannel];
     stAppliedOutputs.axDigitalOutputValid[iChannel] :=
         stRequestedOutputs.axDigitalOutputValid[iChannel] AND xHardwareConfigValid;
 
@@ -98,6 +102,10 @@ FOR iChannel := 0 TO 63 DO
 END_FOR;
 
 FOR iChannel := 0 TO 15 DO
+    stAppliedOutputs.adiAnalogInput[iChannel] :=
+        stValidatedInputs.adiAnalogInput[iChannel];
+    stAppliedOutputs.axAnalogInputValid[iChannel] :=
+        stValidatedInputs.axAnalogInputValid[iChannel];
     stAppliedOutputs.axAnalogOutputValid[iChannel] :=
         stRequestedOutputs.axAnalogOutputValid[iChannel] AND xHardwareConfigValid;
 
@@ -124,11 +132,6 @@ END_IF;
 
 stValidatedInputs.udiImageSequence := stAppliedOutputs.udiImageSequence;
 stValidatedInputs.uiDiagnosticCode := uiDiagnosticCode;
-
-(* Retained for deterministic diagnostics; level requests remain idempotent. *)
-IF udiCommandSequence = c_udiCounterMaximum THEN
-    udiCommandSequence := udiCommandSequence;
-END_IF;
 
 xInitialized := TRUE;
 
