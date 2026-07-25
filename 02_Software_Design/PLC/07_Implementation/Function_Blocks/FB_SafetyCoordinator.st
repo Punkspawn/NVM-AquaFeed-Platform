@@ -139,6 +139,7 @@ END_IF;
 stSafety.xRecoveryPermitted :=
     xAllObservedHealthy AND
     NOT xResetRequiredLatched AND
+    NOT xResetAccepted AND
     xEquipmentStopped;
 
 stSafety.xFeedbackValid := xFeedbackValid;
