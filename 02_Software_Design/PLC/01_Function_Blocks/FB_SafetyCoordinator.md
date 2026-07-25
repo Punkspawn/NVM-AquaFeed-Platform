@@ -39,6 +39,19 @@ Publishes `ST_SafetyStatus` and permission bits consumed by SystemManager, LineM
 | reset cleared, no standard-control request | SafetyHealthyStopped | Recovery only, while equipment stopped |
 | reset cleared and standard-control request active | SafetyHealthyPermitted | Automatic/Motion/Blower/Dosing true; Recovery false unless equipment stopped |
 
+## Current Implementation Baseline
+
+The current release implements the fail-closed standard-PLC coordinator in `07_Implementation/Function_Blocks/FB_SafetyCoordinator.st`.
+
+- ResetRequired is true at startup and latches on unknown, trip, or implausible feedback.
+- reset commands are idempotent by sequence; replay emits no second result
+- rejected reset diagnostics are bounded and never change hardware state
+- every permit is recalculated false-first each scan
+- reset acceptance keeps every permit false for that scan
+- production permits require a later explicit standard-control request
+- Recovery permission additionally requires stopped equipment
+- no remote reset, bypass, force, simulation, safety relay command, STO command, or contactor command exists
+
 ## Revision History
 
 | Version | Date | Description |
