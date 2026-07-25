@@ -16,7 +16,8 @@ Authoritative scope index
 | `FB_DeviceManager` | AUTHORITATIVE | One physical device runtime state; owns one `ST_Device` |
 | `FB_AlarmManager` | AUTHORITATIVE | Bounded active lifecycle, priority summaries, acknowledgement/reset, and Desktop event handshake |
 | `FB_RecoveryManager` | KEEP / NORMALIZE | Deterministic recovery sequences |
-| `FB_CommunicationManager` | DESIGN REQUIRED | Modbus exchange and communication supervision |
+| `FB_TimeService` | AUTHORITATIVE | Monotonic PLC control timing and observational UTC boundary |
+| `FB_CommunicationManager` | AUTHORITATIVE | Bounded Modbus TCP publication, RTU scheduling, and channel supervision |
 | `FB_IOManager` | AUTHORITATIVE | Deterministic IO acquisition, validation, safe arbitration, and single-write output application |
 | `FB_SafetyManager` | REVIEW | Realtime safety coordination; must not replace hardwired safety |
 | `FB_HealthMonitor` | REVIEW | Bounded realtime health status only |
@@ -71,6 +72,8 @@ These concepts belong to Integration / Edge:
 - `ST_Diagnostics` — authoritative bounded current diagnostic snapshot
 - `ST_IO` — authoritative non-retentive bounded process image
 - `ST_ModbusMap`
+- `ST_CommunicationChannel` — bounded per-channel state and counters
+- `ST_TimeService` — monotonic tick/second sequence plus observational UTC
 - `ST_JobExecution`
 - `ST_RecipeExecution`
 
@@ -230,3 +233,17 @@ Expanded platform-diagnostics, predictive, report, dynamic-discovery, and histor
 - test: `TEST_Dosing.md`
 
 All three use latched accepted commands, idempotent sequences, bounded integer units, explicit timeouts, safe output removal, and IO Manager-owned physical outputs. Superseded PLC and System Engineering drafts are archived.
+
+
+## Authoritative Communication and Time Contract
+
+- manager: `FB_CommunicationManager.md`
+- time service: `FB_TimeService.md`
+- channel structure: `ST_CommunicationChannel.md`
+- time structure: `ST_TimeService.md`
+- interfaces: `IF_Communication.md` and `IF_Time.md`
+- topology: `COMMUNICATION_PROTOCOL.md`
+- tests: `TEST_Communication.md` and `TEST_Time.md`
+- Modbus publication: 16 channel summaries at offsets 2218–2393
+
+The former NetworkManager and platform TimeManager are archived. PLC does not own routing, switches, VPN, MQTT, OPC UA, cloud networking, NTP, timezone, daylight saving, or calendar scheduling.
