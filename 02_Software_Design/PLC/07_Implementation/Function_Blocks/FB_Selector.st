@@ -81,6 +81,10 @@ ELSIF NOT xSafetyOK THEN
     eState := SelectorFault;
     uiCurrentOutlet := 0;
     uiDiagnosticCode := c_uiDiagnosticSafety;
+ELSIF xLeftLimit AND xRightLimit THEN
+    eState := SelectorFault;
+    uiCurrentOutlet := 0;
+    uiDiagnosticCode := c_uiDiagnosticFeedback;
 ELSIF xMotorFault THEN
     eState := SelectorFault;
     uiCurrentOutlet := 0;
@@ -170,6 +174,8 @@ ELSE
                    (udiCommandSequence <> udiLastAcceptedSequence)) THEN
                 udiLastAcceptedSequence := udiCommandSequence;
                 xHasAcceptedCommand := TRUE;
+                xReady := FALSE;
+                xInPosition := FALSE;
                 xTargetValid := (uiTargetOutlet >= 1) AND
                                 (uiTargetOutlet <= stConfig.uiOutletCount);
 
