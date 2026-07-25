@@ -3,8 +3,8 @@
 | Field | Value |
 |---|---|
 | Status | Authoritative test specification |
-| Target | FB_AlarmManager v1.0 and alarm contract v2.0 |
-| Version | 2.0 |
+| Target | FB_AlarmManager v1.1 and alarm contract v2.1 |
+| Version | 2.1 |
 
 ## Test Cases
 
@@ -30,6 +30,15 @@
 | ALM-018 | Power cycle | Active physical conditions are rediscovered safely; Desktop history remains authoritative |
 | ALM-019 | Line 1 blocking fault | Correct line summary blocks only affected scope unless shared safety applies |
 | ALM-020 | Alarm text request | PLC publishes numeric key only; Desktop resolves localized content |
+| ALM-021 | Two valid condition updates in one scan | both keys processed deterministically |
+| ALM-022 | Invalid/omitted input after active condition | existing condition is not cleared |
+| ALM-023 | Matching explicit inactive update | clear policy executes exactly once |
+| ALM-024 | Wrong or replayed accepted event sequence | oldest pending event remains unchanged |
+| ALM-025 | Correct oldest event acknowledgement | exactly one event is removed; next oldest is exposed |
+| ALM-026 | 33rd condition update in one scan | source aggregator retains it for a later scan; AlarmManager input remains bounded |
+| ALM-027 | 65th simultaneous active key | TableOverflow latched; existing 64 records preserved |
+| ALM-028 | 129th unsynchronized event | EventBufferOverflow latched; existing 128 events preserved |
+| ALM-029 | Event sequence exhaustion | no silent wrap; fail-visible overflow/diagnostic state |
 
 ## Acceptance Criteria
 
