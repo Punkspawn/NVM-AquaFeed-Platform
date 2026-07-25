@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Responsibility | Global PLC lifecycle, operating mode, and realtime system state |
-| Version | 1.0 |
+| Version | 1.1 |
 | Governing boundary | [System Boundary](../../../00_Project_Management/SYSTEM_BOUNDARY.md) |
 
 ---
@@ -280,6 +280,18 @@ Simulation and Service modes shall also remain mutually exclusive with other ope
 
 ---
 
+## Current Implementation Baseline
+
+The current release implements the lifecycle core in `07_Implementation/Function_Blocks/FB_SystemManager.st`.
+
+- Start, Stop, Pause, and Reset are rising-edge commands; held commands cannot replay after a later state transition.
+- Emergency and safety/blocking faults have priority over lifecycle commands.
+- Desktop communication is published diagnostically and never forces Fault or Emergency.
+- loss of the sole Automatic-mode request while Running or Paused causes controlled Stopping
+- `xLineEnable` is available only in a valid Automatic mode and Ready, Running, or Paused state with healthy safety conditions
+- reset is a one-scan acceptance event and requires all lines stopped after the active cause is removed
+- current alarm and active line/job/recipe references are bounded aggregation inputs; no history or business data is owned here
+
 ## Dependencies
 
 - `ST_SystemStatus`
@@ -308,3 +320,4 @@ Simulation and Service modes shall also remain mutually exclusive with other ope
 | Version | Date | Description |
 |---|---|---|
 | 1.0 | 2026-07-25 | Consolidated authoritative PLC System Manager specification. |
+| 1.1 | 2026-07-26 | Recorded implemented command-edge, controlled mode-loss, reset, line-permission, and bounded summary policies. |

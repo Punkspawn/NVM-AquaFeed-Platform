@@ -11,6 +11,32 @@ TYPE E_SystemState :
 );
 END_TYPE
 
+TYPE ST_SystemStatus :
+STRUCT
+    SystemState : E_SystemState;
+    SystemReady : BOOL;
+    SystemRunning : BOOL;
+    SystemPaused : BOOL;
+    SystemStopped : BOOL;
+    AutoMode : BOOL;
+    ManualMode : BOOL;
+    ServiceMode : BOOL;
+    SimulationMode : BOOL;
+    ModeConflict : BOOL;
+    SafetyOK : BOOL;
+    EmergencyStop : BOOL;
+    BlockingFault : BOOL;
+    AlarmActive : BOOL;
+    DesktopCommunicationOK : BOOL;
+    AllRequiredLinesReady : BOOL;
+    AnyLineRunning : BOOL;
+    FeedingActive : BOOL;
+    CurrentLine : USINT;
+    ActiveRecipeId : UINT;
+    CurrentJobId : UDINT;
+END_STRUCT;
+END_TYPE
+
 TYPE E_LineState :
 (
     LINE_OFF := 0,

@@ -10,11 +10,12 @@ END_IF;
    2. evaluate hardwired-safety observations and standard-PLC permissions
    3. update monotonic time and communication health
    4. process accepted execution transfers
-   5. execute SystemManager and six LineManager instances
+   5. execute six LineManager instances using prior-scan global permission
    6. execute Selector, Blower, and Dosing equipment blocks
-   7. aggregate alarms, health, recovery, and diagnostics
-   8. arbitrate and write physical outputs once
-   9. publish the bounded Modbus snapshot
+   7. aggregate line readiness, alarms, health, recovery, and diagnostics
+   8. execute SystemManager and publish the bounded global lifecycle
+   9. arbitrate and write physical outputs once
+  10. publish the bounded Modbus snapshot
 
    No unimplemented Function Block is called from this baseline. *)
 
