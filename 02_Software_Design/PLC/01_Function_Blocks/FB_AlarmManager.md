@@ -5,7 +5,7 @@
 | Status | Authoritative |
 | Owner | PLC Runtime / AquaCore |
 | Responsibility | Bounded active-alarm lifecycle, priority summary, and Desktop event handshake |
-| Version | 1.0 |
+| Version | 1.1 |
 | Governing boundary | [System Boundary](../../../00_Project_Management/SYSTEM_BOUNDARY.md) |
 
 ## Purpose
@@ -34,7 +34,7 @@ It does not detect equipment faults itself and never controls physical outputs.
 - calculate highest active severity
 - calculate any-active, any-blocking, any-critical, and any-emergency summaries
 - emit monotonic activation, acknowledgement, clear, and reset event sequences
-- retain a bounded unsynchronized event buffer if required by the communication contract
+- retain a fixed 128-entry unsynchronized event ring and expose only its oldest event until acknowledged
 
 ## Exclusions
 
@@ -46,6 +46,16 @@ It does not detect equipment faults itself and never controls physical outputs.
 - direct machine stop or reset
 - clearing a physical fault
 - dynamically changing severity or blocking policy from HMI
+
+## Fixed Capacities
+
+| Resource | Capacity | Full behavior |
+|---|---:|---|
+| condition updates per scan | 32 | additional updates remain with the source aggregator; no dynamic allocation |
+| active lifecycle records | 64 | reject new key, latch TableOverflow, preserve existing records |
+| unsynchronized lifecycle events | 128 | latch EventBufferOverflow, preserve existing pending events |
+
+The source aggregation boundary must deliver an explicit matching inactive update to clear a known condition. Missing input never means healthy.
 
 ## Alarm Identity
 
@@ -133,3 +143,10 @@ AlarmManager -> no direct physical output
 - [AQ-FB-061](../../../../Archive/Legacy/PLC/Function_Blocks/61_FB_AlarmManager.md)
 - [AQ-ALM-006](../../../../Archive/Legacy/System_Engineering/06_Alarm_System.md)
 - [Alarm Manager Draft](../../../../Archive/Legacy/System_Engineering/62_FB_Alarm_Manager.md)
+
+## Revision History
+
+| Version | Date | Description |
+|---|---|---|
+| 1.0 | 2026-07-25 | Consolidated bounded PLC alarm ownership and lifecycle. |
+| 1.1 | 2026-07-26 | Fixed condition, active-table, and event-buffer capacities and defined fail-visible full behavior. |
