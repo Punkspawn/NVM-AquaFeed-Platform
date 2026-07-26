@@ -1,295 +1,62 @@
 # TEST_SystemIntegration
 
----
-
-# Purpose
-
-Verify that all PLC Function Blocks operate together as a complete feeding system.
-
-This test validates end-to-end communication, sequencing, safety interlocks, data consistency and system stability under normal and abnormal operating conditions.
-
----
-
-# Preconditions
-
-- PLC powered on
-- HMI connected
-- AquaFeed Manager connected
-- All Modbus devices online
-- Selector homed
-- Blower Ready
-- Dosing Ready
-- Valid Recipe loaded
-- Valid Job Queue available
-- No active alarms
-
----
-
-# Test Cases
-
-## TC-001 Complete Production Cycle
-
-### Procedure
-
-1. Create a new Job.
-2. Load Recipe.
-3. Start automatic production.
-
-### Expected Result
-
-- Job starts successfully.
-- Selector reaches target position.
-- Blower reaches operating speed.
-- Dosing starts.
-- Recipe quantity delivered.
-- Production completes successfully.
-- Statistics updated.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-002 Sequential Job Execution
-
-### Procedure
-
-1. Create three Jobs.
-2. Start automatic execution.
-
-### Expected Result
-
-- Jobs execute sequentially.
-- No overlap between jobs.
-- Queue updated correctly.
-- Final statistics correct.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-003 Multiple Fault Recovery
-
-### Procedure
-
-1. Simulate blower fault.
-2. Recover.
-3. Simulate dosing fault.
-4. Recover.
-
-### Expected Result
-
-- Each fault detected independently.
-- Recovery successful.
-- No system restart required.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-004 Emergency Stop Recovery
-
-### Procedure
-
-1. Start production.
-2. Activate Emergency Stop.
-3. Release Emergency Stop.
-4. Reset alarms.
-
-### Expected Result
-
-- System enters Safe State.
-- Restart possible only after operator action.
-- Previous job handled according to system policy.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-005 Communication Recovery
-
-### Procedure
-
-1. Disconnect Modbus network.
-2. Restore communication.
-
-### Expected Result
-
-- Communication alarm generated.
-- Devices reconnect automatically.
-- Production may resume after validation.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-006 Power Failure Recovery
-
-### Procedure
-
-1. Start production.
-2. Remove PLC power.
-3. Restore power.
-
-### Expected Result
-
-- PLC initializes correctly.
-- Retentive values restored.
-- Equipment remains in Safe State.
-- Operator acknowledgement required before restart.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-007 Continuous Production
-
-### Procedure
-
-1. Execute automatic feeding continuously for 8 hours.
-
-### Expected Result
-
-- No unexpected alarms.
-- No communication failures.
-- Runtime statistics remain accurate.
-- Stable operation maintained.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-008 HMI Synchronization
-
-### Procedure
-
-1. Operate the system entirely from the HMI.
-
-### Expected Result
-
-- All commands executed correctly.
-- All status values updated in real time.
-- Alarm information synchronized.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-009 AquaFeed Manager Synchronization
-
-### Procedure
-
-1. Execute several feeding jobs.
-2. Synchronize production records.
-
-### Expected Result
-
-- Production records exported correctly.
-- Runtime synchronized.
-- Alarm history synchronized.
-- No data mismatch.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-## TC-010 Long Duration Stability Test
-
-### Procedure
-
-1. Operate the complete system continuously for 72 hours.
-
-### Expected Result
-
-- No PLC lockup.
-- No communication deadlock.
-- No memory overflow.
-- Stable scan time.
-- Stable production performance.
-
-Result
-
-□ PASS
-
-□ FAIL
-
----
-
-# Acceptance Criteria
-
-- All Function Blocks shall operate together without conflicts.
-- Safety interlocks shall always have priority.
-- Communication failures shall never leave the machine in an unsafe state.
-- Production statistics shall remain consistent across all modules.
-- System recovery shall be deterministic after every recoverable fault.
-- All integration test cases shall pass successfully.
-
----
-
-# Tested Modules
-
-- FB_SystemManager
-- FB_LineManager
-- FB_FeedingControlManager
-- FB_Selector
-- FB_Blower
-- FB_Dosing
-- FB_RecipeManager
-- FB_JobManager
-- FB_ModbusMaster
-- FB_RuntimeManager
-- FB_MaintenanceManager
-- FB_AlarmManager
-- FB_ReportManager
-- FB_UserManager
-
----
-
-# External Components
-
-- HMI
-- AquaFeed Manager
-- Delta PLC
-- Delta VFD
-- Modbus RTU Network
-
----
-
-# Revision
-
-Version 1.0
+| Field | Value |
+|---|---|
+| Status | Authoritative integration gate |
+| Target | Fail-closed one-line cyclic shell, then approved one-line bench |
+| Version | 2.0 |
+
+## Stage A — Compile-Safe Shell
+
+The repository shell uses zero configuration, invalid safety feedback, Emergency active, disabled equipment, and hard FALSE physical-output permission.
+
+| ID | Test | Expected result |
+|---|---|---|
+| INT-001 | Import all 19 sources | zero vendor compile errors |
+| INT-002 | Execute shell after cold start | no physical output request applied |
+| INT-003 | Execute shell after warm start | no physical output request applied |
+| INT-004 | Scan sequence increments | saturates; never wraps |
+| INT-005 | Safety feedback unmapped | all standard-control permissions false |
+| INT-006 | IO configuration unmapped | IO not ready; applied image remains safe |
+| INT-007 | Communication transport unmapped | channel disabled/not fresh |
+| INT-008 | Line configuration zero | line cannot accept/start a job |
+| INT-009 | Selector configuration zero | no movement request |
+| INT-010 | Blower configuration zero | no VFD run request |
+| INT-011 | Dosing configuration zero | no motor run request |
+| INT-012 | System shell | disabled/emergency-safe lifecycle |
+| INT-013 | Recovery checkpoint absent | no resume acceptance |
+| INT-014 | Repeated 10,000 scans | deterministic state; no counter wrap |
+
+## Stage B — Approved One-Line Bench
+
+Begin only after vendor compilation passes and line-1 IO, polarity, safe values, timebase, safety observations, Selector, Blower, Dosing, and communication profiles are approved.
+
+| ID | Test | Expected result |
+|---|---|---|
+| INT-101 | Safe input acquisition | immutable validated input snapshot |
+| INT-102 | Hardwired safety open | output permission removed immediately |
+| INT-103 | Local safety reset sequence | no restart on reset scan |
+| INT-104 | One valid immutable job | accepted once |
+| INT-105 | Selector positioning | target reached within bounded timeout |
+| INT-106 | Blower start/stable speed | dosing permission only after stable feedback |
+| INT-107 | Selected Dosing transaction | bounded delivered quantity and completion |
+| INT-108 | Controlled stop | dosing stops before bounded blower post-run |
+| INT-109 | Required feedback loss | owning equipment and line fail closed |
+| INT-110 | Desktop heartbeat loss during accepted healthy job | new transfers blocked; policy-controlled current execution |
+| INT-111 | Emergency during feeding | all standard-control requests removed |
+| INT-112 | Power-return checkpoint | no automatic resume |
+| INT-113 | Operator-approved recovery | explicit reinitialization and Line acceptance required |
+| INT-114 | One-line endurance | stable scan time and no unbounded queue growth |
+
+## Stop Conditions
+
+Stop bench work on any unexpected output, contradictory feedback, unsigned narrowing, vendor warning not classified, safety bypass, automatic restart, or scan-time budget violation.
+
+Desktop history, reports, users, scheduling, cloud, and business workflow are outside this PLC integration gate.
+
+## Revision History
+
+| Version | Date | Description |
+|---|---|
+| 1.0 | Legacy broad platform integration draft. |
+| 2.0 | 2026-07-26 fail-closed shell and approved one-line bench gates. |

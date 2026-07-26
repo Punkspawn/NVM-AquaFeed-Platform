@@ -54,13 +54,15 @@ Implement the approved PLC core from normalized authoritative contracts.
 - Platform architecture decision `AD-001` accepted.
 - Normalization plan, system boundary, PLC module index, and document-status manifest created.
 
+- Fail-closed one-line cyclic shell composed with all core managers, zero configuration, invalid safety observations, disabled equipment, and hard-disabled physical output permission.
+
 ## Implementation Gate
 
 New PLC code is admitted only when an authoritative contract and test specification already exist.
 
 ## Next Tasks
 
-1. Run the nineteen-source ISPSoft import and isolated compile gate; record exact vendor diagnostics.
+1. Run the nineteen-source ISPSoft import and isolated compile gate against the fail-closed one-line shell; record exact vendor diagnostics.
 2. Implement the next bounded core manager without expanding field scope.
 2. Run Vendor Compile Gate A and B in ISPSoft and record the exact version, CPU/firmware, errors, and warnings.
 3. Approve one line's physical IO list, channel enable masks, polarity, safe values, time base, and equipment parameters.

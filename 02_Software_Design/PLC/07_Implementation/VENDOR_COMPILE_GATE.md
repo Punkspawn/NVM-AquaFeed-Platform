@@ -98,7 +98,9 @@ If ISPSoft requires a syntax-only adaptation, preserve behavior and update the r
 
 ## Gate C — One-Line Bench Composition
 
-Begin only after Gates A and B pass.
+The repository now contains a compile-safe one-line shell in `PRG_AquaFeedMain.st`. Its configuration remains zero, safety feedback invalid, Emergency active, equipment disabled, and physical-output permission hard FALSE.
+
+First prove the shell imports, executes repeatedly, and applies no output. Begin parameterized bench work only after Gates A and B pass.
 
 Required approved inputs:
 
