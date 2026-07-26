@@ -56,6 +56,8 @@ Implement the approved PLC core from normalized authoritative contracts.
 
 - Fail-closed one-line cyclic shell composed with all core managers, zero configuration, invalid safety observations, disabled equipment, and hard-disabled physical output permission.
 
+- Nineteen-source repository static preflight passed: all sources readable, zero unresolved custom symbols, balanced control/parenthesis structure, and nine fail-closed shell invariants confirmed. ISPSoft parser/compiler evidence remains pending.
+
 ## Implementation Gate
 
 New PLC code is admitted only when an authoritative contract and test specification already exist.

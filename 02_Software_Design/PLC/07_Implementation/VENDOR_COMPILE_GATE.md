@@ -14,6 +14,21 @@ This gate converts the reviewed vendor-neutral sources into evidence from the ta
 
 Passing this document permits one-line bench composition. It does not authorize field energization.
 
+## Repository Static Preflight
+
+| Check | Result |
+|---|---|
+| Baseline commit | `77f549b004a258c19e97033eacfc043cd0d79589` |
+| Required sources fetched | PASS — 19/19 |
+| Custom type/FB/function/global references | PASS — zero unresolved repository symbols |
+| IF/CASE/FOR/WHILE closure balance | PASS |
+| Parenthesis balance | PASS |
+| One-line non-energizing invariants | PASS — nine checks |
+| Direct global physical-output write | PASS — none found |
+| ISPSoft parser/compiler | PENDING — must be executed in the vendor tool |
+
+The static pass does not prove ISPSoft acceptance. Vendor verification remains required for `VAR CONSTANT`, declaration initializers, named arguments, Function Block output-member access, structure assignment, arrays of structures, `DT`, `XOR`, `ABS`, explicit conversions, and maximum-width unsigned literals. Change source syntax only in response to an exact ISPSoft diagnostic or a confirmed target-tool requirement.
+
 ## Exact Import Order
 
 | Order | Source | Requires |
