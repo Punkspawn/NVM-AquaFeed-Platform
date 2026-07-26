@@ -29,6 +29,10 @@ Passing this document permits one-line bench composition. It does not authorize 
 
 The static pass does not prove ISPSoft acceptance. Vendor verification remains required for `VAR CONSTANT`, declaration initializers, named arguments, Function Block output-member access, structure assignment, arrays of structures, `DT`, `XOR`, `ABS`, explicit conversions, and maximum-width unsigned literals. Change source syntax only in response to an exact ISPSoft diagnostic or a confirmed target-tool requirement.
 
+## Import Package Preparation
+
+Run `Tools/Prepare-ISPSoftImport.ps1` from the repository checkout. Import only the timestamped package whose `manifest.csv` contains 19 rows and whose README records the intended repository commit. The tool copies source bytes without vendor adaptation and never authorizes PLC download.
+
 ## Exact Import Order
 
 | Order | Source | Requires |
