@@ -13,6 +13,16 @@ This directory contains importable IEC 61131-3 Structured Text sources.
 
 Use [VENDOR_COMPILE_GATE.md](VENDOR_COMPILE_GATE.md) for the exact listed-source import order, isolated compile sequence, ISPSoft syntax checks, one-line bench prerequisites, six-line composition gate, and commissioning stop conditions.
 
+## Prepare ISPSoft Import
+
+From the repository root on Windows PowerShell:
+
+```powershell
+.\02_Software_Design\PLC\07_Implementation\Tools\Prepare-ISPSoftImport.ps1
+```
+
+The tool validates all 19 required sources before writing anything, creates a new timestamped `ISPSoft_Import` package, preserves source bytes, prefixes files with their import order, and records SHA-256 hashes in `manifest.csv`. It never deletes an earlier package and does not download to a PLC.
+
 ## Implemented Function Blocks
 
 - `Function_Blocks/FB_SystemManager.st` — global lifecycle, mode arbitration, command-edge handling, safety-priority permissions, and bounded realtime status publication
