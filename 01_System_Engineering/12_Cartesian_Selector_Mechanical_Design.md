@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.10
+Version : 0.11
 
 Status : R&D / Living Document
 
@@ -319,7 +319,52 @@ Grease quantity shall be controlled. Excess grease shall not be allowed to enter
 
 Bellows shall be ordered only after the final compressed length, extended length and end-flange geometry are measured from the completed CAD assembly.
 
-## 12. Domestic Procurement Policy
+## 12. Selector Electrical BOM
+
+This list covers only the new X-Y selector subsystem. The existing Delta PLC, main control panel and plant-wide emergency-stop system are not duplicated.
+
+| Item | Specification | Quantity |
+|---|---|---:|
+| X motor | Leadshine CS-M23485, encoder, 8.5 N·m | 1 |
+| Y motor | Leadshine CS-M23485B, encoder, 24 VDC brake, 8.0 N·m | 1 |
+| Closed-loop Modbus drive | Leadshine CS2RS-D1008 | 2 |
+| Axis power supply | Mean Well NDR-480-48 or equivalent, 48 VDC, 10 A | 2 |
+| AC branch breaker | 2-pole, C6 A, 230 VAC, industrial MCB | 2 |
+| DC drive breaker | 2-pole, C10 A, DC-rated for 48 VDC | 2 |
+| Selector safety contactor | Minimum 3-pole 18 A, 24 VDC coil | 1 |
+| Brake interface relay | 24 VDC coil, industrial plug-in type | 1 |
+| Coil suppression module | Compatible with contactor/relay coil | 2 |
+| RS-485 cable | 120 ohm, shielded twisted pair, LI2Y(St)CY class | 10 m |
+| RS-485 termination resistor | 120 ohm, 0.25 W or drive-approved equivalent | 2 |
+| Matched motor power cable | Leadshine-compatible, drag-chain rated, 3 m | 2 |
+| Matched encoder cable | Leadshine-compatible, drag-chain rated, 3 m | 2 |
+| Y brake cable | High-flex, 2 × 0.75 mm², drag-chain rated | 5 m |
+| Sensor/control cable | High-flex, 3 × 0.34–0.50 mm² | 25 m |
+| 24 VDC panel wire | H07V-K, 0.75 mm², mixed colours | 25 m |
+| 48 VDC panel wire | H07V-K, 4 mm², red/black | 20 m |
+| AC panel wire | H07V-K, 1.5 mm², mixed colours | 20 m |
+| Fixed-frame PE conductor | Green/yellow, 6 mm² | 5 m |
+| Moving-axis PE conductor | High-flex green/yellow, 4 mm² | 10 m |
+| Tinned braided bonding conductor | 16 mm² | 3 m |
+| Shield grounding clamp | DIN-rail or panel type | 4 |
+| Power terminal block | 4 mm² class | 20 |
+| Control terminal block | 2.5 mm² class | 30 |
+| PE terminal block | 4–6 mm² class | 10 |
+| DIN rail | TS35 | 2 m |
+| Wiring duct | Slotted, approximately 40 × 60 mm | 4 m |
+| IP68 cable gland | M16 | 10 |
+| IP68 cable gland | M20 | 8 |
+| IP68 cable gland | M25 | 4 |
+| Ferrule assortment | 0.34–4 mm² | 1 set |
+| Terminal marker set | Compatible with selected terminals | 1 set |
+
+The two drives shall be connected in a daisy-chain Modbus RTU topology. The shield shall be bonded according to the final panel grounding design; it shall not be used as a signal conductor.
+
+The existing 24 VDC supply capacity shall be checked for the Y-axis brake, sensors, relay and contactor. If capacity is insufficient, one dedicated 24 VDC, minimum 2.5 A DIN-rail power supply shall be added.
+
+The existing emergency-stop circuit shall remove axis power through the selector safety contactor and apply the Y-axis spring brake.
+
+## 13. Domestic Procurement Policy
 
 All BOM items shall be specified for procurement from suppliers operating in Türkiye.
 
@@ -342,7 +387,7 @@ The final procurement package shall include:
 - VAT status
 - Price-check date
 
-## 13. Design Loads and Motor Sizing Inputs
+## 14. Design Loads and Motor Sizing Inputs
 
 The following data is required before shaft, bearing, drive and step motor sizing:
 
@@ -366,20 +411,18 @@ Preliminary design masses for motor selection:
 
 These are conservative R&D masses and shall be replaced by measured CAD masses before manufacturing release.
 
-Confirmed motor and drive selection for both axes:
+Confirmed motor and drive selection:
 
-| Item | Selection |
-|---|---|
-| Motor | Leadshine CS-M23485 or exact compatible equivalent |
-| Frame | NEMA 34, 86 mm |
-| Holding torque | 8.5 N·m |
-| Feedback | Incremental encoder, closed-loop |
-| Drive | Leadshine CS2RS-D1008 |
-| Communication | RS-485, Modbus RTU |
-| Axis quantity | 2 identical motor-drive sets |
-| Power supply basis | 48 VDC industrial supply; final wattage after electrical load schedule |
+| Axis | Motor | Holding torque | Brake | Drive |
+|---|---|---:|---|---|
+| X | Leadshine CS-M23485 | 8.5 N·m | No | CS2RS-D1008 |
+| Y | Leadshine CS-M23485B | 8.0 N·m | 24 VDC, spring-applied, approximately 6 N·m | CS2RS-D1008 |
 
-The motor-drive combination shall be purchased as a matched set from a supplier operating in Türkiye.
+Both motors are NEMA 34 closed-loop step motors with incremental encoder feedback.
+
+The Y-axis brake releases only when 24 VDC is applied. Loss of power or emergency-stop action mechanically holds the vertical axis.
+
+Motor and drive combinations shall be purchased as matched sets from a supplier operating in Türkiye.
 
 Pulse-only open-loop or pulse-only closed-loop drives are not acceptable as the primary procurement selection.
 
@@ -405,7 +448,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 14. Confirmed Decisions
+## 15. Confirmed Decisions
 
 | ID | Decision |
 |---|---|
@@ -430,8 +473,8 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | CD-019 | Fixed main frame and primary supports use 45 × 90 mm heavy, 10-slot sigma profile. |
 | CD-020 | Moving frames and secondary ties use 45 × 45 mm heavy, 10-slot sigma profile. |
 | CD-021 | Procurement shall be made through suppliers operating in Türkiye using common market standards. |
-| CD-022 | Both axes use identical NEMA 34, 8.5 N·m closed-loop step motors. |
-| CD-023 | Primary motor reference is Leadshine CS-M23485. |
+| CD-022 | Both axes use NEMA 34 closed-loop step motors and CS2RS-D1008 Modbus RTU drives. |
+| CD-023 | X motor is CS-M23485; Y motor is brake-equipped CS-M23485B. |
 | CD-024 | Primary drive reference is Leadshine CS2RS-D1008 with RS-485 Modbus RTU. |
 | CD-025 | Motor and drive shall be procured as a matched set from a Türkiye-based supplier. |
 | CD-026 | Each axis uses one reference sensor and one opposite-end limit sensor. |
@@ -451,10 +494,14 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | CD-040 | External covers use 2 mm EN AW-5754 H111 aluminium sheet and EPDM edge sealing. |
 | CD-041 | Lubrication uses one food-grade NLGI 2 grease type; primary reference is SKF LGFG 2. |
 | CD-042 | Lubrication remains manual; no automatic lubrication system is added. |
+| CD-043 | The vertical Y axis uses a normally engaged 24 VDC spring-applied motor brake. |
+| CD-044 | Emergency-stop or power loss removes drive power and applies the Y-axis brake. |
+| CD-045 | RS-485 wiring uses 120 ohm shielded twisted-pair cable in daisy-chain topology. |
+| CD-046 | Moving X and Y structures receive dedicated protective bonding conductors. |
 
 ---
 
-## 15. Open Decisions
+## 16. Open Decisions
 
 | ID | Open decision | Status |
 |---|---|---|
@@ -475,7 +522,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 16. R&D Sequence
+## 17. R&D Sequence
 
 1. Finalize outlet connector geometry.
 2. Finalize outlet centre pitches and plate machining coordinates.
@@ -490,7 +537,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 17. Revision History
+## 18. Revision History
 
 | Version | Date | Description |
 |---|---|---|
@@ -504,6 +551,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | 0.8 | 2026-07-31 | Frozen outlet coordinates, axis strokes and preliminary procurement lengths. |
 | 0.9 | 2026-07-31 | Added fabricated plate blanks, brackets, fasteners and marine-environment assembly consumables. |
 | 0.10 | 2026-07-31 | Added dust protection, removable covers, food-grade lubrication and initial maintenance items. |
+| 0.11 | 2026-07-31 | Added selector electrical BOM and changed the vertical Y motor to the brake-equipped CS-M23485B. |
 
 ---
 
