@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.3
+Version : 0.4
 
 Status : R&D / Living Document
 
@@ -130,7 +130,23 @@ Confirmed shaft and bearing selection for both axes:
 
 SBR25UU-compatible supported-shaft bearing geometry may be used, subject to final supplier verification.
 
-Drive transmission is not yet finalized.
+Confirmed drive transmission for both axes:
+
+- Ø20 mm ball screw
+- 5 mm lead
+- C7 accuracy class
+- Preloaded double ball nut
+- Fixed-supported end arrangement
+- BK15 fixed-end support unit
+- BF15 supported-end unit
+- Flexible motor coupling
+- Protective bellows or equivalent mechanical cover against feed dust
+
+Reference purchase class: SFU2005 C7 double-nut assembly.
+
+Final screw lengths and end machining dimensions shall be frozen after the sigma-profile frame and carriage geometry are completed.
+
+A 5 mm lead provides 0.025 mm theoretical travel per full step with a 200-step/revolution step motor. Microstepping shall not be treated as equivalent to mechanical positioning accuracy.
 
 ---
 
@@ -216,6 +232,9 @@ Motor sizing shall not be finalized before these values are defined.
 | CD-013 | Both X and Y axes use continuously supported Ø25 mm hardened and ground precision shafts. |
 | CD-014 | Each axis uses four open-type, clearance-adjustable, double-sealed Ø25 linear bearing blocks. |
 | CD-015 | Shaft and bearing dimensions are standardized across both axes. |
+| CD-016 | Both axes use Ø20 mm, 5 mm lead, C7 preloaded double-nut ball screws. |
+| CD-017 | Both ball screws use BK15 fixed and BF15 supported end units. |
+| CD-018 | Ball screws shall be mechanically protected against feed dust. |
 
 ---
 
@@ -230,7 +249,7 @@ Motor sizing shall not be finalized before these values are defined.
 | OD-005 | X-axis guide shaft diameter and support type | Closed: supported Ø25 mm |
 | OD-006 | Y-axis guide shaft diameter and support type | Closed: supported Ø25 mm |
 | OD-007 | Bearing type and quantity per carriage | Closed: 4 open adjustable sealed blocks per axis |
-| OD-008 | Axis drive transmission type | Open |
+| OD-008 | Axis drive transmission type | Closed: SFU2005-class preloaded ball screw |
 | OD-009 | X-axis step motor size | Open |
 | OD-010 | Y-axis step motor size | Open |
 | OD-011 | Two-axis moving-to-fixed outlet geometry and sealing method | Open |
@@ -262,6 +281,7 @@ Motor sizing shall not be finalized before these values are defined.
 | 0.1 | 2026-07-31 | Initial Cartesian selector mechanical R&D document created. |
 | 0.2 | 2026-07-31 | Confirmed X-Y-only architecture; excluded Z or separate engagement axis. |
 | 0.3 | 2026-07-31 | Selected supported Ø25 shafts and open adjustable sealed bearing blocks for both axes. |
+| 0.4 | 2026-07-31 | Selected Ø20 × 5 mm C7 preloaded ball screws and BK15/BF15 supports for both axes. |
 
 ---
 
