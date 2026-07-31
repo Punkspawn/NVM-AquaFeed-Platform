@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.9
+Version : 0.10
 
 Status : R&D / Living Document
 
@@ -288,7 +288,38 @@ Exposed bolts shall be A4-70/AISI 316 stainless steel. Profile slot nuts may be 
 
 Final fastener lengths shall be checked against the purchased component drawings before release.
 
-## 11. Domestic Procurement Policy
+## 11. Protection, Lubrication and Service Items
+
+The motion system shall be protected from feed dust, moisture and the marine operating environment without adding another motion axis.
+
+| Item | Specification | Quantity |
+|---|---|---:|
+| Ball-screw bellows | Custom technical-fabric bellows, two sections per axis | 4 |
+| External cover sheet | EN AW-5754 H111 aluminium, 2 mm, 1000 × 2000 mm | 2 sheets |
+| Cover edge seal | EPDM bulb or panel-edge seal | 10 m |
+| Stainless continuous hinge | AISI 316 | 2 m |
+| Toggle latch | Stainless steel | 4 |
+| Cover handle | Corrosion-resistant | 2 |
+| Grease | SKF LGFG 2/0.4 food-grade NLGI 2 or equivalent | 2 cartridges |
+| Manual grease gun | 420 ml cartridge type | 1 |
+| Grease nipples | Straight type; thread confirmed after component purchase | 12 |
+| Spare SBR25UU block | Same brand and type as production blocks | 2 |
+| Spare inductive sensor | Same model as production sensors | 1 |
+
+The selected grease shall be food-grade because the mechanism operates adjacent to the feed path. Different grease types shall not be mixed.
+
+Initial maintenance basis:
+
+- Visual inspection and dry cleaning: every 100 operating hours
+- Wiper, bellows and corrosion inspection: every 250 operating hours
+- Relubrication inspection: every 500 operating hours
+- Final relubrication interval: supplier instruction and commissioning observation take precedence
+
+Grease quantity shall be controlled. Excess grease shall not be allowed to enter the feed path.
+
+Bellows shall be ordered only after the final compressed length, extended length and end-flange geometry are measured from the completed CAD assembly.
+
+## 12. Domestic Procurement Policy
 
 All BOM items shall be specified for procurement from suppliers operating in Türkiye.
 
@@ -311,7 +342,7 @@ The final procurement package shall include:
 - VAT status
 - Price-check date
 
-## 12. Design Loads and Motor Sizing Inputs
+## 13. Design Loads and Motor Sizing Inputs
 
 The following data is required before shaft, bearing, drive and step motor sizing:
 
@@ -374,7 +405,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 13. Confirmed Decisions
+## 14. Confirmed Decisions
 
 | ID | Decision |
 |---|---|
@@ -416,10 +447,14 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | CD-036 | Fabricated carriage and support plates use EN AW-6082 T6/T651 aluminium. |
 | CD-037 | Exposed fasteners use A4-70/AISI 316 stainless steel. |
 | CD-038 | Component hole patterns shall be machined only after actual supplier drawings are available. |
+| CD-039 | Each ball screw uses two custom protective bellows sections. |
+| CD-040 | External covers use 2 mm EN AW-5754 H111 aluminium sheet and EPDM edge sealing. |
+| CD-041 | Lubrication uses one food-grade NLGI 2 grease type; primary reference is SKF LGFG 2. |
+| CD-042 | Lubrication remains manual; no automatic lubrication system is added. |
 
 ---
 
-## 14. Open Decisions
+## 15. Open Decisions
 
 | ID | Open decision | Status |
 |---|---|---|
@@ -440,7 +475,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 15. R&D Sequence
+## 16. R&D Sequence
 
 1. Finalize outlet connector geometry.
 2. Finalize outlet centre pitches and plate machining coordinates.
@@ -455,7 +490,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 16. Revision History
+## 17. Revision History
 
 | Version | Date | Description |
 |---|---|---|
@@ -468,6 +503,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | 0.7 | 2026-07-31 | Selected couplings, motor plates, reference sensors, energy chains and dedicated axis power supplies. |
 | 0.8 | 2026-07-31 | Frozen outlet coordinates, axis strokes and preliminary procurement lengths. |
 | 0.9 | 2026-07-31 | Added fabricated plate blanks, brackets, fasteners and marine-environment assembly consumables. |
+| 0.10 | 2026-07-31 | Added dust protection, removable covers, food-grade lubrication and initial maintenance items. |
 
 ---
 
