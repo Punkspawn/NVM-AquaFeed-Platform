@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.5
+Version : 0.6
 
 Status : R&D / Living Document
 
@@ -247,7 +247,31 @@ The following data is required before shaft, bearing, drive and step motor sizin
 - Duty cycle
 - Environmental contamination conditions
 
-Motor sizing shall not be finalized before these values are defined.
+Preliminary design masses for motor selection:
+
+| Axis | Preliminary moving mass |
+|---|---:|
+| X axis, including complete Y assembly | 35 kg |
+| Y axis moving outlet carriage | 12 kg |
+
+These are conservative R&D masses and shall be replaced by measured CAD masses before manufacturing release.
+
+Confirmed motor and drive selection for both axes:
+
+| Item | Selection |
+|---|---|
+| Motor | Leadshine CS-M23485 or exact compatible equivalent |
+| Frame | NEMA 34, 86 mm |
+| Holding torque | 8.5 N·m |
+| Feedback | Incremental encoder, closed-loop |
+| Drive | Leadshine CS2RS-D1008 |
+| Communication | RS-485, Modbus RTU |
+| Axis quantity | 2 identical motor-drive sets |
+| Power supply basis | 48 VDC industrial supply; final wattage after electrical load schedule |
+
+The motor-drive combination shall be purchased as a matched set from a supplier operating in Türkiye.
+
+Pulse-only open-loop or pulse-only closed-loop drives are not acceptable as the primary procurement selection.
 
 ---
 
@@ -276,6 +300,10 @@ Motor sizing shall not be finalized before these values are defined.
 | CD-019 | Fixed main frame and primary supports use 45 × 90 mm heavy, 10-slot sigma profile. |
 | CD-020 | Moving frames and secondary ties use 45 × 45 mm heavy, 10-slot sigma profile. |
 | CD-021 | Procurement shall be made through suppliers operating in Türkiye using common market standards. |
+| CD-022 | Both axes use identical NEMA 34, 8.5 N·m closed-loop step motors. |
+| CD-023 | Primary motor reference is Leadshine CS-M23485. |
+| CD-024 | Primary drive reference is Leadshine CS2RS-D1008 with RS-485 Modbus RTU. |
+| CD-025 | Motor and drive shall be procured as a matched set from a Türkiye-based supplier. |
 
 ---
 
@@ -291,8 +319,8 @@ Motor sizing shall not be finalized before these values are defined.
 | OD-006 | Y-axis guide shaft diameter and support type | Closed: supported Ø25 mm |
 | OD-007 | Bearing type and quantity per carriage | Closed: 4 open adjustable sealed blocks per axis |
 | OD-008 | Axis drive transmission type | Closed: SFU2005-class preloaded ball screw |
-| OD-009 | X-axis step motor size | Open |
-| OD-010 | Y-axis step motor size | Open |
+| OD-009 | X-axis step motor size | Closed: NEMA 34, 8.5 N·m closed-loop |
+| OD-010 | Y-axis step motor size | Closed: NEMA 34, 8.5 N·m closed-loop |
 | OD-011 | Two-axis moving-to-fixed outlet geometry and sealing method | Open |
 | OD-012 | Required positioning tolerance and repeatability | Open |
 | OD-013 | Target movement time between outlets | Open |
@@ -324,6 +352,7 @@ Motor sizing shall not be finalized before these values are defined.
 | 0.3 | 2026-07-31 | Selected supported Ø25 shafts and open adjustable sealed bearing blocks for both axes. |
 | 0.4 | 2026-07-31 | Selected Ø20 × 5 mm C7 preloaded ball screws and BK15/BF15 supports for both axes. |
 | 0.5 | 2026-07-31 | Selected locally available 45-series heavy profiles and added Türkiye procurement policy. |
+| 0.6 | 2026-07-31 | Selected matched 8.5 N·m closed-loop step motor and Modbus RTU drive sets for both axes. |
 
 ---
 
