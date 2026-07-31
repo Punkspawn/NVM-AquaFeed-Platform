@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.1
+Version : 0.2
 
 Status : R&D / Living Document
 
@@ -150,13 +150,16 @@ These values shall be validated against the connector outside dimensions, moving
 
 The moving feed outlet shall travel to the selected X-Y coordinate and align with the corresponding fixed outlet.
 
-The connection method between the moving outlet and fixed outlet is not yet finalized.
+The selector shall have only two motion axes: X and Y.
+
+No Z axis or separate engagement axis shall be used.
+
+Air leakage shall be solved by the mechanical geometry of the moving outlet, fixed outlet interface and sealing components without adding another motion axis.
 
 The design study shall determine:
 
-- Whether alignment alone is sufficient
-- Whether a mechanical engagement movement is required
-- How feed leakage will be prevented
+- The two-axis mechanical outlet interface
+- How feed and air leakage will be prevented
 - How pipe load will be isolated from the X-Y positioning mechanism
 - How the fixed feed inlet will accommodate X-Y movement
 
@@ -195,6 +198,8 @@ Motor sizing shall not be finalized before these values are defined.
 | CD-008 | The structural frame uses sigma aluminium profiles. |
 | CD-009 | The machine is designed for heavy field conditions. |
 | CD-010 | Positioning repeatability and rigidity are primary requirements. |
+| CD-011 | The selector shall have only X and Y motion axes. No Z or separate engagement axis shall be added. |
+| CD-012 | Air leakage shall be solved mechanically within the two-axis outlet interface. |
 
 ---
 
@@ -212,7 +217,7 @@ Motor sizing shall not be finalized before these values are defined.
 | OD-008 | Axis drive transmission type | Open |
 | OD-009 | X-axis step motor size | Open |
 | OD-010 | Y-axis step motor size | Open |
-| OD-011 | Moving-to-fixed outlet engagement and sealing method | Open |
+| OD-011 | Two-axis moving-to-fixed outlet geometry and sealing method | Open |
 | OD-012 | Required positioning tolerance and repeatability | Open |
 | OD-013 | Target movement time between outlets | Open |
 | OD-014 | X-Y movement accommodation of the fixed feed inlet | Open |
@@ -223,7 +228,7 @@ Motor sizing shall not be finalized before these values are defined.
 
 1. Finalize outlet connector geometry.
 2. Finalize outlet centre pitches and plate machining coordinates.
-3. Define moving feed outlet and engagement method.
+3. Define the two-axis moving feed outlet and mechanical sealing method.
 4. Determine X and Y moving masses.
 5. Select guide shaft diameters and bearings.
 6. Select axis drive transmission.
@@ -239,6 +244,7 @@ Motor sizing shall not be finalized before these values are defined.
 | Version | Date | Description |
 |---|---|---|
 | 0.1 | 2026-07-31 | Initial Cartesian selector mechanical R&D document created. |
+| 0.2 | 2026-07-31 | Confirmed X-Y-only architecture; excluded Z or separate engagement axis. |
 
 ---
 
