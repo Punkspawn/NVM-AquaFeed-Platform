@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.6
+Version : 0.7
 
 Status : R&D / Living Document
 
@@ -273,6 +273,26 @@ The motor-drive combination shall be purchased as a matched set from a supplier 
 
 Pulse-only open-loop or pulse-only closed-loop drives are not acceptable as the primary procurement selection.
 
+Confirmed auxiliary motion components:
+
+| Item | Specification | Quantity |
+|---|---|---:|
+| Ball-nut housing | DSG20H-compatible housing for SFU2005 | 2 |
+| Motor coupling | Zero-backlash elastomer-jaw coupling, minimum 15 N·m, 14 mm × 15 mm finished bores | 2 |
+| Motor mounting plate | 6082-T6 aluminium, 12 mm thick, NEMA 34 pattern | 2 |
+| Energy chain | Closed type, minimum 25 × 50 mm internal section | 2 axis sets |
+| Energy-chain end brackets | Compatible fixed and moving brackets | 2 sets |
+| Axis reference sensors | M12 inductive, PNP NO, 12–24 VDC, IP67, 4 mm nominal sensing | 4 |
+| Primary sensor reference | Autonics PR12-4DP or equivalent | 4 |
+| Sensor brackets | Adjustable stainless steel brackets | 4 |
+| Sensor target flags | Stainless steel target flags | 4 |
+| Axis power supplies | 48 VDC, 10 A, 480 W industrial DIN-rail supply | 2 |
+| Primary PSU reference | Mean Well NDR-480-48 or equivalent | 2 |
+
+Each axis shall use one home/reference sensor and one opposite-end safety limit sensor.
+
+Power and encoder cables shall be routed with separation inside the energy chain. Final chain lengths and bend radii shall be frozen after the layout drawing and cable datasheets are available.
+
 ---
 
 ## 11. Confirmed Decisions
@@ -304,6 +324,11 @@ Pulse-only open-loop or pulse-only closed-loop drives are not acceptable as the 
 | CD-023 | Primary motor reference is Leadshine CS-M23485. |
 | CD-024 | Primary drive reference is Leadshine CS2RS-D1008 with RS-485 Modbus RTU. |
 | CD-025 | Motor and drive shall be procured as a matched set from a Türkiye-based supplier. |
+| CD-026 | Each axis uses one reference sensor and one opposite-end limit sensor. |
+| CD-027 | Axis sensors are M12, PNP NO, 12–24 VDC, IP67 inductive sensors. |
+| CD-028 | Motor couplings are zero-backlash jaw type with 14 mm × 15 mm finished bores and at least 15 N·m rating. |
+| CD-029 | Each axis uses a dedicated 48 VDC, 10 A industrial DIN-rail power supply. |
+| CD-030 | Moving cables use closed 25 × 50 mm minimum internal-section energy chains. |
 
 ---
 
@@ -353,6 +378,7 @@ Pulse-only open-loop or pulse-only closed-loop drives are not acceptable as the 
 | 0.4 | 2026-07-31 | Selected Ø20 × 5 mm C7 preloaded ball screws and BK15/BF15 supports for both axes. |
 | 0.5 | 2026-07-31 | Selected locally available 45-series heavy profiles and added Türkiye procurement policy. |
 | 0.6 | 2026-07-31 | Selected matched 8.5 N·m closed-loop step motor and Modbus RTU drive sets for both axes. |
+| 0.7 | 2026-07-31 | Selected couplings, motor plates, reference sensors, energy chains and dedicated axis power supplies. |
 
 ---
 
