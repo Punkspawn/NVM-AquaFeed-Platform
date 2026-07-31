@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.4
+Version : 0.5
 
 Status : R&D / Living Document
 
@@ -194,7 +194,45 @@ The design study shall determine:
 
 ---
 
-## 8. Design Loads and Motor Sizing Inputs
+## 8. Sigma-Profile Structure
+
+Confirmed profile family:
+
+- 45-series sigma aluminium profile
+- 10 mm slot
+- Heavy series
+- Anodized 6063-class aluminium
+- 45 × 90 mm heavy profile for the fixed main frame and primary axis-support beams
+- 45 × 45 mm heavy profile for moving carriage frames, secondary ties and bracing
+- M8 slot nuts and compatible 45-series connection hardware
+- Reinforced 90-degree brackets at primary frame joints
+
+Exact cut lengths and quantities shall be issued after the mechanical layout drawing is frozen.
+
+## 9. Domestic Procurement Policy
+
+All BOM items shall be specified for procurement from suppliers operating in Türkiye.
+
+The BOM shall use common Turkish-market product descriptions and standard sizes.
+
+Supplier-specific or imported-to-order parts shall not be frozen unless a locally available standard equivalent is unavailable.
+
+Ball screws shall be ordered from a Türkiye-based motion supplier with final length and BK15/BF15 end machining included.
+
+The final procurement package shall include:
+
+- Technical description
+- Quantity
+- Final cut or machining length
+- Preferred specification
+- Acceptable equivalent
+- Türkiye supplier options
+- Unit price
+- Total price
+- VAT status
+- Price-check date
+
+## 10. Design Loads and Motor Sizing Inputs
 
 The following data is required before shaft, bearing, drive and step motor sizing:
 
@@ -213,7 +251,7 @@ Motor sizing shall not be finalized before these values are defined.
 
 ---
 
-## 9. Confirmed Decisions
+## 11. Confirmed Decisions
 
 | ID | Decision |
 |---|---|
@@ -235,10 +273,13 @@ Motor sizing shall not be finalized before these values are defined.
 | CD-016 | Both axes use Ø20 mm, 5 mm lead, C7 preloaded double-nut ball screws. |
 | CD-017 | Both ball screws use BK15 fixed and BF15 supported end units. |
 | CD-018 | Ball screws shall be mechanically protected against feed dust. |
+| CD-019 | Fixed main frame and primary supports use 45 × 90 mm heavy, 10-slot sigma profile. |
+| CD-020 | Moving frames and secondary ties use 45 × 45 mm heavy, 10-slot sigma profile. |
+| CD-021 | Procurement shall be made through suppliers operating in Türkiye using common market standards. |
 
 ---
 
-## 10. Open Decisions
+## 12. Open Decisions
 
 | ID | Open decision | Status |
 |---|---|---|
@@ -259,7 +300,7 @@ Motor sizing shall not be finalized before these values are defined.
 
 ---
 
-## 11. R&D Sequence
+## 13. R&D Sequence
 
 1. Finalize outlet connector geometry.
 2. Finalize outlet centre pitches and plate machining coordinates.
@@ -274,7 +315,7 @@ Motor sizing shall not be finalized before these values are defined.
 
 ---
 
-## 12. Revision History
+## 14. Revision History
 
 | Version | Date | Description |
 |---|---|---|
@@ -282,6 +323,7 @@ Motor sizing shall not be finalized before these values are defined.
 | 0.2 | 2026-07-31 | Confirmed X-Y-only architecture; excluded Z or separate engagement axis. |
 | 0.3 | 2026-07-31 | Selected supported Ø25 shafts and open adjustable sealed bearing blocks for both axes. |
 | 0.4 | 2026-07-31 | Selected Ø20 × 5 mm C7 preloaded ball screws and BK15/BF15 supports for both axes. |
+| 0.5 | 2026-07-31 | Selected locally available 45-series heavy profiles and added Türkiye procurement policy. |
 
 ---
 
