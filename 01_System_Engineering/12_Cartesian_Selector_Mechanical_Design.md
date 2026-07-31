@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.8
+Version : 0.9
 
 Status : R&D / Living Document
 
@@ -249,7 +249,46 @@ The main frame has a 725 × 725 mm clear opening and an approximately 815 × 815
 
 Ball screws shall be ordered with BK15/BF15-compatible end machining. Energy-chain lengths remain field-trimmable.
 
-## 9. Domestic Procurement Policy
+## 9. Fabricated Plates and Brackets
+
+Plate blanks shall be procured cut to size in Türkiye. Final drilling and machining shall use the actual supplier drawings of SBR25UU blocks, BK15/BF15 supports, DSG20H housings and NEMA 34 motors.
+
+| ID | Part | Material | Blank size | Quantity |
+|---|---|---|---:|---:|
+| FP-01 | Moving outlet carriage plate | EN AW-6082 T6/T651 | 300 × 220 × 15 mm | 1 |
+| FP-02 | X gantry-to-SBR adapter plate | EN AW-6082 T6/T651 | 120 × 100 × 12 mm | 4 |
+| FP-03 | NEMA 34 motor plate | EN AW-6082 T6/T651 | 140 × 140 × 12 mm | 2 |
+| FP-04 | BK15 fixed-support plate | EN AW-6082 T6/T651 | 120 × 100 × 12 mm | 2 |
+| FP-05 | BF15 supported-end plate | EN AW-6082 T6/T651 | 100 × 80 × 12 mm | 2 |
+| FP-06 | DSG20H ball-nut-housing adapter | EN AW-6082 T6/T651 | 120 × 100 × 12 mm | 2 |
+| FP-07 | Adjustable sensor bracket | AISI 316 stainless steel | 80 × 40 × 3 mm | 4 |
+| FP-08 | Sensor target flag | AISI 316 stainless steel | 40 × 30 × 3 mm | 4 |
+
+Approximate total 6082 plate blank mass is 7.6 kg before machining.
+
+## 10. Fasteners and Assembly Consumables
+
+Exposed bolts shall be A4-70/AISI 316 stainless steel. Profile slot nuts may be zinc- or nickel-plated steel compatible with 45-series 10 mm slots.
+
+| Item | Specification | Procurement quantity |
+|---|---|---:|
+| Reinforced profile angle bracket | 45-series, 10-slot | 24 |
+| Profile slot nut | M8, 45-series, 10-slot | 150 |
+| Socket-head bolt | M8 × 20, DIN 912, A4-70 | 150 |
+| Flat washer | M8, A4 | 150 |
+| Socket-head bolt | M6 × 20, DIN 912, A4-70 | 60 |
+| Socket-head bolt | M6 × 25, DIN 912, A4-70 | 30 |
+| Flat washer | M6, A4 | 100 |
+| Locknut | M6, A4 | 40 |
+| Socket-head bolt | M5 × 16, DIN 912, A4-70 | 20 |
+| Flat washer and locknut | M5, A4 | 20 sets |
+| Anti-seize compound | Stainless/aluminium compatible | 1 tube |
+| Medium threadlocker | Removable grade | 1 bottle |
+| Electrical isolation washer | Polyamide, M6/M8 mixed | 1 set |
+
+Final fastener lengths shall be checked against the purchased component drawings before release.
+
+## 11. Domestic Procurement Policy
 
 All BOM items shall be specified for procurement from suppliers operating in Türkiye.
 
@@ -272,7 +311,7 @@ The final procurement package shall include:
 - VAT status
 - Price-check date
 
-## 10. Design Loads and Motor Sizing Inputs
+## 12. Design Loads and Motor Sizing Inputs
 
 The following data is required before shaft, bearing, drive and step motor sizing:
 
@@ -335,7 +374,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 11. Confirmed Decisions
+## 13. Confirmed Decisions
 
 | ID | Decision |
 |---|---|
@@ -374,10 +413,13 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | CD-033 | X/Y supported-shaft lengths are 700/600 mm. |
 | CD-034 | X/Y SFU2005 ordered lengths are 700/600 mm with BK15/BF15 end machining. |
 | CD-035 | Main frame outside dimension is approximately 815 × 815 mm around the 725 × 725 mm plate. |
+| CD-036 | Fabricated carriage and support plates use EN AW-6082 T6/T651 aluminium. |
+| CD-037 | Exposed fasteners use A4-70/AISI 316 stainless steel. |
+| CD-038 | Component hole patterns shall be machined only after actual supplier drawings are available. |
 
 ---
 
-## 12. Open Decisions
+## 14. Open Decisions
 
 | ID | Open decision | Status |
 |---|---|---|
@@ -398,7 +440,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 13. R&D Sequence
+## 15. R&D Sequence
 
 1. Finalize outlet connector geometry.
 2. Finalize outlet centre pitches and plate machining coordinates.
@@ -413,7 +455,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 14. Revision History
+## 16. Revision History
 
 | Version | Date | Description |
 |---|---|---|
@@ -425,6 +467,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | 0.6 | 2026-07-31 | Selected matched 8.5 N·m closed-loop step motor and Modbus RTU drive sets for both axes. |
 | 0.7 | 2026-07-31 | Selected couplings, motor plates, reference sensors, energy chains and dedicated axis power supplies. |
 | 0.8 | 2026-07-31 | Frozen outlet coordinates, axis strokes and preliminary procurement lengths. |
+| 0.9 | 2026-07-31 | Added fabricated plate blanks, brackets, fasteners and marine-environment assembly consumables. |
 
 ---
 
