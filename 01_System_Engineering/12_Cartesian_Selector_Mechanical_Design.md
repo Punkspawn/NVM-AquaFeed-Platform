@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.7
+Version : 0.8
 
 Status : R&D / Living Document
 
@@ -160,18 +160,41 @@ The outlet matrix is defined as:
 | R2 | Outlet 5 | Outlet 6 | Outlet 7 | Outlet 8 |
 | R3 | Outlet 9 | Outlet 10 | Outlet 11 | Outlet 12 |
 
-Coordinate origin, horizontal pitch and vertical pitch are not yet finalized.
+Coordinate origin is the upper-left corner of the 725 × 725 mm plate when viewed from the moving-carriage side.
 
-Initial study values, not approved for manufacturing:
+Confirmed grid geometry:
 
-| Parameter | Study value |
+| Parameter | Value |
 |---|---:|
 | Horizontal centre pitch | 150 mm |
 | Vertical centre pitch | 180 mm |
 | X centre span | 450 mm |
 | Y centre span | 360 mm |
+| Horizontal hole-edge margin for Ø90 | 92.5 mm |
+| Vertical hole-edge margin for Ø90 | 137.5 mm |
+| X working travel | 450 mm |
+| Y working travel | 360 mm |
+| X design mechanical stroke | 500 mm |
+| Y design mechanical stroke | 410 mm |
 
-These values shall be validated against the connector outside dimensions, moving carriage dimensions, bearing blocks and available axis travel.
+Confirmed outlet coordinates:
+
+| Outlet | X (mm) | Y (mm) |
+|---|---:|---:|
+| 1 | 137.5 | 182.5 |
+| 2 | 287.5 | 182.5 |
+| 3 | 437.5 | 182.5 |
+| 4 | 587.5 | 182.5 |
+| 5 | 137.5 | 362.5 |
+| 6 | 287.5 | 362.5 |
+| 7 | 437.5 | 362.5 |
+| 8 | 587.5 | 362.5 |
+| 9 | 137.5 | 542.5 |
+| 10 | 287.5 | 542.5 |
+| 11 | 437.5 | 542.5 |
+| 12 | 587.5 | 542.5 |
+
+The actual machined hole diameter remains dependent on the final connector interface.
 
 ---
 
@@ -207,7 +230,24 @@ Confirmed profile family:
 - M8 slot nuts and compatible 45-series connection hardware
 - Reinforced 90-degree brackets at primary frame joints
 
-Exact cut lengths and quantities shall be issued after the mechanical layout drawing is frozen.
+Confirmed preliminary cut and motion-component lengths:
+
+| Component | Length | Quantity |
+|---|---:|---:|
+| X supported Ø25 shaft assembly | 700 mm | 2 |
+| Y supported Ø25 shaft assembly | 600 mm | 2 |
+| X SFU2005 ball-screw assembly, total ordered length | 700 mm | 1 |
+| Y SFU2005 ball-screw assembly, total ordered length | 600 mm | 1 |
+| 45 × 90 heavy profile, full-width members | 815 mm | 4 |
+| 45 × 90 heavy profile, side members | 725 mm | 2 |
+| 45 × 45 heavy profile, Y vertical members | 600 mm | 2 |
+| 45 × 45 heavy profile, Y cross-members | 300 mm | 2 |
+| X energy chain, preliminary | 1000 mm | 1 |
+| Y energy chain, preliminary | 800 mm | 1 |
+
+The main frame has a 725 × 725 mm clear opening and an approximately 815 × 815 mm outside dimension.
+
+Ball screws shall be ordered with BK15/BF15-compatible end machining. Energy-chain lengths remain field-trimmable.
 
 ## 9. Domestic Procurement Policy
 
@@ -329,6 +369,11 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | CD-028 | Motor couplings are zero-backlash jaw type with 14 mm × 15 mm finished bores and at least 15 N·m rating. |
 | CD-029 | Each axis uses a dedicated 48 VDC, 10 A industrial DIN-rail power supply. |
 | CD-030 | Moving cables use closed 25 × 50 mm minimum internal-section energy chains. |
+| CD-031 | Outlet grid pitch is fixed at 150 mm horizontal and 180 mm vertical. |
+| CD-032 | X/Y working travels are 450/360 mm; mechanical design strokes are 500/410 mm. |
+| CD-033 | X/Y supported-shaft lengths are 700/600 mm. |
+| CD-034 | X/Y SFU2005 ordered lengths are 700/600 mm with BK15/BF15 end machining. |
+| CD-035 | Main frame outside dimension is approximately 815 × 815 mm around the 725 × 725 mm plate. |
 
 ---
 
@@ -338,8 +383,8 @@ Power and encoder cables shall be routed with separation inside the energy chain
 |---|---|---|
 | OD-001 | Plate thickness: 18 mm or 20 mm | Open |
 | OD-002 | Actual plate machining diameter for each outlet connection | Open |
-| OD-003 | Horizontal outlet centre pitch | Open |
-| OD-004 | Vertical outlet centre pitch | Open |
+| OD-003 | Horizontal outlet centre pitch | Closed: 150 mm |
+| OD-004 | Vertical outlet centre pitch | Closed: 180 mm |
 | OD-005 | X-axis guide shaft diameter and support type | Closed: supported Ø25 mm |
 | OD-006 | Y-axis guide shaft diameter and support type | Closed: supported Ø25 mm |
 | OD-007 | Bearing type and quantity per carriage | Closed: 4 open adjustable sealed blocks per axis |
@@ -379,6 +424,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | 0.5 | 2026-07-31 | Selected locally available 45-series heavy profiles and added Türkiye procurement policy. |
 | 0.6 | 2026-07-31 | Selected matched 8.5 N·m closed-loop step motor and Modbus RTU drive sets for both axes. |
 | 0.7 | 2026-07-31 | Selected couplings, motor plates, reference sensors, energy chains and dedicated axis power supplies. |
+| 0.8 | 2026-07-31 | Frozen outlet coordinates, axis strokes and preliminary procurement lengths. |
 
 ---
 
