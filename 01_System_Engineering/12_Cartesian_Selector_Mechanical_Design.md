@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.11
+Version : 0.12
 
 Status : R&D / Living Document
 
@@ -73,12 +73,7 @@ Confirmed properties:
 | Pipe nominal outside diameter | Ø90 mm |
 | Pipe pressure class | 16 bar |
 
-Plate thickness is not finalized.
-
-Candidate thicknesses:
-
-- 18 mm
-- 20 mm
+Confirmed plate thickness: 20 mm.
 
 The final machining diameter shall be determined from the actual mounting geometry of the pipe connector. It shall not be assumed to be Ø90 mm until the connector interface is finalized.
 
@@ -206,14 +201,36 @@ The selector shall have only two motion axes: X and Y.
 
 No Z axis or separate engagement axis shall be used.
 
-Air leakage shall be solved by the mechanical geometry of the moving outlet, fixed outlet interface and sealing components without adding another motion axis.
+Confirmed two-axis sealing principle:
 
-The design study shall determine:
+- The moving outlet has a fixed depth set by mechanical shims.
+- The outlet does not advance or retract during operation.
+- A replaceable food-grade PE-1000/UHMW-PE sliding shoe is mounted on the moving outlet.
+- A replaceable food-compatible EPDM sealing ring is installed around the flow opening.
+- Twelve AISI 316 wear rings are recessed flush into the fixed plate around the outlet openings.
+- The moving shoe slides across one coplanar surface while the blower is stopped.
+- The blower starts only after X and Y position are confirmed.
+- Pressure reaction is carried by the rigid carriage and linear-bearing structure.
 
-- The two-axis mechanical outlet interface
-- How feed and air leakage will be prevented
-- How pipe load will be isolated from the X-Y positioning mechanism
-- How the fixed feed inlet will accommodate X-Y movement
+At 600–800 mbar, the theoretical pressure reaction on a Ø90 mm opening is approximately 382–509 N. This load is distributed through the four Y carriage blocks and then through the four X carriage blocks.
+
+Initial interface requirements:
+
+| Property | Requirement |
+|---|---:|
+| Moving shoe outside diameter | 140 mm |
+| Moving shoe thickness | 10 mm |
+| Moving shoe material | Food-grade PE-1000/UHMW-PE |
+| Seal material | Food-compatible EPDM |
+| Initial seal thickness | 3 mm |
+| Fixed wear-ring material | AISI 316 |
+| Fixed wear-ring thickness | 3 mm |
+| Number of fixed wear rings | 12 |
+| Shim material | AISI 316 |
+| Available shim thicknesses | 0.1 / 0.2 / 0.5 mm |
+| Sealing-face coplanarity target | 0.2 mm or better |
+
+The actual internal diameters of the shoe, seal and wear rings remain dependent on the final outlet connector opening.
 
 ---
 
@@ -319,7 +336,19 @@ Grease quantity shall be controlled. Excess grease shall not be allowed to enter
 
 Bellows shall be ordered only after the final compressed length, extended length and end-flange geometry are measured from the completed CAD assembly.
 
-## 12. Selector Electrical BOM
+## 12. Two-Axis Sealing Interface BOM
+
+| Item | Specification | Production quantity | Recommended spare |
+|---|---|---:|---:|
+| Moving sliding shoe | Food-grade PE-1000/UHMW-PE, Ø140 × 10 mm, bore pending | 1 | 1 |
+| Moving seal ring | Food-compatible EPDM, 3 mm, bore pending | 1 | 3 |
+| Fixed wear ring | AISI 316, Ø140 × 3 mm, bore pending, laser cut | 12 | 2 |
+| Depth-adjustment shim set | AISI 316, 0.1/0.2/0.5 mm mixed | 1 set | 1 set |
+| Shoe mounting fastener | Countersunk A4 stainless, final size after detail design | 1 set | 1 set |
+
+All fixed wear rings shall be recessed and installed flush. Raised ring edges are not acceptable because the moving shoe crosses between outlets.
+
+## 13. Selector Electrical BOM
 
 This list covers only the new X-Y selector subsystem. The existing Delta PLC, main control panel and plant-wide emergency-stop system are not duplicated.
 
@@ -364,7 +393,7 @@ The existing 24 VDC supply capacity shall be checked for the Y-axis brake, senso
 
 The existing emergency-stop circuit shall remove axis power through the selector safety contactor and apply the Y-axis spring brake.
 
-## 13. Domestic Procurement Policy
+## 14. Domestic Procurement Policy
 
 All BOM items shall be specified for procurement from suppliers operating in Türkiye.
 
@@ -387,7 +416,7 @@ The final procurement package shall include:
 - VAT status
 - Price-check date
 
-## 14. Design Loads and Motor Sizing Inputs
+## 15. Design Loads and Motor Sizing Inputs
 
 The following data is required before shaft, bearing, drive and step motor sizing:
 
@@ -448,7 +477,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 15. Confirmed Decisions
+## 16. Confirmed Decisions
 
 | ID | Decision |
 |---|---|
@@ -498,14 +527,18 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | CD-044 | Emergency-stop or power loss removes drive power and applies the Y-axis brake. |
 | CD-045 | RS-485 wiring uses 120 ohm shielded twisted-pair cable in daisy-chain topology. |
 | CD-046 | Moving X and Y structures receive dedicated protective bonding conductors. |
+| CD-047 | The fixed aluminium outlet plate thickness is 20 mm. |
+| CD-048 | Sealing uses a rigid-depth, two-axis-only PE-1000 sliding shoe and EPDM seal. |
+| CD-049 | Twelve AISI 316 wear rings are recessed flush into the fixed plate. |
+| CD-050 | Blower operation is prohibited while the selector is moving. |
 
 ---
 
-## 16. Open Decisions
+## 17. Open Decisions
 
 | ID | Open decision | Status |
 |---|---|---|
-| OD-001 | Plate thickness: 18 mm or 20 mm | Open |
+| OD-001 | Plate thickness: 18 mm or 20 mm | Closed: 20 mm |
 | OD-002 | Actual plate machining diameter for each outlet connection | Open |
 | OD-003 | Horizontal outlet centre pitch | Closed: 150 mm |
 | OD-004 | Vertical outlet centre pitch | Closed: 180 mm |
@@ -515,14 +548,14 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | OD-008 | Axis drive transmission type | Closed: SFU2005-class preloaded ball screw |
 | OD-009 | X-axis step motor size | Closed: NEMA 34, 8.5 N·m closed-loop |
 | OD-010 | Y-axis step motor size | Closed: NEMA 34, 8.5 N·m closed-loop |
-| OD-011 | Two-axis moving-to-fixed outlet geometry and sealing method | Open |
+| OD-011 | Two-axis moving-to-fixed outlet geometry and sealing method | Closed: rigid shim-set PE-1000/EPDM sliding interface |
 | OD-012 | Required positioning tolerance and repeatability | Open |
 | OD-013 | Target movement time between outlets | Open |
 | OD-014 | X-Y movement accommodation of the fixed feed inlet | Open |
 
 ---
 
-## 17. R&D Sequence
+## 18. R&D Sequence
 
 1. Finalize outlet connector geometry.
 2. Finalize outlet centre pitches and plate machining coordinates.
@@ -537,7 +570,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 
 ---
 
-## 18. Revision History
+## 19. Revision History
 
 | Version | Date | Description |
 |---|---|---|
@@ -552,6 +585,7 @@ Power and encoder cables shall be routed with separation inside the energy chain
 | 0.9 | 2026-07-31 | Added fabricated plate blanks, brackets, fasteners and marine-environment assembly consumables. |
 | 0.10 | 2026-07-31 | Added dust protection, removable covers, food-grade lubrication and initial maintenance items. |
 | 0.11 | 2026-07-31 | Added selector electrical BOM and changed the vertical Y motor to the brake-equipped CS-M23485B. |
+| 0.12 | 2026-07-31 | Fixed plate thickness at 20 mm and defined the two-axis-only sliding sealing interface. |
 
 ---
 
