@@ -4,7 +4,7 @@
 
 Document ID : AQ-SEL-MECH-012
 
-Version : 0.2
+Version : 0.3
 
 Status : R&D / Living Document
 
@@ -117,7 +117,20 @@ Both axes shall use two parallel guide shafts to improve:
 - Position repeatability
 - Stability under heavy field conditions
 
-Shaft diameter, shaft support type, bearing type and drive transmission are not yet finalized.
+Confirmed shaft and bearing selection for both axes:
+
+- Ø25 mm hardened and ground precision shafts
+- Shafts supported continuously along their length
+- Two parallel shafts per axis
+- Open-type, clearance-adjustable Ø25 linear bearing blocks
+- Double-sealed bearing blocks for contaminated field conditions
+- Two bearing blocks per shaft
+- Four bearing blocks per axis
+- Eight bearing blocks total
+
+SBR25UU-compatible supported-shaft bearing geometry may be used, subject to final supplier verification.
+
+Drive transmission is not yet finalized.
 
 ---
 
@@ -200,6 +213,9 @@ Motor sizing shall not be finalized before these values are defined.
 | CD-010 | Positioning repeatability and rigidity are primary requirements. |
 | CD-011 | The selector shall have only X and Y motion axes. No Z or separate engagement axis shall be added. |
 | CD-012 | Air leakage shall be solved mechanically within the two-axis outlet interface. |
+| CD-013 | Both X and Y axes use continuously supported Ø25 mm hardened and ground precision shafts. |
+| CD-014 | Each axis uses four open-type, clearance-adjustable, double-sealed Ø25 linear bearing blocks. |
+| CD-015 | Shaft and bearing dimensions are standardized across both axes. |
 
 ---
 
@@ -211,9 +227,9 @@ Motor sizing shall not be finalized before these values are defined.
 | OD-002 | Actual plate machining diameter for each outlet connection | Open |
 | OD-003 | Horizontal outlet centre pitch | Open |
 | OD-004 | Vertical outlet centre pitch | Open |
-| OD-005 | X-axis guide shaft diameter and support type | Open |
-| OD-006 | Y-axis guide shaft diameter and support type | Open |
-| OD-007 | Bearing type and quantity per carriage | Open |
+| OD-005 | X-axis guide shaft diameter and support type | Closed: supported Ø25 mm |
+| OD-006 | Y-axis guide shaft diameter and support type | Closed: supported Ø25 mm |
+| OD-007 | Bearing type and quantity per carriage | Closed: 4 open adjustable sealed blocks per axis |
 | OD-008 | Axis drive transmission type | Open |
 | OD-009 | X-axis step motor size | Open |
 | OD-010 | Y-axis step motor size | Open |
@@ -245,6 +261,7 @@ Motor sizing shall not be finalized before these values are defined.
 |---|---|---|
 | 0.1 | 2026-07-31 | Initial Cartesian selector mechanical R&D document created. |
 | 0.2 | 2026-07-31 | Confirmed X-Y-only architecture; excluded Z or separate engagement axis. |
+| 0.3 | 2026-07-31 | Selected supported Ø25 shafts and open adjustable sealed bearing blocks for both axes. |
 
 ---
 
